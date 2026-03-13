@@ -1,0 +1,74 @@
+:root {
+  --grad-start: #7c3aed;
+  --grad-mid: #2563eb;
+  --grad-end: #06b6d4;
+  --bg-dark: #0a0a1a;
+  --bg-card: rgba(255, 255, 255, 0.06);
+  --bg-card-hover: rgba(255, 255, 255, 0.1);
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--grad-start), var(--grad-mid), var(--grad-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, var(--grad-start), var(--grad-mid), var(--grad-end));
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  backdrop-filter: blur(12px);
+}
+
+.card-hover:hover {
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.tag-purple {
+  background: rgba(124, 58, 237, 0.3);
+  color: #c4b5fd;
+  border: 1px solid rgba(124, 58, 237, 0.4);
+}
+
+.tag-blue {
+  background: rgba(37, 99, 235, 0.3);
+  color: #93c5fd;
+  border: 1px solid rgba(37, 99, 235, 0.4);
+}
+
+.tag-cyan {
+  background: rgba(6, 182, 212, 0.3);
+  color: #67e8f9;
+  border: 1px solid rgba(6, 182, 212, 0.4);
+}
+
+.slide-number {
+  position: absolute;
+  bottom: 24px;
+  right: 32px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: 'Space Grotesk', monospace;
+}
