@@ -132,6 +132,36 @@ export default function App() {
       </div>
 
       <NavDots current={current} total={TOTAL_SLIDES} onGoto={goTo} />
+
+      <div style={{
+        position: 'fixed',
+        left: '20px',
+        bottom: '24px',
+        zIndex: 101,
+        display: 'flex',
+        gap: '12px',
+        fontSize: '0.82rem',
+        color: '#e5e7eb',
+        fontFamily: 'system-ui, -apple-system, Segoe UI, sans-serif',
+        alignItems: 'center',
+      }}>
+        <span style={{ opacity: 0.8 }}>문의</span>
+        <a
+          href="mailto:jin@studiojin.dev"
+          style={{ color: '#a5b4fc', textDecoration: 'none' }}
+        >
+          jin@studiojin.dev
+        </a>
+        <span style={{ opacity: 0.6 }}>|</span>
+        <a
+          href="https://x.com/studiojin_dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: '#38bdf8', textDecoration: 'none' }}
+        >
+          @studiojin_dev
+        </a>
+      </div>
     </div>
   );
 }
