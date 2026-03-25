@@ -85,12 +85,9 @@ export default function Slide08_GeminiAnalysis() {
         { label: 'Gemini models', href: 'https://ai.google.dev/gemini-api/docs/models/gemini' },
       ]}
     >
-      <div className="cusdis-grid-2">
-        <div className="cusdis-stack">
-          <MediaCard src={cusdisAssets.createGeminiNode} alt={t.createCaption} caption={t.createCaption} />
-          <MediaCard src={cusdisAssets.geminiSetting} alt={t.settingCaption} caption={t.settingCaption} />
-        </div>
-        <div className="cusdis-stack">
+      <div className="cusdis-asymmetric-layout">
+        <div className="cusdis-editorial-stack">
+          <MediaCard src={cusdisAssets.createGeminiNode} alt={t.createCaption} title={t.createCaption} />
           <div className="cusdis-callout">
             <ul className="cusdis-bullet-list tight">
               {t.notes.map((item) => (
@@ -98,6 +95,9 @@ export default function Slide08_GeminiAnalysis() {
               ))}
             </ul>
           </div>
+        </div>
+        <div className="cusdis-editorial-stack">
+          <MediaCard src={cusdisAssets.geminiSetting} alt={t.settingCaption} title={t.settingCaption} />
           <CodeCard title={t.codeTitle} code={prompts[locale]} />
         </div>
       </div>

@@ -52,7 +52,7 @@ export default function Slide01_CusdisIntro() {
       title={t.title}
       subtitle={t.subtitle}
     >
-      <div className="cusdis-grid-2">
+      <div className="cusdis-hero-layout">
         <div className="cusdis-hero-panel">
           <div className="cusdis-panel-label">{t.promiseTitle}</div>
           <ul className="cusdis-bullet-list">

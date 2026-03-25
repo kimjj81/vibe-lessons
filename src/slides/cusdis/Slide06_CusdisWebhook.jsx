@@ -9,6 +9,7 @@ export default function Slide06_CusdisWebhook() {
       kicker: 'cusdis webhook',
       title: 'Cusdis Site settings에서 webhook 연결',
       subtitle: '새 댓글이 달릴 때마다 n8n이 이벤트를 받으려면 Cusdis webhook URL을 켜고 저장해야 한다.',
+      checklistTitle: '체크리스트',
       caption: 'Cusdis Site settings의 Webhook 입력란',
       steps: [
         'Site settings에서 Webhook 스위치를 켠다',
@@ -25,6 +26,7 @@ export default function Slide06_CusdisWebhook() {
       kicker: 'cusdis webhook',
       title: 'Connect the webhook in Cusdis Site settings',
       subtitle: 'For n8n to receive every new comment, you need to enable Cusdis webhooks and save the right endpoint URL.',
+      checklistTitle: 'Checklist',
       caption: 'Webhook field inside Cusdis Site settings',
       steps: [
         'Turn on the Webhook switch in Site settings',
@@ -52,11 +54,11 @@ export default function Slide06_CusdisWebhook() {
         { label: 'Approval page changelog', href: 'https://blog.cusdis.com/changelog-v1.1.3/' },
       ]}
     >
-      <div className="cusdis-grid-2">
-        <MediaCard src={cusdisAssets.cusdisWebhook} alt={t.caption} caption={t.caption} />
-        <div className="cusdis-stack">
+      <div className="cusdis-asymmetric-layout">
+        <MediaCard src={cusdisAssets.cusdisWebhook} alt={t.caption} title={t.caption} />
+        <div className="cusdis-editorial-stack">
           <div className="cusdis-glass-card">
-            <div className="cusdis-panel-label">Checklist</div>
+            <div className="cusdis-panel-label">{t.checklistTitle}</div>
             <ul className="cusdis-bullet-list">
               {t.steps.map((item) => (
                 <li key={item}>{item}</li>

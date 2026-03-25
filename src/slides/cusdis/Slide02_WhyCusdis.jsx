@@ -8,6 +8,7 @@ export default function Slide02_WhyCusdis() {
       kicker: 'why cusdis',
       title: '왜 처음엔 Cusdis가 편한가',
       subtitle: '작고 가볍고, 무료로 시작하기 쉬운 댓글 시스템이라 블로그 코멘트 자동화의 출발점으로 좋다.',
+      featuresTitle: '핵심 포인트',
       features: [
         'Privacy-first, open-source Disqus 대안',
         '임베드 SDK가 약 5KB gzip이라 무겁지 않음',
@@ -28,6 +29,7 @@ export default function Slide02_WhyCusdis() {
       kicker: 'why cusdis',
       title: 'Why Cusdis is easy to start with',
       subtitle: 'It is lightweight, privacy-first, and cheap to prove with, which makes it a strong first step for blog comment automation.',
+      featuresTitle: 'Core notes',
       features: [
         'A privacy-first, open-source alternative to Disqus',
         'The embed SDK is about 5KB gzipped',
@@ -58,28 +60,26 @@ export default function Slide02_WhyCusdis() {
         { label: 'Cusdis pricing', href: 'https://cusdis.com/#pricing' },
       ]}
     >
-      <div className="cusdis-grid-2">
+      <div className="cusdis-feature-band">
+        {t.features.map((item, index) => (
+          <div className="cusdis-feature-card" key={item}>
+            <div className="cusdis-feature-index">{`${String(index + 1).padStart(2, '0')} ${t.featuresTitle}`}</div>
+            <div className="cusdis-feature-body">{item}</div>
+          </div>
+        ))}
+      </div>
+      <div className="cusdis-balanced-layout">
         <div className="cusdis-glass-card">
-          <div className="cusdis-panel-label">Core notes</div>
+          <div className="cusdis-panel-label">{t.pricingTitle}</div>
           <ul className="cusdis-bullet-list">
-            {t.features.map((item) => (
+            {t.pricingItems.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
         </div>
-        <div className="cusdis-stack">
-          <div className="cusdis-glass-card">
-            <div className="cusdis-panel-label">{t.pricingTitle}</div>
-            <ul className="cusdis-bullet-list">
-              {t.pricingItems.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="cusdis-callout">
-            <div className="cusdis-panel-label">{t.selfHostTitle}</div>
-            <p>{t.selfHostBody}</p>
-          </div>
+        <div className="cusdis-callout">
+          <div className="cusdis-panel-label">{t.selfHostTitle}</div>
+          <p>{t.selfHostBody}</p>
         </div>
       </div>
     </CusdisSlide>

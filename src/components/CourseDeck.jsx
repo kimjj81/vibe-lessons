@@ -6,6 +6,35 @@ import LocaleToggle from './LocaleToggle';
 import { useLocale } from '../i18n/LocaleContext';
 import { pickLocalized } from '../i18n/localize';
 
+const SCROLL_REGION_SELECTOR = '[data-slide-scroll-region="true"]';
+
+function isModalOpen() {
+  return Boolean(document.querySelector('[data-ui-modal="open"]'));
+}
+
+function isScrollable(element) {
+  return Boolean(element) && element.scrollHeight > element.clientHeight + 1;
+}
+
+function canScroll(element, direction) {
+  if (!isScrollable(element)) return false;
+  if (direction > 0) {
+    return element.scrollTop + element.clientHeight < element.scrollHeight - 1;
+  }
+  return element.scrollTop > 1;
+}
+
+function findNearestScrollableAncestor(target, boundaryElement) {
+  let current = target instanceof Element ? target : null;
+
+  while (current && boundaryElement?.contains(current)) {
+    if (isScrollable(current)) return current;
+    current = current.parentElement;
+  }
+
+  return null;
+}
+
 function CourseContact({ course }) {
   const { locale } = useLocale();
 
@@ -59,9 +88,12 @@ function DeckChrome({ course, current, onGoto }) {
 export default function CourseDeck({ course }) {
   const { locale } = useLocale();
   const [current, setCurrent] = useState(0);
+  const deckRef = useRef(null);
   const lastWheelTime = useRef(0);
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
+  const touchScrollRegion = useRef(null);
+  const touchBlockNavigation = useRef(false);
   const mouseStartX = useRef(0);
   const isDragging = useRef(false);
 
@@ -83,8 +115,19 @@ export default function CourseDeck({ course }) {
     goTo(current - 1);
   }, [current, goTo]);
 
+  const getActiveSlideElement = useCallback(() => {
+    return deckRef.current?.querySelectorAll('.deck-slide')[current] ?? null;
+  }, [current]);
+
+  const getActiveScrollRegion = useCallback((target) => {
+    const activeSlide = getActiveSlideElement();
+    const markedRegion = activeSlide?.querySelector(SCROLL_REGION_SELECTOR) ?? null;
+    return findNearestScrollableAncestor(target, activeSlide) ?? markedRegion;
+  }, [getActiveSlideElement]);
+
   useEffect(() => {
     const handleKey = (e) => {
+      if (isModalOpen()) return;
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next();
       if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prev();
     };
@@ -95,6 +138,22 @@ export default function CourseDeck({ course }) {
 
   useEffect(() => {
     const handleWheel = (e) => {
+      if (isModalOpen()) {
+        e.preventDefault();
+        return;
+      }
+
+      if (Math.abs(e.deltaY) >= Math.abs(e.deltaX)) {
+        const scrollRegion = getActiveScrollRegion(e.target);
+        const direction = e.deltaY > 0 ? 1 : -1;
+
+        if (canScroll(scrollRegion, direction)) {
+          e.preventDefault();
+          scrollRegion.scrollTop += e.deltaY;
+          return;
+        }
+      }
+
       e.preventDefault();
       const now = Date.now();
       if (now - lastWheelTime.current < 300) return;
@@ -105,15 +164,36 @@ export default function CourseDeck({ course }) {
 
     window.addEventListener('wheel', handleWheel, { passive: false });
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [next, prev]);
+  }, [getActiveScrollRegion, next, prev]);
 
   useEffect(() => {
     const handleTouchStart = (e) => {
+      if (isModalOpen()) return;
       touchStartX.current = e.touches[0].clientX;
       touchStartY.current = e.touches[0].clientY;
+      touchScrollRegion.current = getActiveScrollRegion(e.target);
+      touchBlockNavigation.current = false;
+    };
+
+    const handleTouchMove = (e) => {
+      const scrollRegion = touchScrollRegion.current;
+
+      if (!isScrollable(scrollRegion)) return;
+
+      const dx = e.touches[0].clientX - touchStartX.current;
+      const dy = e.touches[0].clientY - touchStartY.current;
+
+      if (Math.abs(dy) <= Math.abs(dx)) return;
+
+      const direction = dy > 0 ? -1 : 1;
+      if (canScroll(scrollRegion, direction)) {
+        touchBlockNavigation.current = true;
+      }
     };
 
     const handleTouchEnd = (e) => {
+      if (isModalOpen()) return;
+
       const dx = e.changedTouches[0].clientX - touchStartX.current;
       const dy = e.changedTouches[0].clientY - touchStartY.current;
 
@@ -123,26 +203,35 @@ export default function CourseDeck({ course }) {
         return;
       }
 
+      const direction = dy > 0 ? -1 : 1;
+      if (touchBlockNavigation.current || canScroll(touchScrollRegion.current, direction)) {
+        return;
+      }
+
       if (dy < -50) next();
       else if (dy > 50) prev();
     };
 
     window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('touchend', handleTouchEnd);
 
     return () => {
       window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [next, prev]);
+  }, [getActiveScrollRegion, next, prev]);
 
   useEffect(() => {
     const handleMouseDown = (e) => {
+      if (isModalOpen()) return;
       mouseStartX.current = e.clientX;
       isDragging.current = true;
     };
 
     const handleMouseUp = (e) => {
+      if (isModalOpen()) return;
       if (!isDragging.current) return;
       isDragging.current = false;
       const dx = e.clientX - mouseStartX.current;
@@ -161,7 +250,7 @@ export default function CourseDeck({ course }) {
 
   return (
     <CourseDeckProvider value={{ course, totalSlides, locale }}>
-      <div className="deck-shell" style={course.theme}>
+      <div className="deck-shell" style={course.theme} ref={deckRef}>
         <div className="deck-track" style={{ width: `calc(100vw * ${totalSlides})`, transform: `translateX(calc(-100vw * ${current}))` }}>
           {course.slides.map((SlideComponent, index) => (
             <div key={`${course.slug}-${index}`} className="deck-slide">

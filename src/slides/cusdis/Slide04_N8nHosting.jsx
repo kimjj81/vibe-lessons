@@ -58,31 +58,33 @@ export default function Slide04_N8nHosting() {
         { label: 'Webhook URL config', href: 'https://docs.n8n.io/hosting/configuration/configuration-examples/webhook-url/' },
       ]}
     >
-      <div className="cusdis-grid-2">
-        <div className="cusdis-glass-card">
-          <div className="cusdis-panel-label">{t.cloudTitle}</div>
-          <ul className="cusdis-bullet-list">
-            {t.cloudItems.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+      <div className="cusdis-asymmetric-layout">
+        <div className="cusdis-editorial-stack">
+          <div className="cusdis-glass-card">
+            <div className="cusdis-panel-label">{t.cloudTitle}</div>
+            <ul className="cusdis-bullet-list">
+              {t.cloudItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="cusdis-glass-card">
+            <div className="cusdis-panel-label">{t.selfHostTitle}</div>
+            <ul className="cusdis-bullet-list">
+              {t.selfHostItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <div className="cusdis-glass-card">
-          <div className="cusdis-panel-label">{t.selfHostTitle}</div>
-          <ul className="cusdis-bullet-list">
-            {t.selfHostItems.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <div className="cusdis-grid-2">
-        <div className="cusdis-code-card">
-          <div className="cusdis-code-title">{t.envTitle}</div>
-          <pre>{t.envBody}</pre>
-        </div>
-        <div className="cusdis-callout">
-          <p>{t.note}</p>
+        <div className="cusdis-editorial-stack">
+          <div className="cusdis-code-card">
+            <div className="cusdis-code-title">{t.envTitle}</div>
+            <pre>{t.envBody}</pre>
+          </div>
+          <div className="cusdis-callout">
+            <p>{t.note}</p>
+          </div>
         </div>
       </div>
     </CusdisSlide>

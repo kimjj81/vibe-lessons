@@ -41,20 +41,18 @@ export default function Slide05_CloudflareTunnel() {
         { label: 'Set up SSL', href: 'https://docs.n8n.io/hosting/securing/set-up-ssl/' },
       ]}
     >
-      <div className="cusdis-grid-2">
-        <div className="cusdis-glass-card">
-          <div className="cusdis-panel-label">Cloudflare</div>
-          <ul className="cusdis-bullet-list">
-            {t.steps.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="cusdis-image-grid-3">
-          <MediaCard src={cusdisAssets.cloudflare1} alt={t.captions[0]} caption={t.captions[0]} />
-          <MediaCard src={cusdisAssets.cloudflare2} alt={t.captions[1]} caption={t.captions[1]} />
-          <MediaCard src={cusdisAssets.cloudflare3} alt={t.captions[2]} caption={t.captions[2]} />
-        </div>
+      <div className="cusdis-glass-card">
+        <div className="cusdis-panel-label">Cloudflare</div>
+        <ul className="cusdis-bullet-list">
+          {t.steps.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </div>
+      <div className="cusdis-gallery-band">
+        <MediaCard src={cusdisAssets.cloudflare1} alt={t.captions[0]} title={t.captions[0]} />
+        <MediaCard src={cusdisAssets.cloudflare2} alt={t.captions[1]} title={t.captions[1]} />
+        <MediaCard src={cusdisAssets.cloudflare3} alt={t.captions[2]} title={t.captions[2]} />
       </div>
     </CusdisSlide>
   );

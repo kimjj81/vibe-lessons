@@ -8,6 +8,7 @@ export default function Slide11_Outro() {
       kicker: 'wrap-up',
       title: '운영 메모와 다음 액션',
       subtitle: '여기까지 끝나면 댓글 승인 자동화의 기본 루프는 완성이다. 이제 실제 블로그에 붙여 운영 감각을 다듬으면 된다.',
+      opsTitle: '운영 체크리스트',
       notes: [
         '처음에는 Cusdis Cloud로 검증하고, 규모가 커지면 유료 플랜이나 self-host를 검토',
         '자동 답글은 편리하지만, 브랜드 보이스와 오탐 비율을 주기적으로 점검',
@@ -20,6 +21,7 @@ export default function Slide11_Outro() {
       kicker: 'wrap-up',
       title: 'Operating notes and next moves',
       subtitle: 'At this point the core moderation loop is working. The next step is to plug it into a real blog and tune it through live operations.',
+      opsTitle: 'Ops checklist',
       notes: [
         'Validate on Cusdis Cloud first, then move to paid or self-hosting only when the volume justifies it',
         'Auto-replies are convenient, but you should still review voice consistency and false positives regularly',
@@ -44,16 +46,16 @@ export default function Slide11_Outro() {
       title={t.title}
       subtitle={t.subtitle}
     >
-      <div className="cusdis-grid-2">
+      <div className="cusdis-asymmetric-layout">
         <div className="cusdis-glass-card">
-          <div className="cusdis-panel-label">Ops checklist</div>
+          <div className="cusdis-panel-label">{t.opsTitle}</div>
           <ul className="cusdis-bullet-list">
             {t.notes.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
         </div>
-        <div className="cusdis-stack">
+        <div className="cusdis-editorial-stack">
           <div className="cusdis-callout">
             <p>{t.ask}</p>
           </div>

@@ -53,18 +53,18 @@ export default function Slide07_WorkflowWebhook() {
         { label: 'Workflow development', href: 'https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/workflow-development/' },
       ]}
     >
-      <div className="cusdis-image-grid-2">
-        <MediaCard src={cusdisAssets.n8nHome} alt={t.captions.create} caption={t.captions.create} />
-        <MediaCard src={cusdisAssets.workflowOverview} alt={t.captions.overview} caption={t.captions.overview} />
-        <MediaCard src={cusdisAssets.createWebhook} alt={t.captions.node} caption={t.captions.node} />
-        <MediaCard src={cusdisAssets.webhookDetail} alt={t.captions.detail} caption={t.captions.detail} />
-      </div>
       <div className="cusdis-callout">
         <ul className="cusdis-bullet-list tight">
           {t.notes.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
+      </div>
+      <div className="cusdis-image-wall">
+        <MediaCard src={cusdisAssets.n8nHome} alt={t.captions.create} title={t.captions.create} />
+        <MediaCard src={cusdisAssets.workflowOverview} alt={t.captions.overview} title={t.captions.overview} />
+        <MediaCard src={cusdisAssets.createWebhook} alt={t.captions.node} title={t.captions.node} />
+        <MediaCard src={cusdisAssets.webhookDetail} alt={t.captions.detail} title={t.captions.detail} />
       </div>
     </CusdisSlide>
   );

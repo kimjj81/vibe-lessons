@@ -70,13 +70,14 @@ export default function Slide09_CodeIf() {
       title={t.title}
       subtitle={t.subtitle}
     >
-      <div className="cusdis-grid-2">
-        <div className="cusdis-stack">
-          <MediaCard src={cusdisAssets.createCode} alt={t.createCaption} caption={t.createCaption} />
-          <MediaCard src={cusdisAssets.codeSetting} alt={t.settingCaption} caption={t.settingCaption} />
-          <MediaCard src={cusdisAssets.ifNode} alt={t.ifCaption} caption={t.ifCaption} />
-        </div>
-        <div className="cusdis-stack">
+      <div className="cusdis-asymmetric-layout">
+        <CodeCard title={t.codeTitle} code={codeExample} />
+        <div className="cusdis-editorial-stack">
+          <div className="cusdis-image-wall">
+            <MediaCard src={cusdisAssets.createCode} alt={t.createCaption} title={t.createCaption} />
+            <MediaCard src={cusdisAssets.codeSetting} alt={t.settingCaption} title={t.settingCaption} />
+          </div>
+          <MediaCard src={cusdisAssets.ifNode} alt={t.ifCaption} title={t.ifCaption} />
           <div className="cusdis-callout">
             <ul className="cusdis-bullet-list tight">
               {t.notes.map((item) => (
@@ -84,7 +85,6 @@ export default function Slide09_CodeIf() {
               ))}
             </ul>
           </div>
-          <CodeCard title={t.codeTitle} code={codeExample} />
         </div>
       </div>
     </CusdisSlide>

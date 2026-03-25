@@ -48,13 +48,8 @@ export default function Slide10_WaitApprovePublish() {
       title={t.title}
       subtitle={t.subtitle}
     >
-      <div className="cusdis-grid-2">
-        <div className="cusdis-stack">
-          <MediaCard src={cusdisAssets.waitNode} alt={t.waitCaption} caption={t.waitCaption} />
-          <MediaCard src={cusdisAssets.requestApprove} alt={t.requestCaption} caption={t.requestCaption} />
-          <MediaCard src={cusdisAssets.publishWorkflow} alt={t.publishCaption} caption={t.publishCaption} />
-        </div>
-        <div className="cusdis-stack">
+      <div className="cusdis-asymmetric-layout">
+        <div className="cusdis-editorial-stack">
           <div className="cusdis-callout">
             <ul className="cusdis-bullet-list tight">
               {t.notes.map((item) => (
@@ -64,6 +59,11 @@ export default function Slide10_WaitApprovePublish() {
           </div>
           <CodeCard title={t.waitTitle} code={waitExpression} />
           <CodeCard title={t.bodyTitle} code={bodyExpression} />
+        </div>
+        <div className="cusdis-editorial-stack">
+          <MediaCard src={cusdisAssets.waitNode} alt={t.waitCaption} title={t.waitCaption} />
+          <MediaCard src={cusdisAssets.requestApprove} alt={t.requestCaption} title={t.requestCaption} />
+          <MediaCard src={cusdisAssets.publishWorkflow} alt={t.publishCaption} title={t.publishCaption} />
         </div>
       </div>
     </CusdisSlide>
