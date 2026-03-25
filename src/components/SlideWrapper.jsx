@@ -1,4 +1,9 @@
+import { useCourseDeck } from '../courses/CourseDeckContext';
+
 export default function SlideWrapper({ children, slideNumber, totalSlides = 11, style = {} }) {
+  const deck = useCourseDeck();
+  const resolvedTotalSlides = deck?.totalSlides ?? totalSlides;
+
   return (
     <div
       style={{
@@ -31,7 +36,7 @@ export default function SlideWrapper({ children, slideNumber, totalSlides = 11, 
         ))}
       </div>
       {children}
-      <div className="slide-number">{slideNumber} / {totalSlides}</div>
+      <div className="slide-number">{slideNumber} / {resolvedTotalSlides}</div>
     </div>
   );
 }

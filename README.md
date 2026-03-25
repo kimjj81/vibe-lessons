@@ -11,3 +11,10 @@
 최종 정리본을 계속 다듬어갈 예정입니다.
 
 현재 미리보기: https://lesson.studiojin.dev
+
+## 개발 환경
+
+- Node.js: `20.19+` 또는 `22.12+`
+- 설치: `npm install`
+- 개발 서버: `npm run dev`
+- 프로덕션 빌드: `npm run build`
