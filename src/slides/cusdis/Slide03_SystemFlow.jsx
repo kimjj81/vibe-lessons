@@ -17,8 +17,8 @@ export default function Slide03_SystemFlow() {
     ko: {
       kicker: 'system flow',
       title: '전체 자동화 아키텍처',
-      subtitle: 'webhook 매커니즘과 n8n workflow를 이용한 자동화',
-      description: '댓글이 달리면 Cusdis는 설정된 webhook api url 에 이벤트를 전달한다.\nn8n에 댓글 이벤트를 받을 webhook 을 설정하고 이어서 처리를 자동화하는 workflow를 완성하는 법을 제시한다.',
+      subtitle: '전체적인 흐름을 먼저 파악해 볼까요?\nWebhook과 n8n, 그리고 AI가 어떻게 맞물려 돌아가는지 확인해 보세요.',
+      description: '댓글이 달리면 Cusdis가 설정된 Webhook URL로 신호를 보냅니다. n8n은 이 신호를 받아 AI로 분석하고, 적절한 처리를 마친 뒤 다시 Cusdis로 결과를 전달하는 구조예요. 이 강력한 자동화 로직을 하나씩 완성해 봅시다!',
       cusdisLabel: 'Cusdis\n댓글',
       workflowLabel: 'n8n Workflow',
       labels: {
@@ -29,11 +29,11 @@ export default function Slide03_SystemFlow() {
         wait: 'Wait\n지연',
         request: 'HTTP\nRequest',
       },
-      noteTitle: '핵심 포인트',
+      noteTitle: '이것만은 꼭 기억하세요!',
       notes: [
-        { text: '`approve_link`를 API 경로로 변환해 승인 요청에 재사용', tag: 'Gemini 노드' },
-        { text: 'LLM은 `NORMAL` / `SPAM`과 답글 초안을 JSON으로 반환', tag: 'Gemini 노드' },
-        { text: '바로 답하지 않고 기다린 뒤 reply를 보내 인간적인 템포를 만든다', tag: 'Wait 노드' },
+        { text: '`approve_link`를 API 경로로 변환해 승인 요청에 재사용합니다.', tag: 'Gemini 노드' },
+        { text: 'LLM은 `NORMAL`/`SPAM` 여부와 답글 초안을 JSON으로 알려줍니다.', tag: 'Gemini 노드' },
+        { text: '바로 답하지 않고 조금 기다렸다 보내야 기계 같지 않고 자연스러워요.', tag: 'Wait 노드' },
       ],
     },
     en: {

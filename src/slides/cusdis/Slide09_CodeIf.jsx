@@ -32,21 +32,21 @@ export default function Slide09_CodeIf() {
   const copy = {
     ko: {
       kicker: 'n8n workflow · 3 / 6',
-      title: 'Code 노드 — Gemini 결과를 JavaScript로 정리',
-      subtitle: 'self-host에서 추가 셋업이 덜한 JavaScript를 선택하면 속도가 빠르다. 파싱 실패는 `ERROR`로 흡수한다.',
-      createCaption: 'Code 노드 추가',
-      settingCaption: 'Run once for all items / JavaScript 설정',
+      title: 'Code 노드로 데이터 깔끔하게 정리하기',
+      subtitle: 'AI가 준 답변을 자바스크립트로 예쁘게 가공해 봅시다.\n속도가 빠른 자바스크립트를 사용하고, 혹시 모를 에러도 안전하게 처리해 줄 거예요.',
+      createCaption: '1. Code 노드 추가하기',
+      settingCaption: '2. 자바스크립트 실행 모드 설정하기',
       notes: [
-        '`Run once for all items` 모드에서 Gemini 출력 전체를 순회한다',
-        'markdown fence를 제거하고 JSON.parse로 결과를 검증한다',
-        'javascript 코드를 복사해서 붙여넣기 하면 된다',
+        '`Run once for all items` 모드를 선택해 모든 데이터를 한 번에 순회하며 처리합니다.',
+        'AI 답변에서 불필요한 마크다운 기호를 지우고, 진짜 데이터(JSON)만 쏙 뽑아낼 거예요.',
+        '준비된 코드를 복사해서 붙여넣기만 하면 설정 끝! 정말 간편하죠?',
       ],
-      codeTitle: 'JavaScript 후처리',
+      codeTitle: 'JavaScript 후처리 코드',
     },
     en: {
       kicker: 'n8n workflow · 3 / 6',
       title: 'Code Node — clean up Gemini output with JavaScript',
-      subtitle: 'JavaScript avoids extra Python setup on a self-hosted box. Parse failures are intentionally absorbed as `ERROR`.',
+      subtitle: 'JavaScript avoids extra Python setup on a self-hosted box.\nParse failures are intentionally absorbed as `ERROR`.',
       createCaption: '1. Adding the Code node',
       settingCaption: '2. Run once for all items / JavaScript settings',
       notes: [

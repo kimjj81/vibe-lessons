@@ -520,6 +520,7 @@
   color: var(--text-muted);
   font-size: 1.02rem;
   line-height: 1.65;
+  white-space: pre-line;
 }
 
 .cusdis-scroll-region {
@@ -968,6 +969,7 @@
   color: var(--text-muted);
   line-height: 1.6;
   counter-increment: step-counter;
+  white-space: pre-line;
 }
 
 .cusdis-step-list li::before {

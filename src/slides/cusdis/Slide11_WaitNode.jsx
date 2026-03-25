@@ -10,20 +10,20 @@ export default function Slide11_WaitNode() {
     ko: {
       kicker: 'n8n workflow · 5 / 6',
       title: 'Wait 노드 — 랜덤 지연으로 자연스러운 타이밍',
-      subtitle: '바로 답글을 달면 너무 기계적으로 보일 수 있다. 10분~1시간 사이 랜덤 지연을 주면 사람이 직접 답변하는 것처럼 느껴진다.',
-      caption: 'Wait 노드에서 랜덤 지연 설정',
-      waitTitle: 'Wait Amount expression',
+      subtitle: '댓글에 즉각적으로 반응하면 너무 기계처럼 보일 수 있어요.\n10분에서 1시간 사이의 랜덤 지연을 주면 사람이 직접 답하는 것 같은 자연스러운 느낌을 줍니다.',
+      caption: 'Wait 노드에서 랜덤 지연 설정하기',
+      waitTitle: '랜덤 지연을 위한 수식 (Expression)',
       notes: [
-        '`Amount (Seconds)` 필드에 Expression 모드로 입력한다',
-        '`Math.floor(Math.random() * (60 - 10 + 1)) + 10` → 10~60분 랜덤',
-        '단위는 Minutes 로 설정해야 초 단위로 계산되지 않는다',
-        '댓글이 많은 블로그라면 지연 범위를 더 늘려도 좋다',
+        "`Amount` 필드에서 'Expression' 모드를 선택한 뒤 수식을 입력해 주세요.",
+        '입력된 수식은 10분에서 60분 사이의 랜덤한 값을 생성합니다.',
+        "주의! 시간 단위(Unit)를 반드시 'Minutes'로 설정해야 합니다. 초(Seconds)로 하시면 너무 빨리 답하게 돼요!",
+        '댓글 유입이 활발한 블로그라면 지연 시간 범위를 조금 더 넓게 잡아도 좋습니다.',
       ],
     },
     en: {
       kicker: 'n8n workflow · 5 / 6',
       title: 'Wait Node — random delay for a natural feel',
-      subtitle: 'Replying instantly feels robotic. A random delay between 10 and 60 minutes makes the response feel like it came from a real person.',
+      subtitle: 'Replying instantly feels robotic.\nA random delay makes the response feel like it came from a real person.',
       caption: 'Random delay in the Wait node',
       waitTitle: 'Wait Amount expression',
       notes: [

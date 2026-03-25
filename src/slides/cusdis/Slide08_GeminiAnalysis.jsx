@@ -44,17 +44,17 @@ export default function Slide08_GeminiAnalysis() {
   const copy = {
     ko: {
       kicker: 'n8n workflow · 2 / 6',
-      title: 'Gemini Analysis 노드 — 스팸 판별 및 답글 생성',
-      subtitle: '핵심은 LLM 출력 형식을 프롬프트에 정의하는 것이다.',
-      createCaption: '1 Gemini Message 노드 추가',
-      settingCaption: '2 모델 / 프롬프트 / JSON 출력 설정',
+      title: 'Gemini 노드로 AI 분석하기',
+      subtitle: "이제 인공지능의 힘을 빌릴 차례입니다!\nGemini를 활용해 스팸을 걸러내고 멋진 답글 초안까지 만들어 볼까요?\n핵심은 'JSON 형식'으로 답변하도록 프롬프트를 짜는 거예요.",
+      createCaption: '1. Gemini Message 노드 추가하기',
+      settingCaption: '2. 모델 선택과 프롬프트, JSON 출력 설정하기',
       notes: [
-        '다른 AI 를 사용해도 되지만 소량 운영이면, Google AI Studio에서 제공하는 무료 용량으로 가능 할 것이다.',
-        '모델 선택은 `gemini-2.5-flash-lite`으로 한다. 무료 사용량이 넉넉하고 우리가 필요한 기능도 적절하게 다룰 수 있는 정도이다.',
-        '`Simplify Output`과 `Output Content as JSON`을 모두 켜야 다음 노드가 단순해진다',
-        '스크린샷의 모델 표기는 오래됐을 수 있으니 실제 선택 목록을 기준으로 본다',
+        '다른 AI도 좋지만, 소규모 운영이라면 Google AI Studio의 무료 할당량만으로도 충분히 활용 가능합니다.',
+        '모델은 `gemini-2.5-flash` 계열을 추천드려요. 속도도 빠르고 JSON 출력도 아주 안정적입니다.',
+        '화면 캡처와 실제 UI의 모델 이름이 조금 다를 수 있으니, 가장 최신 모델을 선택해 보세요.',
+        '다음 노드에서 데이터를 쉽게 쓸 수 있도록 `Simplify Output`과 `Output Content as JSON` 옵션을 꼭 켜주세요!',
       ],
-      codeTitle: '한국어 프롬프트',
+      codeTitle: 'AI 비서에게 내리는 명령어 (프롬프트) 카피해서 쓰세요.',
     },
     en: {
       kicker: 'n8n workflow · 2 / 6',
@@ -65,10 +65,10 @@ export default function Slide08_GeminiAnalysis() {
       notes: [
         'Create credentials with an API key from Google AI Studio',
         'Recommend the current stable model code `gemini-2.5-flash-lite`',
-        'Turn on both `Simplify Output` and `Output Content as JSON` so the next node stays simple',
         'The screenshot may show an older model name, so trust the live model picker in the UI',
+        'Turn on both `Simplify Output` and `Output Content as JSON` so the next node stays simple',
       ],
-      codeTitle: 'English prompt',
+      codeTitle: 'Prompt, copy and paste it',
     },
   };
   const t = copy[locale];

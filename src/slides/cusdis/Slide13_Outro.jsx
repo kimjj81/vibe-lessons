@@ -6,21 +6,21 @@ export default function Slide13_Outro() {
   const copy = {
     ko: {
       kicker: 'wrap-up',
-      title: '운영 메모와 다음 액션',
-      subtitle: '여기까지 끝나면 댓글 승인 자동화의 기본 루프는 완성이다. 이제 실제 블로그에 붙여 운영 감각을 다듬으면 된다.',
-      opsTitle: '운영 체크리스트',
+      title: '마치며',
+      subtitle: '축하합니다!\n이제 여러분의 블로그에 똑똑한 AI 관리자가 생겼어요.\n실제 운영하면서 조금씩 디테일을 다듬어 보세요.',
+      opsTitle: '강의를 마치며, 꼭 체크해 보세요!',
       notes: [
-        '처음에는 Cusdis Cloud로 검증하고, 규모가 커지면 유료 플랜이나 self-host를 검토',
-        '자동 답글은 편리하지만, 브랜드 보이스와 오탐 비율을 주기적으로 점검',
-        'Gemini prompt는 블로그 성격에 맞춰 계속 미세 조정하는 편이 좋다',
+        '처음에는 Cusdis Cloud 무료 플랜으로 가볍게 써보시고, 규모가 커지면 유료나 Self-host를 고려해 보세요.',
+        'AI 자동 답글이 내 블로그의 색깔과 잘 맞는지, 가끔 엉뚱한 답을 하지는 않는지 주기적으로 살펴보는 게 좋습니다.',
+        '블로그 성격에 따라 Gemini 프롬프트를 조금씩 수정하면 훨씬 더 개성 있는 답글을 얻을 수 있습니다.',
       ],
-      ask: '유익한 정보였나요? 다음에 필요한 강좌가 있다면 support@studiojin.dev 로 연락주세요.',
-      follow: '다음 채널도 함께 둘러보세요',
+      ask: '오늘 강의 어떠셨나요? 도움 되셨다면 정말 기쁩니다. 혹시 추가로 듣고 싶은 다른 강의가 있다면 support@studiojin.dev 로 언제든 알려주세요!',
+      follow: '더 많은 소식은 여기서 확인해 보세요',
     },
     en: {
       kicker: 'wrap-up',
       title: 'Operating notes and next moves',
-      subtitle: 'At this point the core moderation loop is working. The next step is to plug it into a real blog and tune it through live operations.',
+      subtitle: 'Congratulations!\nYour blog now has a smart automation loop for comment moderation.',
       opsTitle: 'Ops checklist',
       notes: [
         'Validate on Cusdis Cloud first, then move to paid or self-hosting only when the volume justifies it',

@@ -7,25 +7,24 @@ export default function Slide06_CusdisWebhook() {
   const copy = {
     ko: {
       kicker: 'cusdis webhook',
-      title: 'Cusdis Site settings에서 webhook 연결',
-      subtitle: '새 댓글이 달릴 때마다 n8n이 이벤트를 받으려면 Cusdis webhook URL을 켜고 저장해야 한다.',
-      checklistTitle: '체크리스트',
-      caption: 'Cusdis Site settings의 Webhook 입력란',
+      title: 'Cusdis에서 n8n 연결하기',
+      subtitle: "이제 Cusdis와 n8n을 연결할 차례입니다!\n댓글이 달렸을 때 n8n이 바로 알 수 있도록 '연락처(Webhook URL)'를 알려주러 가봅시다.",
+      checklistTitle: '이것만 하면 끝!',
+      caption: 'Cusdis 사이트 설정의 Webhook 입력창',
       steps: [
-        'Site settings에서 Webhook 스위치를 켠다',
-        'n8n Webhook 노드의 URL을 붙여 넣는다',
-        '테스트 중이면 test URL, 운영 전환 후에는 production URL로 바꾼다',
+        "Site settings에서 Webhook 스위치를 'ON' 하세요!",
+        'n8n에서 복사한 Webhook URL을 빈칸에 쏙 넣어줍니다.',
+        '테스트 중엔 Test URL을, 정말로 운영하실 땐 Production URL로 바꾸는 것 잊지 마세요!',
       ],
       notes: [
-        'Cusdis webhook payload에는 `approve_link`가 포함된다',
-        'Quick Approve / approval page 링크는 모바일 운영 흐름에 유용하다',
-        'Cusdis의 approval page 링크는 31일이 지나면 만료된다',
+        'Webhook 데이터에는 승인을 위한 전용 링크(`approve_link`)가 들어있어요.\n이 링크를 n8n 워크플로우에서 사용하여, 승인에 사용 할 것입니다.',
+        '주의! Cusdis 승인 페이지 링크는 31일 후 만료되니 참고하세요.',
       ],
     },
     en: {
       kicker: 'cusdis webhook',
       title: 'Connect the webhook in Cusdis Site settings',
-      subtitle: 'For n8n to receive every new comment, you need to enable Cusdis webhooks and save the right endpoint URL.',
+      subtitle: "Connect your comment system to your automation engine.\nLet's set up the webhook URL so n8n knows when a new comment arrives.",
       checklistTitle: 'Checklist',
       caption: 'Webhook field inside Cusdis Site settings',
       steps: [
@@ -34,9 +33,8 @@ export default function Slide06_CusdisWebhook() {
         'Use the test URL while debugging, then switch Cusdis to the production URL later',
       ],
       notes: [
-        'The Cusdis webhook payload includes an `approve_link`',
-        'Quick Approve / approval page links are great for lightweight mobile moderation',
-        'Cusdis approval page links expire after 31 days',
+        'The Cusdis webhook payload includes an `approve_link`.\nWe will use this link in the n8n workflow to handle approvals.',
+        'Note: Cusdis approval page links expire after 31 days.',
       ],
     },
   };

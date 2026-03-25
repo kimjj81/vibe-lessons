@@ -7,24 +7,24 @@ export default function Slide07_WorkflowWebhook() {
   const copy = {
     ko: {
       kicker: 'n8n workflow · 1 / 6',
-      title: 'n8n 워크플로 만들기',
-      subtitle: 'Webhook 노드 — 워크플로의 첫 번째 노드.',
+      title: 'n8n 워크플로우 만들기',
+      subtitle: '워크플로우의 마중물 역할을 하는 Webhook 노드입니다.\nn8n이 신호를 받을 준비를 하는 첫 번째 관문이죠!',
       captions: {
-        create: '1. Workflow 생성 진입',
-        node: '2. Webhook 노드 추가',
-        detail: '3. Webhook URL과 POST 설정',
+        create: '1. 새 워크플로우 만들기 클릭!',
+        node: '2. Webhook 노드를 추가해 주세요.',
+        detail: '3. Webhook URL과 POST 방식을 설정합니다.',
       },
       notes: [
-        'Webhook 은 어떤 이벤트가 발생 했을 때, 내가 제어하는 서버의 API 를 호출해서 알려주는 것이다. 즉, cusdis 댓글이 달리면 내 n8n 에 알려줘서 처리 할 수 있도록 하는 매커니즘이다.',
-        'Webhook 노드는 test URL과 production URL이 다르다',
-        'production URL은 workflow를 publish/activate 해야 실제로 등록된다',
-        'Cusdis는 `POST`로 보내므로 method도 `POST`로 맞춘다',
+        'Webhook은 외부(Cusdis)에서 이벤트가 생겼을 때, 우리 서버의 API를 호출해 소식을 전해주는 방식이에요. 댓글이 달리면 n8n이 바로 알 수 있게 해줍니다.',
+        "Webhook 노드는 'Test'와 'Production' URL이 각각 다르니 설정 시 꼭 확인해 주세요!",
+        "실제 운영 환경에 적용하려면 워크플로우를 반드시 'Activate(활성화)' 해야 Production URL이 동작합니다.",
+        "Cusdis는 `POST` 방식으로 데이터를 보내니, 노드의 메서드도 똑같이 `POST`로 맞춰주세요.",
       ],
     },
     en: {
       kicker: 'n8n workflow · 1 / 6',
       title: 'Webhook Node — the first node in the workflow',
-      subtitle: 'Once the workflow exists, the first stable anchor is the webhook. That is what lets Cusdis and your test loop connect cleanly.',
+      subtitle: 'The Webhook node starts the entire automation flow.\nIt is the entry point that listens for incoming signals from Cusdis.',
       captions: {
         create: '1. Entry point for creating a workflow',
         node: '2. Adding the Webhook node',

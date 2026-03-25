@@ -7,7 +7,6 @@ import Slide06_CusdisWebhook from '../slides/cusdis/Slide06_CusdisWebhook';
 import Slide07_WorkflowWebhook from '../slides/cusdis/Slide07_WorkflowWebhook';
 import Slide08_GeminiAnalysis from '../slides/cusdis/Slide08_GeminiAnalysis';
 import Slide09_CodeIf from '../slides/cusdis/Slide09_CodeIf';
-import Slide10_IfNode from '../slides/cusdis/Slide10_IfNode';
 import Slide11_WaitNode from '../slides/cusdis/Slide11_WaitNode';
 import Slide12_HttpRequestPublish from '../slides/cusdis/Slide12_HttpRequestPublish';
 import Slide13_Outro from '../slides/cusdis/Slide13_Outro';
@@ -19,12 +18,12 @@ export const cusdisCourse = {
     en: 'Cusdis Automation',
   },
   subtitle: {
-    ko: 'n8n을 이용한 스팸 필터링 및 자동 승인 하기',
+    ko: 'n8n과 AI로 완성하는 스팸 필터링 & 댓글 자동 승인',
     en: 'Spam filtering and auto-approval with n8n',
   },
   description: {
-    ko: 'Cusdis는 홈페이지에 댓글을 설치 할 수 있는 프로그램이다. 승인된 댓글만 노출하여 스팸 댓글을 관리할 수 있다. 그러나 꼭 승인을 해야 노출되는 단점도 있다. n8n 을 통해 승인 자동화와 스팸 처리를 도입하여 운영 효율화를 배워보자. Cusdis webhook, n8n 워크플로, Gemini 분류, approve / reply 자동화를 한 강의 안에서 끝까지 연결합니다.',
-    en: 'Cusdis is a tool for adding comments to your website. It allows you to manage spam by showing only approved comments. However, it requires manual approval for every comment. In this course, we\'ll learn how to improve operational efficiency by implementing automated approvals and spam handling using n8n. We\'ll connect everything from Cusdis webhooks and n8n workflows to Gemini classification and automated approve / reply handling.',
+    ko: '댓글 서비스인 Cusdis를 n8n으로 자동화해 볼까요? 매번 직접 승인해야 했던 번거로움을 해결하고, AI(Gemini)로 스팸을 골라내어 자동으로 관리하는 실전 워크플로우를 처음부터 끝까지 함께 만들어봅니다.',
+    en: 'Cusdis is a tool for adding comments to your website. In this course, we\'ll learn how to improve operational efficiency by implementing automated approvals and spam handling using n8n and Gemini AI. We\'ll connect everything from webhooks to automated replies in one complete workflow.',
   },
   status: 'live',
   statusLabel: {
@@ -53,7 +52,6 @@ export const cusdisCourse = {
     Slide07_WorkflowWebhook,
     Slide08_GeminiAnalysis,
     Slide09_CodeIf,
-    Slide10_IfNode,
     Slide11_WaitNode,
     Slide12_HttpRequestPublish,
     Slide13_Outro,
