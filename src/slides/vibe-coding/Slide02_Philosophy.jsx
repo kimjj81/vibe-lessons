@@ -1,6 +1,6 @@
-import SlideWrapper from '../components/SlideWrapper';
-import GradientText from '../components/GradientText';
-import { useLocale } from '../i18n/LocaleContext';
+import SlideWrapper from '../../components/SlideWrapper';
+import GradientText from '../../components/GradientText';
+import { useLocale } from '../../i18n/LocaleContext';
 
 export default function Slide02_Philosophy() {
   const { locale } = useLocale();
