@@ -1,5 +1,5 @@
 import { useLocale } from '../../i18n/LocaleContext';
-import { CusdisSlide } from './CusdisShared';
+import { CusdisSlide, StepList } from './CusdisShared';
 
 export default function Slide02_WhyCusdis() {
   const { locale } = useLocale();
@@ -55,31 +55,45 @@ export default function Slide02_WhyCusdis() {
       kicker={t.kicker}
       title={t.title}
       subtitle={t.subtitle}
-      sources={[
-        { label: 'Cusdis home', href: 'https://cusdis.com/' },
-        { label: 'Cusdis pricing', href: 'https://cusdis.com/#pricing' },
-      ]}
     >
-      <div className="cusdis-feature-band">
-        {t.features.map((item, index) => (
-          <div className="cusdis-feature-card" key={item}>
-            <div className="cusdis-feature-index">{`${String(index + 1).padStart(2, '0')} ${t.featuresTitle}`}</div>
-            <div className="cusdis-feature-body">{item}</div>
-          </div>
-        ))}
-      </div>
       <div className="cusdis-balanced-layout">
-        <div className="cusdis-glass-card">
-          <div className="cusdis-panel-label">{t.pricingTitle}</div>
-          <ul className="cusdis-bullet-list">
-            {t.pricingItems.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+        {/* 왼쪽: 핵심 포인트 리스트 */}
+        <div>
+          <div className="cusdis-panel-label" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {t.featuresTitle}
+            <a
+              className="cusdis-source-link"
+              href="https://cusdis.com/"
+              rel="noopener noreferrer"
+              style={{ fontWeight: 400 }}
+              target="_blank"
+            >
+              cusdis.com ↗
+            </a>
+          </div>
+          <StepList items={t.features} />
         </div>
-        <div className="cusdis-callout">
-          <div className="cusdis-panel-label">{t.selfHostTitle}</div>
-          <p>{t.selfHostBody}</p>
+        {/* 오른쪽: Cloud 조건 + SelfHost 시점 */}
+        <div className="cusdis-editorial-stack">
+          <div className="cusdis-callout">
+            <div className="cusdis-panel-label" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              {t.pricingTitle}
+              <a
+                className="cusdis-source-link"
+                href="https://cusdis.com/#pricing"
+                rel="noopener noreferrer"
+                style={{ fontWeight: 400 }}
+                target="_blank"
+              >
+                pricing ↗
+              </a>
+            </div>
+            <StepList items={t.pricingItems} />
+          </div>
+          <div className="cusdis-callout">
+            <div className="cusdis-panel-label">{t.selfHostTitle}</div>
+            <p>{t.selfHostBody}</p>
+          </div>
         </div>
       </div>
     </CusdisSlide>

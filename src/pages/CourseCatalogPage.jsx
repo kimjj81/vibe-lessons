@@ -5,12 +5,6 @@ import { courseRegistry } from '../courses/registry';
 import { useLocale } from '../i18n/LocaleContext';
 import { pickLocalized } from '../i18n/localize';
 
-function StatusPill({ course }) {
-  const { locale } = useLocale();
-  const className = course.status === 'live' ? 'catalog-pill catalog-pill-live' : 'catalog-pill catalog-pill-soon';
-  return <span className={className}>{pickLocalized(course.statusLabel, locale)}</span>;
-}
-
 export default function CourseCatalogPage() {
   const { locale } = useLocale();
   const copy = {
@@ -66,7 +60,7 @@ export default function CourseCatalogPage() {
             <div className="catalog-card-glow" style={course.theme} />
             <div className="catalog-card-top">
               <span className="catalog-index">{String(index + 1).padStart(2, '0')}</span>
-              <StatusPill course={course} />
+
             </div>
             <div className="catalog-card-body">
               <h2>{pickLocalized(course.title, locale)}</h2>

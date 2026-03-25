@@ -7,8 +7,10 @@ import Slide06_CusdisWebhook from '../slides/cusdis/Slide06_CusdisWebhook';
 import Slide07_WorkflowWebhook from '../slides/cusdis/Slide07_WorkflowWebhook';
 import Slide08_GeminiAnalysis from '../slides/cusdis/Slide08_GeminiAnalysis';
 import Slide09_CodeIf from '../slides/cusdis/Slide09_CodeIf';
-import Slide10_WaitApprovePublish from '../slides/cusdis/Slide10_WaitApprovePublish';
-import Slide11_Outro from '../slides/cusdis/Slide11_Outro';
+import Slide10_IfNode from '../slides/cusdis/Slide10_IfNode';
+import Slide11_WaitNode from '../slides/cusdis/Slide11_WaitNode';
+import Slide12_HttpRequestPublish from '../slides/cusdis/Slide12_HttpRequestPublish';
+import Slide13_Outro from '../slides/cusdis/Slide13_Outro';
 
 export const cusdisCourse = {
   slug: 'cusdis',
@@ -51,7 +53,9 @@ export const cusdisCourse = {
     Slide07_WorkflowWebhook,
     Slide08_GeminiAnalysis,
     Slide09_CodeIf,
-    Slide10_WaitApprovePublish,
-    Slide11_Outro,
+    Slide10_IfNode,
+    Slide11_WaitNode,
+    Slide12_HttpRequestPublish,
+    Slide13_Outro,
   ],
 };

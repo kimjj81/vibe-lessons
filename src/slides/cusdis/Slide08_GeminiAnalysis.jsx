@@ -43,25 +43,25 @@ export default function Slide08_GeminiAnalysis() {
   const { locale } = useLocale();
   const copy = {
     ko: {
-      kicker: 'gemini analysis',
-      title: 'Gemini 노드로 댓글 의미를 읽고 JSON만 받기',
-      subtitle: '소량 운영이면 Google AI Studio 키로 시작해도 충분하다. 핵심은 LLM 출력 형식을 강하게 고정하는 것이다.',
-      createCaption: 'Gemini Message a model 노드 추가',
-      settingCaption: '모델 / 프롬프트 / JSON 출력 설정',
+      kicker: 'n8n workflow · 2 / 6',
+      title: 'Gemini Analysis 노드 — 스팸 판별 및 답글 생성',
+      subtitle: '핵심은 LLM 출력 형식을 프롬프트에 정의하는 것이다.',
+      createCaption: '1 Gemini Message 노드 추가',
+      settingCaption: '2 모델 / 프롬프트 / JSON 출력 설정',
       notes: [
-        'Google AI Studio에서 API 키를 발급해 자격 증명을 만든다',
-        '모델은 현재 안정 코드인 `gemini-2.5-flash-lite`를 우선 안내한다',
+        '다른 AI 를 사용해도 되지만 소량 운영이면, Google AI Studio에서 제공하는 무료 용량으로 가능 할 것이다.',
+        '모델 선택은 `gemini-2.5-flash-lite`으로 한다. 무료 사용량이 넉넉하고 우리가 필요한 기능도 적절하게 다룰 수 있는 정도이다.',
         '`Simplify Output`과 `Output Content as JSON`을 모두 켜야 다음 노드가 단순해진다',
         '스크린샷의 모델 표기는 오래됐을 수 있으니 실제 선택 목록을 기준으로 본다',
       ],
       codeTitle: '한국어 프롬프트',
     },
     en: {
-      kicker: 'gemini analysis',
-      title: 'Use Gemini to read intent and force JSON output',
-      subtitle: 'For a small workflow, a Google AI Studio key is enough. The important part is constraining the model to return a clean JSON contract.',
-      createCaption: 'Adding the Gemini Message a model node',
-      settingCaption: 'Model, prompt, and JSON output settings',
+      kicker: 'n8n workflow · 2 / 6',
+      title: 'Gemini Analysis Node — spam detection and reply drafting',
+      subtitle: 'The important part is constraining the model to return a clean JSON contract.',
+      createCaption: '1 Adding the Gemini Message node',
+      settingCaption: '2 Model, prompt, and JSON output settings',
       notes: [
         'Create credentials with an API key from Google AI Studio',
         'Recommend the current stable model code `gemini-2.5-flash-lite`',

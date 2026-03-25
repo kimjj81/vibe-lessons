@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import SlideWrapper from '../../components/SlideWrapper';
 import GradientText from '../../components/GradientText';
@@ -87,9 +87,9 @@ export function CusdisSlide({ slideNumber, kicker, title, subtitle, sources = []
         </div>
         {activeMedia && typeof document !== 'undefined'
           ? createPortal(
-              <ImageLightbox media={activeMedia} onClose={() => setActiveMedia(null)} />,
-              document.body,
-            )
+            <ImageLightbox media={activeMedia} onClose={() => setActiveMedia(null)} />,
+            document.body,
+          )
           : null}
       </SlideWrapper>
     </CusdisMediaContext.Provider>
@@ -105,23 +105,46 @@ export function MediaCard({ src, alt, caption, title }) {
     <figure className="cusdis-media-card">
       {resolvedTitle ? <figcaption className="cusdis-media-title">{resolvedTitle}</figcaption> : null}
       <button
-        aria-label={`${resolvedTitle || alt} ${locale === 'ko' ? '전체 보기' : 'view full image'}`}
+        aria-label={`${resolvedTitle || alt} ${locale === 'ko' ? '크게 보기' : 'view full image'}`}
         className="cusdis-media-button"
         onClick={() => media?.openMedia({ src, alt, title: resolvedTitle })}
         type="button"
       >
         <img alt={alt} src={src} />
-        <span className="cusdis-media-badge">{locale === 'ko' ? '전체 보기' : 'Open full image'}</span>
+        <span className="cusdis-media-badge">{locale === 'ko' ? '크게 보기' : 'Open full image'}</span>
       </button>
     </figure>
   );
 }
 
 export function CodeCard({ title, code }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(code).catch(() => { });
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }, [code]);
+
   return (
     <div className="cusdis-code-card">
-      <div className="cusdis-code-title">{title}</div>
+      <div className="cusdis-code-title">
+        <span>{title}</span>
+        <button className="cusdis-copy-btn" onClick={handleCopy} type="button">
+          {copied ? '✓ Copied' : 'Copy'}
+        </button>
+      </div>
       <pre>{code}</pre>
     </div>
+  );
+}
+
+export function StepList({ items }) {
+  return (
+    <ol className="cusdis-step-list">
+      {items.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ol>
   );
 }

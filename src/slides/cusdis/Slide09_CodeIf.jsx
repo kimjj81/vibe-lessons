@@ -31,32 +31,28 @@ export default function Slide09_CodeIf() {
   const { locale } = useLocale();
   const copy = {
     ko: {
-      kicker: 'code + if',
-      title: 'Code 노드에서 JSON을 정리하고, If 노드에서 정상 댓글만 통과시키기',
-      subtitle: 'self-host에서 추가 셋업이 덜한 JavaScript를 선택하면 속도가 빠르다. 여기서는 파싱 실패를 `ERROR`로 흡수한다.',
+      kicker: 'n8n workflow · 3 / 6',
+      title: 'Code 노드 — Gemini 결과를 JavaScript로 정리',
+      subtitle: 'self-host에서 추가 셋업이 덜한 JavaScript를 선택하면 속도가 빠르다. 파싱 실패는 `ERROR`로 흡수한다.',
       createCaption: 'Code 노드 추가',
       settingCaption: 'Run once for all items / JavaScript 설정',
-      ifCaption: 'If 노드에서 NORMAL 조건 분기',
       notes: [
         '`Run once for all items` 모드에서 Gemini 출력 전체를 순회한다',
         'markdown fence를 제거하고 JSON.parse로 결과를 검증한다',
-        '`approve_link`를 `/api/open/approve` 경로로 바꿔 실제 API 요청에 쓴다',
-        'If 노드는 `{{ $json.ai_result }} == NORMAL` 조건으로 둔다',
+        'javascript 코드를 복사해서 붙여넣기 하면 된다',
       ],
       codeTitle: 'JavaScript 후처리',
     },
     en: {
-      kicker: 'code + if',
-      title: 'Clean the JSON in a Code node, then branch only normal comments',
-      subtitle: 'JavaScript is the practical choice here because it avoids extra Python setup on a self-hosted box. Parse failures are intentionally absorbed as `ERROR`.',
-      createCaption: 'Adding the Code node',
-      settingCaption: 'Run once for all items / JavaScript settings',
-      ifCaption: 'If node branching on NORMAL',
+      kicker: 'n8n workflow · 3 / 6',
+      title: 'Code Node — clean up Gemini output with JavaScript',
+      subtitle: 'JavaScript avoids extra Python setup on a self-hosted box. Parse failures are intentionally absorbed as `ERROR`.',
+      createCaption: '1. Adding the Code node',
+      settingCaption: '2. Run once for all items / JavaScript settings',
       notes: [
         'Use `Run once for all items` to loop through the Gemini output payload',
         'Strip markdown fences and verify the result with `JSON.parse`',
-        'Transform `approve_link` into `/api/open/approve` before the request call',
-        'The If node checks `{{ $json.ai_result }} == NORMAL`',
+        'Copy & past "JavaScript post-processing"',
       ],
       codeTitle: 'JavaScript post-processing',
     },
@@ -71,13 +67,12 @@ export default function Slide09_CodeIf() {
       subtitle={t.subtitle}
     >
       <div className="cusdis-asymmetric-layout">
-        <CodeCard title={t.codeTitle} code={codeExample} />
+
         <div className="cusdis-editorial-stack">
           <div className="cusdis-image-wall">
             <MediaCard src={cusdisAssets.createCode} alt={t.createCaption} title={t.createCaption} />
             <MediaCard src={cusdisAssets.codeSetting} alt={t.settingCaption} title={t.settingCaption} />
           </div>
-          <MediaCard src={cusdisAssets.ifNode} alt={t.ifCaption} title={t.ifCaption} />
           <div className="cusdis-callout">
             <ul className="cusdis-bullet-list tight">
               {t.notes.map((item) => (
@@ -86,6 +81,7 @@ export default function Slide09_CodeIf() {
             </ul>
           </div>
         </div>
+        <CodeCard title={t.codeTitle} code={codeExample} />
       </div>
     </CusdisSlide>
   );

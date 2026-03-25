@@ -73,7 +73,6 @@ function DeckChrome({ course, current, onGoto }) {
             {locale === 'ko' ? '강의 목록' : 'Lecture index'}
           </Link>
           <div className="deck-header-copy">
-            <span className="deck-kicker">{pickLocalized(course.statusLabel, locale)}</span>
             <span className="deck-subtitle">{pickLocalized(course.subtitle, locale)}</span>
           </div>
         </div>
@@ -100,6 +99,20 @@ export default function CourseDeck({ course }) {
   useEffect(() => {
     setCurrent(0);
   }, [course.slug]);
+
+  useEffect(() => {
+    const slides = deckRef.current?.querySelectorAll('.deck-slide');
+    const activeSlide = slides?.[current];
+    if (!activeSlide) return;
+
+    activeSlide.querySelectorAll(SCROLL_REGION_SELECTOR).forEach((el) => {
+      el.scrollTop = 0;
+    });
+
+    activeSlide.querySelectorAll('*').forEach((el) => {
+      if (el.scrollTop > 0) el.scrollTop = 0;
+    });
+  }, [current]);
 
   const totalSlides = course.slides.length;
 
@@ -143,11 +156,16 @@ export default function CourseDeck({ course }) {
         return;
       }
 
+      const now = Date.now();
+      const recentlyNavigated = now - lastWheelTime.current < 300;
+
       if (Math.abs(e.deltaY) >= Math.abs(e.deltaX)) {
         const scrollRegion = getActiveScrollRegion(e.target);
         const direction = e.deltaY > 0 ? 1 : -1;
 
-        if (canScroll(scrollRegion, direction)) {
+        // 슬라이드 전환 직후 300ms 동안은 내부 스크롤도 차단해
+        // 관성 스크롤이 새 슬라이드 내용을 바로 내려버리는 것을 방지한다
+        if (!recentlyNavigated && canScroll(scrollRegion, direction)) {
           e.preventDefault();
           scrollRegion.scrollTop += e.deltaY;
           return;
@@ -155,8 +173,7 @@ export default function CourseDeck({ course }) {
       }
 
       e.preventDefault();
-      const now = Date.now();
-      if (now - lastWheelTime.current < 300) return;
+      if (recentlyNavigated) return;
       lastWheelTime.current = now;
       if (e.deltaY > 0) next();
       else prev();

@@ -1,5 +1,5 @@
 import { useLocale } from '../../i18n/LocaleContext';
-import { CusdisSlide } from './CusdisShared';
+import { CusdisSlide, StepList } from './CusdisShared';
 
 export default function Slide01_CusdisIntro() {
   const { locale } = useLocale();
@@ -53,24 +53,13 @@ export default function Slide01_CusdisIntro() {
       subtitle={t.subtitle}
     >
       <div className="cusdis-hero-layout">
-        <div className="cusdis-hero-panel">
+        <div>
           <div className="cusdis-panel-label">{t.promiseTitle}</div>
-          <ul className="cusdis-bullet-list">
-            {t.promiseItems.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+          <StepList items={t.promiseItems} />
         </div>
-        <div className="cusdis-glass-card">
+        <div>
           <div className="cusdis-panel-label">{t.resultTitle}</div>
-          <div className="cusdis-stat-grid">
-            {t.resultItems.map((item, index) => (
-              <div className="cusdis-stat-card" key={item}>
-                <div className="cusdis-stat-index">{String(index + 1).padStart(2, '0')}</div>
-                <div>{item}</div>
-              </div>
-            ))}
-          </div>
+          <StepList items={t.resultItems} />
         </div>
       </div>
     </CusdisSlide>

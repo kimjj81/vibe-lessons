@@ -6,31 +6,31 @@ export default function Slide07_WorkflowWebhook() {
   const { locale } = useLocale();
   const copy = {
     ko: {
-      kicker: 'workflow + webhook',
-      title: '워크플로 만들고 Webhook 노드부터 잡기',
-      subtitle: '워크플로를 만든 다음 가장 먼저 webhook을 고정해야 Cusdis 쪽 연결과 테스트 루프가 안정적으로 돌아간다.',
+      kicker: 'n8n workflow · 1 / 6',
+      title: 'n8n 워크플로 만들기',
+      subtitle: 'Webhook 노드 — 워크플로의 첫 번째 노드.',
       captions: {
-        create: 'Workflow 생성 진입',
-        overview: '완성된 노드 흐름 예시',
-        node: 'Webhook 노드 추가',
-        detail: 'Webhook URL과 POST 설정',
+        create: '1. Workflow 생성 진입',
+        overview: '0. 완성된 워크플로',
+        node: '2. Webhook 노드 추가',
+        detail: '3. Webhook URL과 POST 설정',
       },
       notes: [
+        'Webhook 은 어떤 이벤트가 발생 했을 때, 내가 제어하는 서버의 API 를 호출해서 알려주는 것이다. 즉, cusdis 댓글이 달리면 내 n8n 에 알려줘서 처리 할 수 있도록 하는 매커니즘이다.',
         'Webhook 노드는 test URL과 production URL이 다르다',
-        '`Listen for test event`를 눌러야 test URL이 살아 있고, 공식 문서 기준 120초 동안 유지된다',
         'production URL은 workflow를 publish/activate 해야 실제로 등록된다',
         'Cusdis는 `POST`로 보내므로 method도 `POST`로 맞춘다',
       ],
     },
     en: {
-      kicker: 'workflow + webhook',
-      title: 'Create the workflow, then lock in the Webhook node',
+      kicker: 'n8n workflow · 1 / 6',
+      title: 'Webhook Node — the first node in the workflow',
       subtitle: 'Once the workflow exists, the first stable anchor is the webhook. That is what lets Cusdis and your test loop connect cleanly.',
       captions: {
-        create: 'Entry point for creating a workflow',
-        overview: 'Finished node chain overview',
-        node: 'Adding the Webhook node',
-        detail: 'Webhook URL and POST settings',
+        create: '1. Entry point for creating a workflow',
+        overview: '0. Workflow - node process chain',
+        node: '2. Adding the Webhook node',
+        detail: '3. Webhook URL and POST settings',
       },
       notes: [
         'The Webhook node exposes different test and production URLs',
@@ -61,8 +61,8 @@ export default function Slide07_WorkflowWebhook() {
         </ul>
       </div>
       <div className="cusdis-image-wall">
-        <MediaCard src={cusdisAssets.n8nHome} alt={t.captions.create} title={t.captions.create} />
         <MediaCard src={cusdisAssets.workflowOverview} alt={t.captions.overview} title={t.captions.overview} />
+        <MediaCard src={cusdisAssets.n8nHome} alt={t.captions.create} title={t.captions.create} />
         <MediaCard src={cusdisAssets.createWebhook} alt={t.captions.node} title={t.captions.node} />
         <MediaCard src={cusdisAssets.webhookDetail} alt={t.captions.detail} title={t.captions.detail} />
       </div>

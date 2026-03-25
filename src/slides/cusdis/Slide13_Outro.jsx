@@ -1,7 +1,7 @@
 import { useLocale } from '../../i18n/LocaleContext';
 import { CusdisSlide } from './CusdisShared';
 
-export default function Slide11_Outro() {
+export default function Slide13_Outro() {
   const { locale } = useLocale();
   const copy = {
     ko: {
@@ -41,13 +41,13 @@ export default function Slide11_Outro() {
 
   return (
     <CusdisSlide
-      slideNumber={11}
+      slideNumber={13}
       kicker={t.kicker}
       title={t.title}
       subtitle={t.subtitle}
     >
-      <div className="cusdis-asymmetric-layout">
-        <div className="cusdis-glass-card">
+      <div className="cusdis-stack">
+        <div className="cusdis-callout">
           <div className="cusdis-panel-label">{t.opsTitle}</div>
           <ul className="cusdis-bullet-list">
             {t.notes.map((item) => (
@@ -55,19 +55,17 @@ export default function Slide11_Outro() {
             ))}
           </ul>
         </div>
-        <div className="cusdis-editorial-stack">
-          <div className="cusdis-callout">
-            <p>{t.ask}</p>
-          </div>
-          <div>
-            <p className="cusdis-inline-note">{t.follow}</p>
-            <div className="cusdis-link-list">
-              {links.map((link) => (
-                <a href={link.href} key={link.href} rel="noopener noreferrer" target="_blank">
-                  {link.label}
-                </a>
-              ))}
-            </div>
+        <div className="cusdis-callout">
+          <p>{t.ask}</p>
+        </div>
+        <div>
+          <p className="cusdis-inline-note">{t.follow}</p>
+          <div className="cusdis-link-list">
+            {links.map((link) => (
+              <a href={link.href} key={link.href} rel="noopener noreferrer" target="_blank">
+                {link.label}
+              </a>
+            ))}
           </div>
         </div>
       </div>
