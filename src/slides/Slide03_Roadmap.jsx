@@ -1,24 +1,47 @@
 import SlideWrapper from '../components/SlideWrapper';
 import GradientText from '../components/GradientText';
-
-const timeline = [
-  { time: '0:00', duration: '30분', title: '환경 설정', desc: '개발 환경 구성\nAGENTS.md 작성', color: '#7c3aed' },
-  { time: '0:30', duration: '45분', title: '아이디어 구체화', desc: 'PRD 작성\n기술 스택 결정', color: '#6d28d9' },
-  { time: '1:15', duration: '60분', title: 'MVP 코어 구현', desc: '핵심 기능 개발\nDB 스키마', color: '#2563eb' },
-  { time: '2:15', duration: '45분', title: 'UI/UX 완성', desc: '인터페이스 구현\n반응형 디자인', color: '#1d4ed8' },
-  { time: '3:00', duration: '30분', title: '통합 테스트', desc: 'E2E 검증\n버그 수정', color: '#0891b2' },
-  { time: '3:30', duration: '30분', title: '배포 & 검증', desc: '프로덕션 배포\n모니터링 설정', color: '#06b6d4' },
-];
+import { useLocale } from '../i18n/LocaleContext';
 
 export default function Slide03_Roadmap() {
+  const { locale } = useLocale();
+  const copy = {
+    ko: {
+      title: '4시간 로드맵',
+      subtitle: '체계적인 단계별 실행 계획',
+      timeline: [
+        { time: '0:00', duration: '30분', title: '환경 설정', desc: '개발 환경 구성\nAGENTS.md 작성', color: '#7c3aed' },
+        { time: '0:30', duration: '45분', title: '아이디어 구체화', desc: 'PRD 작성\n기술 스택 결정', color: '#6d28d9' },
+        { time: '1:15', duration: '60분', title: 'MVP 코어 구현', desc: '핵심 기능 개발\nDB 스키마', color: '#2563eb' },
+        { time: '2:15', duration: '45분', title: 'UI/UX 완성', desc: '인터페이스 구현\n반응형 디자인', color: '#1d4ed8' },
+        { time: '3:00', duration: '30분', title: '통합 테스트', desc: 'E2E 검증\n버그 수정', color: '#0891b2' },
+        { time: '3:30', duration: '30분', title: '배포 & 검증', desc: '프로덕션 배포\n모니터링 설정', color: '#06b6d4' },
+      ],
+      note: '💡 각 단계는 독립적으로 검증 가능 — AI와 함께 반복적으로 개선',
+    },
+    en: {
+      title: 'Four-hour roadmap',
+      subtitle: 'A structured execution plan, step by step',
+      timeline: [
+        { time: '0:00', duration: '30m', title: 'Environment', desc: 'Set up the workspace\nWrite AGENTS.md', color: '#7c3aed' },
+        { time: '0:30', duration: '45m', title: 'Scope the idea', desc: 'Draft the PRD\nChoose the stack', color: '#6d28d9' },
+        { time: '1:15', duration: '60m', title: 'Build the MVP core', desc: 'Ship the key feature\nDefine the DB schema', color: '#2563eb' },
+        { time: '2:15', duration: '45m', title: 'Finish UI/UX', desc: 'Implement the interface\nMake it responsive', color: '#1d4ed8' },
+        { time: '3:00', duration: '30m', title: 'Integration test', desc: 'Run end-to-end checks\nFix bugs', color: '#0891b2' },
+        { time: '3:30', duration: '30m', title: 'Deploy & verify', desc: 'Push to production\nAdd monitoring', color: '#06b6d4' },
+      ],
+      note: '💡 Each stage can be validated on its own, then refined with AI in loops',
+    },
+  };
+  const t = copy[locale];
+
   return (
     <SlideWrapper slideNumber={3}>
       <div style={{ width: '100%', maxWidth: '1200px', zIndex: 1 }}>
         <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, textAlign: 'center', marginBottom: '16px' }}>
-          <GradientText>4시간 로드맵</GradientText>
+          <GradientText>{t.title}</GradientText>
         </h2>
         <p style={{ textAlign: 'center', color: '#94a3b8', marginBottom: '48px', fontSize: '1.1rem' }}>
-          체계적인 단계별 실행 계획
+          {t.subtitle}
         </p>
 
         <div style={{ position: 'relative' }}>
@@ -29,7 +52,7 @@ export default function Slide03_Roadmap() {
           }} />
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '16px', position: 'relative' }}>
-            {timeline.map((step, i) => (
+            {t.timeline.map((step, i) => (
               <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 {/* Dot */}
                 <div style={{
@@ -60,7 +83,7 @@ export default function Slide03_Roadmap() {
 
         <div style={{ textAlign: 'center', marginTop: '32px', padding: '16px 32px', background: 'rgba(124,58,237,0.1)', borderRadius: '12px', border: '1px solid rgba(124,58,237,0.2)', display: 'inline-block', width: '100%' }}>
           <span style={{ color: '#c4b5fd', fontSize: '1rem' }}>
-            💡 각 단계는 독립적으로 검증 가능 — AI와 함께 반복적으로 개선
+            {t.note}
           </span>
         </div>
       </div>

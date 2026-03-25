@@ -101,7 +101,15 @@
   position: fixed;
   top: 18px;
   left: 22px;
+  right: 22px;
   z-index: 105;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.deck-header-main {
   display: flex;
   align-items: flex-start;
   gap: 16px;
@@ -217,6 +225,42 @@
 
 .catalog-shell {
   padding: 64px 28px 44px;
+}
+
+.catalog-toolbar {
+  max-width: 1120px;
+  margin: 0 auto 18px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.locale-toggle {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(8, 11, 24, 0.72);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(18px);
+}
+
+.locale-button {
+  border: none;
+  background: transparent;
+  color: rgba(226, 232, 240, 0.72);
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.locale-button-active {
+  color: #020617;
+  background: linear-gradient(120deg, #f8fafc, #7dd3fc);
 }
 
 .catalog-noise {
@@ -414,19 +458,294 @@
   line-height: 1.7;
 }
 
+.cusdis-slide-shell {
+  width: min(1180px, 100%);
+  z-index: 1;
+  display: grid;
+  gap: 20px;
+}
+
+.cusdis-slide-head {
+  display: grid;
+  gap: 10px;
+}
+
+.cusdis-slide-kicker {
+  font-size: 0.76rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--grad-end) 78%, white 22%);
+}
+
+.cusdis-slide-title {
+  font-size: clamp(2.1rem, 4vw, 4rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.cusdis-slide-subtitle {
+  max-width: 68ch;
+  color: rgba(255,247,237,0.8);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.cusdis-scroll-region {
+  max-height: calc(100vh - 260px);
+  overflow: auto;
+  display: grid;
+  gap: 18px;
+  padding-right: 4px;
+}
+
+.cusdis-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.cusdis-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.cusdis-hero-panel,
+.cusdis-glass-card,
+.cusdis-callout,
+.cusdis-code-card {
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(180deg, rgba(255,244,237,0.08), rgba(255,244,237,0.04));
+  box-shadow: 0 28px 80px rgba(20, 12, 8, 0.28);
+  backdrop-filter: blur(16px);
+}
+
+.cusdis-hero-panel,
+.cusdis-glass-card,
+.cusdis-callout {
+  padding: 24px;
+}
+
+.cusdis-panel-label,
+.cusdis-code-title {
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.cusdis-bullet-list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.cusdis-bullet-list li {
+  display: flex;
+  gap: 10px;
+  color: rgba(255,247,237,0.86);
+  line-height: 1.6;
+}
+
+.cusdis-bullet-list li::before {
+  content: '•';
+  color: color-mix(in srgb, var(--grad-end) 75%, white 25%);
+  flex-shrink: 0;
+}
+
+.cusdis-bullet-list.tight {
+  gap: 10px;
+}
+
+.cusdis-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cusdis-stat-card {
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  padding: 16px;
+  color: rgba(255,247,237,0.88);
+  min-height: 112px;
+}
+
+.cusdis-stat-index {
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.cusdis-source-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cusdis-source-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,247,237,0.86);
+  text-decoration: none;
+  font-size: 0.82rem;
+}
+
+.cusdis-media-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+}
+
+.cusdis-media-card img {
+  width: 100%;
+  border-radius: 14px;
+  display: block;
+  background: rgba(255,255,255,0.02);
+}
+
+.cusdis-media-card figcaption {
+  color: rgba(255,247,237,0.7);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.cusdis-flow-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cusdis-flow-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cusdis-flow-node {
+  min-width: 132px;
+  min-height: 78px;
+  padding: 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,247,237,0.92);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  line-height: 1.4;
+  font-size: 0.9rem;
+}
+
+.cusdis-flow-arrow {
+  color: rgba(255,247,237,0.36);
+  font-size: 1.3rem;
+}
+
+.cusdis-image-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.cusdis-image-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cusdis-code-card {
+  padding: 18px;
+}
+
+.cusdis-code-card pre {
+  margin: 0;
+  max-height: 360px;
+  overflow: auto;
+  border-radius: 16px;
+  padding: 16px;
+  background: rgba(8, 11, 24, 0.76);
+  color: #e5edf7;
+  font-family: 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.cusdis-callout p {
+  color: rgba(255,247,237,0.82);
+  line-height: 1.7;
+}
+
+.cusdis-link-list {
+  display: grid;
+  gap: 10px;
+}
+
+.cusdis-link-list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,247,237,0.88);
+  text-decoration: none;
+}
+
 @media (max-width: 900px) {
   .cusdis-slide-layout {
     grid-template-columns: 1fr !important;
-  }
-
-  .catalog-grid {
-    grid-template-columns: 1fr;
   }
 
   .deck-header {
     max-width: calc(100vw - 36px);
     flex-direction: column;
     gap: 10px;
+  }
+
+  .deck-header-main {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .catalog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cusdis-grid-2,
+  .cusdis-image-grid-2,
+  .cusdis-image-grid-3,
+  .cusdis-stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cusdis-flow-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cusdis-flow-item {
+    flex-direction: column;
+  }
+
+  .cusdis-flow-arrow {
+    transform: rotate(90deg);
   }
 }
 
@@ -438,6 +757,10 @@
   .catalog-card {
     min-height: 320px;
     padding: 22px;
+  }
+
+  .catalog-toolbar {
+    margin-bottom: 24px;
   }
 
   .catalog-card-top,
@@ -456,6 +779,18 @@
   .slide-number {
     right: 16px;
     bottom: 72px;
+  }
+
+  .cusdis-slide-shell {
+    gap: 16px;
+  }
+
+  .cusdis-scroll-region {
+    max-height: calc(100vh - 250px);
+  }
+
+  .cusdis-slide-title {
+    font-size: clamp(1.9rem, 10vw, 3rem);
   }
 
   .nav-dots {

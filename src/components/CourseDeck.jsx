@@ -2,15 +2,20 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavDots from './NavDots';
 import { CourseDeckProvider } from '../courses/CourseDeckContext';
+import LocaleToggle from './LocaleToggle';
+import { useLocale } from '../i18n/LocaleContext';
+import { pickLocalized } from '../i18n/localize';
 
 function CourseContact({ course }) {
+  const { locale } = useLocale();
+
   return (
     <div className="course-contact">
       <Link className="contact-link muted-link" to="/">
-        All lectures
+        {locale === 'ko' ? '전체 강의' : 'All lectures'}
       </Link>
       <span className="contact-divider" />
-      <span className="contact-course">{course.title}</span>
+      <span className="contact-course">{pickLocalized(course.title, locale)}</span>
       <span className="contact-divider" />
       <a className="contact-link" href="mailto:jin@studiojin.dev">
         jin@studiojin.dev
@@ -29,16 +34,21 @@ function CourseContact({ course }) {
 }
 
 function DeckChrome({ course, current, onGoto }) {
+  const { locale } = useLocale();
+
   return (
     <>
       <div className="deck-header">
-        <Link className="deck-back-link" to="/">
-          Lecture Index
-        </Link>
-        <div className="deck-header-copy">
-          <span className="deck-kicker">{course.statusLabel}</span>
-          <span className="deck-subtitle">{course.subtitle}</span>
+        <div className="deck-header-main">
+          <Link className="deck-back-link" to="/">
+            {locale === 'ko' ? '강의 목록' : 'Lecture index'}
+          </Link>
+          <div className="deck-header-copy">
+            <span className="deck-kicker">{pickLocalized(course.statusLabel, locale)}</span>
+            <span className="deck-subtitle">{pickLocalized(course.subtitle, locale)}</span>
+          </div>
         </div>
+        <LocaleToggle />
       </div>
       <NavDots current={current} total={course.slides.length} onGoto={onGoto} />
       <CourseContact course={course} />
@@ -47,6 +57,7 @@ function DeckChrome({ course, current, onGoto }) {
 }
 
 export default function CourseDeck({ course }) {
+  const { locale } = useLocale();
   const [current, setCurrent] = useState(0);
   const lastWheelTime = useRef(0);
   const touchStartX = useRef(0);
@@ -149,7 +160,7 @@ export default function CourseDeck({ course }) {
   }, [next, prev]);
 
   return (
-    <CourseDeckProvider value={{ course, totalSlides }}>
+    <CourseDeckProvider value={{ course, totalSlides, locale }}>
       <div className="deck-shell" style={course.theme}>
         <div className="deck-track" style={{ width: `calc(100vw * ${totalSlides})`, transform: `translateX(calc(-100vw * ${current}))` }}>
           {course.slides.map((SlideComponent, index) => (

@@ -1,12 +1,34 @@
 import Slide01_CusdisIntro from '../slides/cusdis/Slide01_CusdisIntro';
+import Slide02_WhyCusdis from '../slides/cusdis/Slide02_WhyCusdis';
+import Slide03_SystemFlow from '../slides/cusdis/Slide03_SystemFlow';
+import Slide04_N8nHosting from '../slides/cusdis/Slide04_N8nHosting';
+import Slide05_CloudflareTunnel from '../slides/cusdis/Slide05_CloudflareTunnel';
+import Slide06_CusdisWebhook from '../slides/cusdis/Slide06_CusdisWebhook';
+import Slide07_WorkflowWebhook from '../slides/cusdis/Slide07_WorkflowWebhook';
+import Slide08_GeminiAnalysis from '../slides/cusdis/Slide08_GeminiAnalysis';
+import Slide09_CodeIf from '../slides/cusdis/Slide09_CodeIf';
+import Slide10_WaitApprovePublish from '../slides/cusdis/Slide10_WaitApprovePublish';
+import Slide11_Outro from '../slides/cusdis/Slide11_Outro';
 
 export const cusdisCourse = {
   slug: 'cusdis',
-  title: 'Cusdis',
-  subtitle: '블로그 댓글을 얹는 가장 작은 운영형 코멘트 시스템',
-  description: '정적 블로그나 개인 사이트에 가볍게 댓글을 붙이고 싶을 때, Cusdis를 어떤 기준으로 선택하고 어떻게 붙일지 설명할 예정인 강의입니다.',
-  status: 'coming-soon',
-  statusLabel: 'Coming soon',
+  title: {
+    ko: 'Cusdis + n8n 댓글 자동화',
+    en: 'Cusdis + n8n comment automation',
+  },
+  subtitle: {
+    ko: '스팸 필터링과 자동 답글까지 이어지는 운영형 댓글 파이프라인',
+    en: 'An operational comment pipeline with spam filtering and delayed auto-replies',
+  },
+  description: {
+    ko: 'Cusdis webhook, n8n 워크플로, Gemini 분류, approve / reply 자동화를 한 강의 안에서 끝까지 연결합니다.',
+    en: 'A complete walkthrough of Cusdis webhooks, n8n workflows, Gemini classification, and automated approve / reply handling.',
+  },
+  status: 'live',
+  statusLabel: {
+    ko: '지금 시청 가능',
+    en: 'Available now',
+  },
   theme: {
     '--grad-start': '#f97316',
     '--grad-mid': '#ea580c',
@@ -19,5 +41,17 @@ export const cusdisCourse = {
     '--border': 'rgba(251, 146, 60, 0.18)',
     '--shadow': '0 32px 80px rgba(20, 12, 8, 0.45)',
   },
-  slides: [Slide01_CusdisIntro],
+  slides: [
+    Slide01_CusdisIntro,
+    Slide02_WhyCusdis,
+    Slide03_SystemFlow,
+    Slide04_N8nHosting,
+    Slide05_CloudflareTunnel,
+    Slide06_CusdisWebhook,
+    Slide07_WorkflowWebhook,
+    Slide08_GeminiAnalysis,
+    Slide09_CodeIf,
+    Slide10_WaitApprovePublish,
+    Slide11_Outro,
+  ],
 };
