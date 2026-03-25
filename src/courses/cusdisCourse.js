@@ -15,16 +15,16 @@ import Slide13_Outro from '../slides/cusdis/Slide13_Outro';
 export const cusdisCourse = {
   slug: 'cusdis',
   title: {
-    ko: 'Cusdis + n8n 댓글 자동화',
-    en: 'Cusdis + n8n comment automation',
+    ko: 'Cusdis 자동화',
+    en: 'Cusdis Automation',
   },
   subtitle: {
-    ko: '스팸 필터링과 자동 답글까지 이어지는 운영형 댓글 파이프라인',
-    en: 'An operational comment pipeline with spam filtering and delayed auto-replies',
+    ko: 'n8n을 이용한 스팸 필터링 및 자동 승인 하기',
+    en: 'Spam filtering and auto-approval with n8n',
   },
   description: {
-    ko: 'Cusdis webhook, n8n 워크플로, Gemini 분류, approve / reply 자동화를 한 강의 안에서 끝까지 연결합니다.',
-    en: 'A complete walkthrough of Cusdis webhooks, n8n workflows, Gemini classification, and automated approve / reply handling.',
+    ko: 'Cusdis는 홈페이지에 댓글을 설치 할 수 있는 프로그램이다. 승인된 댓글만 노출하여 스팸 댓글을 관리할 수 있다. 그러나 꼭 승인을 해야 노출되는 단점도 있다. n8n 을 통해 승인 자동화와 스팸 처리를 도입하여 운영 효율화를 배워보자. Cusdis webhook, n8n 워크플로, Gemini 분류, approve / reply 자동화를 한 강의 안에서 끝까지 연결합니다.',
+    en: 'Cusdis is a tool for adding comments to your website. It allows you to manage spam by showing only approved comments. However, it requires manual approval for every comment. In this course, we\'ll learn how to improve operational efficiency by implementing automated approvals and spam handling using n8n. We\'ll connect everything from Cusdis webhooks and n8n workflows to Gemini classification and automated approve / reply handling.',
   },
   status: 'live',
   statusLabel: {

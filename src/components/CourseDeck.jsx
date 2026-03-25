@@ -58,6 +58,15 @@ function CourseContact({ course }) {
       >
         @studiojin_dev
       </a>
+      <span className="contact-divider" />
+      <a
+        className="contact-link"
+        href="https://substack.com/@studiojin"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Substack
+      </a>
     </div>
   );
 }

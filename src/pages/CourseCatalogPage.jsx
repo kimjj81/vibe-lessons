@@ -5,6 +5,34 @@ import { courseRegistry } from '../courses/registry';
 import { useLocale } from '../i18n/LocaleContext';
 import { pickLocalized } from '../i18n/localize';
 
+function CatalogFooter() {
+  return (
+    <footer className="catalog-footer">
+      <a className="contact-link" href="mailto:jin@studiojin.dev">
+        jin@studiojin.dev
+      </a>
+      <span className="contact-divider" />
+      <a
+        className="contact-link accent-link"
+        href="https://x.com/studiojin_dev"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        @studiojin_dev
+      </a>
+      <span className="contact-divider" />
+      <a
+        className="contact-link"
+        href="https://substack.com/@studiojin"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Substack
+      </a>
+    </footer>
+  );
+}
+
 export default function CourseCatalogPage() {
   const { locale } = useLocale();
   const copy = {
@@ -13,16 +41,16 @@ export default function CourseCatalogPage() {
       en: 'Studio Jin lecture archive',
     },
     titleTop: {
-      ko: '한 개의 강의로는',
-      en: 'One deck was not enough.',
+      ko: 'Vibe Coding,',
+      en: 'Vibe Coding,',
     },
     titleBottom: {
-      ko: '끝나지 않았다.',
-      en: 'So the archive became a library.',
+      ko: '자동화 강좌',
+      en: 'Automation Course',
     },
     description: {
-      ko: '실전형 개발 강의를 하나씩 쌓아가는 컬렉션입니다. 지금은 바이브 코딩 마스터클래스와 Cusdis + n8n 자동화 강의를 함께 볼 수 있습니다.',
-      en: 'This is a growing collection of production-minded development lectures. Right now it includes the Vibe Coding masterclass and a Cusdis + n8n automation course.',
+      ko: '실전형 개발 강의를 하나씩 쌓아가는 컬렉션입니다. 비정기적으로 추가합니다. 요청하는 강의도 만들어드립니다.',
+      en: 'This is a growing collection of production-minded development lectures. New courses are added periodically, and custom lecture requests are welcome.',
     },
     slideLabel: {
       ko: '장',
@@ -78,6 +106,8 @@ export default function CourseCatalogPage() {
           </article>
         ))}
       </section>
+
+      <CatalogFooter />
     </main>
   );
 }

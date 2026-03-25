@@ -11,7 +11,6 @@ export default function Slide07_WorkflowWebhook() {
       subtitle: 'Webhook 노드 — 워크플로의 첫 번째 노드.',
       captions: {
         create: '1. Workflow 생성 진입',
-        overview: '0. 완성된 워크플로',
         node: '2. Webhook 노드 추가',
         detail: '3. Webhook URL과 POST 설정',
       },
@@ -28,7 +27,6 @@ export default function Slide07_WorkflowWebhook() {
       subtitle: 'Once the workflow exists, the first stable anchor is the webhook. That is what lets Cusdis and your test loop connect cleanly.',
       captions: {
         create: '1. Entry point for creating a workflow',
-        overview: '0. Workflow - node process chain',
         node: '2. Adding the Webhook node',
         detail: '3. Webhook URL and POST settings',
       },
@@ -61,7 +59,6 @@ export default function Slide07_WorkflowWebhook() {
         </ul>
       </div>
       <div className="cusdis-image-wall">
-        <MediaCard src={cusdisAssets.workflowOverview} alt={t.captions.overview} title={t.captions.overview} />
         <MediaCard src={cusdisAssets.n8nHome} alt={t.captions.create} title={t.captions.create} />
         <MediaCard src={cusdisAssets.createWebhook} alt={t.captions.node} title={t.captions.node} />
         <MediaCard src={cusdisAssets.webhookDetail} alt={t.captions.detail} title={t.captions.detail} />

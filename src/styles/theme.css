@@ -431,6 +431,34 @@
   box-shadow: 0 16px 40px rgba(14, 165, 233, 0.22);
 }
 
+.catalog-footer {
+  max-width: 1120px;
+  margin: 80px auto 0;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+
+.catalog-footer .contact-link {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 0.2s;
+}
+
+.catalog-footer .contact-link:hover {
+  color: var(--text-main);
+}
+
+.catalog-footer .accent-link {
+  color: color-mix(in srgb, var(--grad-end) 60%, white 40%);
+}
+
 .not-found-shell {
   display: grid;
   place-items: center;

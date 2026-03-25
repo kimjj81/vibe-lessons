@@ -1,5 +1,6 @@
 import { useLocale } from '../../i18n/LocaleContext';
-import { CusdisSlide } from './CusdisShared';
+import { cusdisAssets } from './assets';
+import { CusdisSlide, MediaCard } from './CusdisShared';
 
 const workflowNodes = [
   { key: 'webhook', color: '#fb7185' },
@@ -16,7 +17,8 @@ export default function Slide03_SystemFlow() {
     ko: {
       kicker: 'system flow',
       title: '전체 자동화 아키텍처',
-      subtitle: 'Cusdis 댓글 이벤트가 n8n workflow로 들어와 AI 판별 후 approve / reply API로 다시 나간다.',
+      subtitle: 'webhook 매커니즘과 n8n workflow를 이용한 자동화',
+      description: '댓글이 달리면 Cusdis는 설정된 webhook api url 에 이벤트를 전달한다.\nn8n에 댓글 이벤트를 받을 webhook 을 설정하고 이어서 처리를 자동화하는 workflow를 완성하는 법을 제시한다.',
       cusdisLabel: 'Cusdis\n댓글',
       workflowLabel: 'n8n Workflow',
       labels: {
@@ -37,7 +39,8 @@ export default function Slide03_SystemFlow() {
     en: {
       kicker: 'system flow',
       title: 'End-to-end automation architecture',
-      subtitle: 'A Cusdis comment event enters the n8n workflow, gets classified by AI, and the result is sent back to Cusdis as an approve / reply API call.',
+      subtitle: 'Automation using webhook mechanisms and n8n workflows',
+      description: 'When a comment is posted, Cusdis sends an event to the configured webhook API URL.\nWe show how to set up a webhook in n8n to receive these events and build a workflow for automated processing.',
       cusdisLabel: 'Cusdis\ncomment',
       workflowLabel: 'n8n Workflow',
       labels: {
@@ -66,8 +69,9 @@ export default function Slide03_SystemFlow() {
       subtitle={t.subtitle}
     >
       <div className="cusdis-stack">
+
         {/* Flow diagram */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginTop: '12px' }}>
           {/* Cusdis side */}
           <div
             className="cusdis-flow-node"
@@ -111,7 +115,16 @@ export default function Slide03_SystemFlow() {
               ))}
             </div>
           </div>
+          <MediaCard
+            src={cusdisAssets.workflowOverview}
+            alt={locale === 'ko' ? '완성된 워크플로' : 'Complete workflow'}
+            title={locale === 'ko' ? '완성된 워크플로' : 'Complete workflow'}
+          />
         </div>
+
+        <p className="cusdis-slide-subtitle" style={{ maxWidth: 'none', textAlign: 'left', marginTop: '24px' }}>
+          {t.description}
+        </p>
 
         {/* Notes with node tags */}
         <div className="cusdis-callout">
