@@ -18,6 +18,12 @@
 
 사용자 동의 없이 GA 스크립트를 로드하지 않도록 맞춤형 동의 배너를 기본으로 적용했습니다.
 
+Google Search Console 연동을 위해 다음 항목이 추가되었습니다.
+
+- `public/sitemap.xml`
+- `public/robots.txt`
+- 경로 기반 메타 태그 자동 설정
+
 1. .env.local 파일 생성
 
     cp .env.example .env.local
@@ -29,6 +35,19 @@
 3. 앱 실행
 
     npm run dev
+
+4. Search Console 연동 체크리스트
+
+- Cloudflare Pages에 배포 후 실제 도메인으로 `https://lesson.studiojin.dev/sitemap.xml` 접근 가능 확인
+- `https://search.google.com/search-console`에서 도메인 소유권 인증
+- 속성에 Sitemap 등록
+- 커버리지, 수집 상태, URL 검사에서 `index` 상태 확인
+
+필요한 환경변수
+
+`VITE_SITE_BASE_URL`(선택): SEO canonical과 OG URL 기본값을 덮어쓸 때 사용
+
+- `VITE_SITE_BASE_URL=https://lesson.studiojin.dev`
 
 환경변수가 비어 있으면 GA 스크립트가 자동으로 비활성화되어, 로컬에서 추적이 강제로 동작하지 않습니다.
 

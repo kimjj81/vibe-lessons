@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CourseDeck from '../components/CourseDeck';
+import SeoHead from '../components/SeoHead';
 import { getCourseBySlug } from '../courses/registry';
 import { useLocale } from '../i18n/LocaleContext';
 import { pickLocalized } from '../i18n/localize';
@@ -15,20 +16,27 @@ export default function CourseDeckPage() {
     return () => document.body.classList.remove('course-deck-open');
   }, []);
 
-  useEffect(() => {
-    if (course) {
-      document.title = pickLocalized(course.title, locale);
-      return;
-    }
-    document.title = locale === 'ko' ? '알 수 없는 강의' : 'Unknown lecture';
-  }, [course, locale]);
+  const title = course ? pickLocalized(course.title, locale) : locale === 'ko' ? '알 수 없는 강의' : 'Unknown lecture';
+  const description = course
+    ? pickLocalized(course.description, locale)
+    : locale === 'ko'
+      ? '요청한 강의 경로에 대응되는 데이터가 없습니다.'
+      : 'No lecture data is available for the requested course route.';
+
+  const currentPath = course ? `/courses/${courseSlug}` : '/';
 
   if (course) {
-    return <CourseDeck course={course} />;
+    return (
+      <>
+        <SeoHead title={title} description={description} path={currentPath} locale={locale} />
+        <CourseDeck course={course} />
+      </>
+    );
   }
 
   return (
     <main className="not-found-shell">
+      <SeoHead title={title} description={description} path="/" locale={locale} />
       <div className="not-found-panel">
         <span className="catalog-eyebrow">{locale === 'ko' ? '알 수 없는 강의' : 'Unknown lecture'}</span>
         <h1>{locale === 'ko' ? '찾는 강의를 아직 만들지 않았습니다.' : 'This lecture does not exist yet.'}</h1>

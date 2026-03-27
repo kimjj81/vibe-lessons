@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LocaleToggle from '../components/LocaleToggle';
+import SeoHead from '../components/SeoHead';
 import { courseRegistry } from '../courses/registry';
 import { useLocale } from '../i18n/LocaleContext';
 import { pickLocalized } from '../i18n/localize';
@@ -90,10 +91,6 @@ export default function CourseCatalogPage() {
   };
 
   useEffect(() => {
-    document.title = locale === 'ko' ? 'Studio Jin 강의 아카이브' : 'Studio Jin Lecture Archive';
-  }, [locale]);
-
-  useEffect(() => {
     if (!isMobileMenuOpen) return undefined;
 
     function handlePointerDown(event) {
@@ -121,7 +118,14 @@ export default function CourseCatalogPage() {
     setIsMobileMenuOpen(false);
   }
 
+  const pageTitle = locale === 'ko' ? 'Studio Jin 강의 아카이브' : 'Studio Jin Lecture Archive';
+  const pageDescription = locale === 'ko'
+    ? '실전형 개발 강의를 하나씩 쌓아가는 컬렉션. 강의 목록에서 슬라이드 기반 강의를 바로 볼 수 있습니다.'
+    : 'A growing collection of practical development lectures, each delivered as a slide deck. Browse and study practical production workflows.';
+
   return (
+    <>
+    <SeoHead title={pageTitle} description={pageDescription} path="/" locale={locale} />
     <main className="catalog-shell">
       <div className="catalog-noise" />
       <div className="catalog-toolbar">
@@ -237,5 +241,6 @@ export default function CourseCatalogPage() {
 
       <CatalogFooter />
     </main>
+    </>
   );
 }
