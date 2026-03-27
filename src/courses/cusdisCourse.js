@@ -27,10 +27,6 @@ export const cusdisCourse = {
     en: 'Cusdis is a tool for adding comments to your website. In this course, we\'ll learn how to improve operational efficiency by implementing automated approvals and spam handling using n8n and Gemini AI. We\'ll connect everything from webhooks to automated replies in one complete workflow.',
   },
   status: 'live',
-  statusLabel: {
-    ko: '지금 시청 가능',
-    en: 'Available now',
-  },
   theme: {
     '--grad-start': '#f97316',
     '--grad-mid': '#ea580c',

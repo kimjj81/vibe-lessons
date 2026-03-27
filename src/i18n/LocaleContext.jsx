@@ -4,10 +4,16 @@ const LocaleContext = createContext(null);
 
 const SUPPORTED_LOCALES = ['ko', 'en'];
 
+function getBrowserLocale() {
+  if (typeof navigator === 'undefined') return 'ko';
+  const browserLocale = navigator.languages?.[0] ?? navigator.language ?? 'en';
+  return browserLocale.toLowerCase().startsWith('ko') ? 'ko' : 'en';
+}
+
 function getInitialLocale() {
-  if (typeof window === 'undefined') return 'ko';
+  if (typeof window === 'undefined') return getBrowserLocale();
   const stored = window.localStorage.getItem('studiojin-locale');
-  return SUPPORTED_LOCALES.includes(stored) ? stored : 'ko';
+  return SUPPORTED_LOCALES.includes(stored) ? stored : getBrowserLocale();
 }
 
 export function LocaleProvider({ children }) {

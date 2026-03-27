@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LocaleToggle from '../components/LocaleToggle';
 import { courseRegistry } from '../courses/registry';
@@ -35,6 +35,9 @@ function CatalogFooter() {
 
 export default function CourseCatalogPage() {
   const { locale } = useLocale();
+  const [activeSlug, setActiveSlug] = useState(courseRegistry[0]?.slug ?? null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mobilePickerRef = useRef(null);
   const copy = {
     eyebrow: {
       ko: 'Studio Jin 강의 아카이브',
@@ -57,14 +60,66 @@ export default function CourseCatalogPage() {
       en: 'slides',
     },
     openLecture: {
-      ko: '강의 열기',
-      en: 'Open lecture',
+      ko: '강의 보기',
+      en: 'View lecture',
     },
+    detailEyebrow: {
+      ko: '선택한 강좌',
+      en: 'Selected lecture',
+    },
+    listEyebrow: {
+      ko: '강좌 목록',
+      en: 'Lecture list',
+    },
+    pickerEyebrow: {
+      ko: '현재 선택한 강좌',
+      en: 'Current lecture',
+    },
+    pickerAction: {
+      ko: '다른 강좌 보기',
+      en: 'Browse lectures',
+    },
+  };
+
+  const activeCourse = courseRegistry.find((course) => course.slug === activeSlug) ?? courseRegistry[0];
+  const activeIndex = courseRegistry.findIndex((course) => course.slug === activeCourse.slug);
+  const detailTheme = {
+    '--catalog-accent-start': activeCourse.theme['--grad-start'],
+    '--catalog-accent-end': activeCourse.theme['--grad-end'],
+    '--catalog-accent-mid': activeCourse.theme['--grad-mid'],
   };
 
   useEffect(() => {
     document.title = locale === 'ko' ? 'Studio Jin 강의 아카이브' : 'Studio Jin Lecture Archive';
   }, [locale]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return undefined;
+
+    function handlePointerDown(event) {
+      if (!mobilePickerRef.current?.contains(event.target)) {
+        setIsMobileMenuOpen(false);
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        setIsMobileMenuOpen(false);
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
+  function handleSelectCourse(courseSlug) {
+    setActiveSlug(courseSlug);
+    setIsMobileMenuOpen(false);
+  }
 
   return (
     <main className="catalog-shell">
@@ -82,29 +137,102 @@ export default function CourseCatalogPage() {
         <p className="catalog-description">{copy.description[locale]}</p>
       </section>
 
-      <section className="catalog-grid" aria-label="lecture catalog">
-        {courseRegistry.map((course, index) => (
-          <article className="catalog-card" key={course.slug}>
-            <div className="catalog-card-glow" style={course.theme} />
-            <div className="catalog-card-top">
-              <span className="catalog-index">{String(index + 1).padStart(2, '0')}</span>
+      <section className="catalog-browser" aria-label="lecture catalog" style={detailTheme}>
+        <div className="catalog-mobile-picker" ref={mobilePickerRef}>
+          <div className="catalog-mobile-picker-head">
+            <span className="catalog-eyebrow">{copy.pickerEyebrow[locale]}</span>
+            <span className="catalog-slide-meta">
+              {locale === 'ko' ? `${activeCourse.slides.length}장` : `${activeCourse.slides.length} ${copy.slideLabel[locale]}`}
+            </span>
+          </div>
+          <button
+            type="button"
+            className="catalog-mobile-picker-trigger"
+            aria-expanded={isMobileMenuOpen}
+            aria-haspopup="listbox"
+            onClick={() => setIsMobileMenuOpen((current) => !current)}
+          >
+            <div className="catalog-mobile-picker-copy">
+              <span className="catalog-mobile-picker-title">{pickLocalized(activeCourse.title, locale)}</span>
+              <span className="catalog-mobile-picker-subtitle">{copy.pickerAction[locale]}</span>
+            </div>
+            <span className={isMobileMenuOpen ? 'catalog-mobile-picker-icon catalog-mobile-picker-icon-open' : 'catalog-mobile-picker-icon'}>
+              ▾
+            </span>
+          </button>
+          {isMobileMenuOpen ? (
+            <div className="catalog-mobile-menu" role="listbox" aria-label={copy.listEyebrow[locale]}>
+              {courseRegistry.map((course, index) => {
+                const isActive = course.slug === activeCourse.slug;
+                return (
+                  <button
+                    key={course.slug}
+                    type="button"
+                    className={isActive ? 'catalog-mobile-option catalog-mobile-option-active' : 'catalog-mobile-option'}
+                    onClick={() => handleSelectCourse(course.slug)}
+                  >
+                    <span className="catalog-mobile-option-index">{String(index + 1).padStart(2, '0')}</span>
+                    <span className="catalog-mobile-option-title">{pickLocalized(course.title, locale)}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
+        </div>
 
-            </div>
-            <div className="catalog-card-body">
-              <h2>{pickLocalized(course.title, locale)}</h2>
-              <p className="catalog-subtitle">{pickLocalized(course.subtitle, locale)}</p>
-              <p className="catalog-copy">{pickLocalized(course.description, locale)}</p>
-            </div>
-            <div className="catalog-card-footer">
-              <span className="catalog-slide-meta">
-                {locale === 'ko' ? `${course.slides.length}장` : `${course.slides.length} ${copy.slideLabel[locale]}`}
-              </span>
-              <Link className="catalog-link" to={`/courses/${course.slug}`}>
-                {copy.openLecture[locale]}
-              </Link>
-            </div>
-          </article>
-        ))}
+        <div className="catalog-list" role="list">
+          <div className="catalog-list-label">{copy.listEyebrow[locale]}</div>
+          {courseRegistry.map((course, index) => {
+            const isActive = course.slug === activeCourse.slug;
+            return (
+              <button
+                key={course.slug}
+                type="button"
+                className={isActive ? 'catalog-list-item catalog-list-item-active' : 'catalog-list-item'}
+                onMouseEnter={() => handleSelectCourse(course.slug)}
+                onFocus={() => handleSelectCourse(course.slug)}
+                onTouchStart={() => handleSelectCourse(course.slug)}
+                onClick={() => handleSelectCourse(course.slug)}
+                aria-pressed={isActive}
+              >
+                <div className="catalog-list-head">
+                  <span className="catalog-list-index">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="catalog-slide-meta">
+                    {locale === 'ko' ? `${course.slides.length}장` : `${course.slides.length} ${copy.slideLabel[locale]}`}
+                  </span>
+                </div>
+                <div className="catalog-list-title">{pickLocalized(course.title, locale)}</div>
+                <div className="catalog-list-subtitle">{pickLocalized(course.subtitle, locale)}</div>
+                <div
+                  className="catalog-list-accent"
+                  style={{
+                    background: `linear-gradient(90deg, ${course.theme['--grad-start']}, ${course.theme['--grad-end']})`,
+                  }}
+                />
+              </button>
+            );
+          })}
+        </div>
+
+        <article className="catalog-detail">
+          <div className="catalog-detail-head">
+            <span className="catalog-eyebrow">{copy.detailEyebrow[locale]}</span>
+          </div>
+          <div className="catalog-detail-body">
+            <div className="catalog-detail-index">{String(activeIndex + 1).padStart(2, '0')}</div>
+            <h2 className="catalog-detail-title">{pickLocalized(activeCourse.title, locale)}</h2>
+            <p className="catalog-detail-subtitle">{pickLocalized(activeCourse.subtitle, locale)}</p>
+            <p className="catalog-detail-copy">{pickLocalized(activeCourse.description, locale)}</p>
+          </div>
+          <div className="catalog-detail-footer">
+            <span className="catalog-slide-meta">
+              {locale === 'ko' ? `${activeCourse.slides.length}장` : `${activeCourse.slides.length} ${copy.slideLabel[locale]}`}
+            </span>
+            <Link className="catalog-link catalog-detail-link" to={`/courses/${activeCourse.slug}`}>
+              {copy.openLecture[locale]}
+            </Link>
+          </div>
+        </article>
       </section>
 
       <CatalogFooter />

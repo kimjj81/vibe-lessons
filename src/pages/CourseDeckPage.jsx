@@ -11,6 +11,11 @@ export default function CourseDeckPage() {
   const course = getCourseBySlug(courseSlug);
 
   useEffect(() => {
+    document.body.classList.add('course-deck-open');
+    return () => document.body.classList.remove('course-deck-open');
+  }, []);
+
+  useEffect(() => {
     if (course) {
       document.title = pickLocalized(course.title, locale);
       return;

@@ -25,10 +25,6 @@ export const vibeCodingCourse = {
     en: 'The core lecture distills a practical MVP workflow around Claude Code, covering environment setup, context separation, and deployment decisions in one run.',
   },
   status: 'live',
-  statusLabel: {
-    ko: '지금 시청 가능',
-    en: 'Available now',
-  },
   theme: {
     '--grad-start': '#7c3aed',
     '--grad-mid': '#2563eb',

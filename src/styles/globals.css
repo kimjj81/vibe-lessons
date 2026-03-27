@@ -19,6 +19,10 @@ body {
   overflow-x: hidden;
 }
 
+body.course-deck-open {
+  overflow: hidden;
+}
+
 ::-webkit-scrollbar { display: none; }
 
 a {

@@ -12,8 +12,14 @@ function isModalOpen() {
   return Boolean(document.querySelector('[data-ui-modal="open"]'));
 }
 
+function hasScrollableOverflow(element) {
+  if (!element) return false;
+  const { overflowY } = window.getComputedStyle(element);
+  return overflowY === 'auto' || overflowY === 'scroll' || overflowY === 'overlay';
+}
+
 function isScrollable(element) {
-  return Boolean(element) && element.scrollHeight > element.clientHeight + 1;
+  return Boolean(element) && hasScrollableOverflow(element) && element.scrollHeight > element.clientHeight + 1;
 }
 
 function canScroll(element, direction) {
