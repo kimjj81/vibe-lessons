@@ -20,8 +20,8 @@
 
 Google Search Console 연동을 위해 다음 항목이 추가되었습니다.
 
-- `public/sitemap.xml`
-- `public/robots.txt`
+- `public/sitemap.xml` (`npm run build` 시 자동 생성)
+- `public/robots.txt` (`npm run build` 시 자동 생성)
 - 경로 기반 메타 태그 자동 설정
 
 1. .env.local 파일 생성
@@ -48,6 +48,8 @@ Google Search Console 연동을 위해 다음 항목이 추가되었습니다.
 `VITE_SITE_BASE_URL`(선택): SEO canonical과 OG URL 기본값을 덮어쓸 때 사용
 
 - `VITE_SITE_BASE_URL=https://lesson.studiojin.dev`
+
+Cloudflare Pages production 환경변수에도 같은 `VITE_SITE_BASE_URL` 값을 넣어두면, canonical/OG/robots/sitemap이 모두 같은 기준 URL을 사용합니다.
 
 환경변수가 비어 있으면 GA 스크립트가 자동으로 비활성화되어, 로컬에서 추적이 강제로 동작하지 않습니다.
 
