@@ -30,6 +30,7 @@ async function getPublicCoursePaths() {
     }
 
     routes.push(`/courses/${slugMatch[1]}`);
+    routes.push(`/courses/${slugMatch[1]}/overview`);
   }
 
   return routes;

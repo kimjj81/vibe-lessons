@@ -1,0 +1,14 @@
+{
+  "entities": {
+    "User": ["id", "email", "displayName", "roleIds"],
+    "Content": ["id", "slug", "title", "body", "status", "authorId", "publishedAt"],
+    "Revision": ["id", "contentId", "bodySnapshot", "createdBy", "createdAt"],
+    "Comment": ["id", "contentId", "authorName", "body", "status"],
+    "AuditLog": ["id", "actorId", "targetType", "targetId", "action", "createdAt"]
+  },
+  "notes": [
+    "Revision should exist before you need rollback in production.",
+    "AuditLog becomes important once more than one role can publish or moderate.",
+    "Comment moderation often deserves its own queue state."
+  ]
+}

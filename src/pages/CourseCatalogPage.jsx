@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LocaleToggle from '../components/LocaleToggle';
 import SeoHead from '../components/SeoHead';
+import { getCourseDetailBySlug } from '../course-details/registry';
 import { courseRegistry } from '../courses/registry';
 import { useLocale } from '../i18n/LocaleContext';
 import { pickLocalized } from '../i18n/localize';
@@ -64,6 +65,14 @@ export default function CourseCatalogPage() {
       ko: '강의 보기',
       en: 'View lecture',
     },
+    openOverview: {
+      ko: '자세히 보기',
+      en: 'View details',
+    },
+    openSlides: {
+      ko: '슬라이드 바로 보기',
+      en: 'Open slides',
+    },
     detailEyebrow: {
       ko: '선택한 강좌',
       en: 'Selected lecture',
@@ -83,6 +92,7 @@ export default function CourseCatalogPage() {
   };
 
   const activeCourse = courseRegistry.find((course) => course.slug === activeSlug) ?? courseRegistry[0];
+  const activeCourseDetail = getCourseDetailBySlug(activeCourse.slug);
   const activeIndex = courseRegistry.findIndex((course) => course.slug === activeCourse.slug);
   const detailTheme = {
     '--catalog-accent-start': activeCourse.theme['--grad-start'],
@@ -227,14 +237,28 @@ export default function CourseCatalogPage() {
             <h2 className="catalog-detail-title">{pickLocalized(activeCourse.title, locale)}</h2>
             <p className="catalog-detail-subtitle">{pickLocalized(activeCourse.subtitle, locale)}</p>
             <p className="catalog-detail-copy">{pickLocalized(activeCourse.description, locale)}</p>
+            {activeCourseDetail ? (
+              <>
+                <div className="catalog-detail-meta">
+                  <span className="catalog-pill">{pickLocalized(activeCourseDetail.difficulty, locale)}</span>
+                  <span className="catalog-pill">{pickLocalized(activeCourseDetail.estimatedTime, locale)}</span>
+                </div>
+                <p className="catalog-detail-note">{pickLocalized(activeCourseDetail.hero.deliverable, locale)}</p>
+              </>
+            ) : null}
           </div>
           <div className="catalog-detail-footer">
             <span className="catalog-slide-meta">
               {locale === 'ko' ? `${activeCourse.slides.length}장` : `${activeCourse.slides.length} ${copy.slideLabel[locale]}`}
             </span>
-            <Link className="catalog-link catalog-detail-link" to={`/courses/${activeCourse.slug}`}>
-              {copy.openLecture[locale]}
-            </Link>
+            <div className="catalog-detail-actions">
+              <Link className="catalog-link catalog-detail-link" to={`/courses/${activeCourse.slug}/overview`}>
+                {copy.openOverview[locale]}
+              </Link>
+              <Link className="catalog-link catalog-detail-link catalog-detail-link-ghost" to={`/courses/${activeCourse.slug}`}>
+                {copy.openSlides[locale]}
+              </Link>
+            </div>
           </div>
         </article>
       </section>

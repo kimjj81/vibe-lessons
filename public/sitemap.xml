@@ -3,18 +3,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lesson.studiojin.dev/</loc>
-    <lastmod>2026-03-30</lastmod>
+    <lastmod>2026-03-31</lastmod>
   </url>
   <url>
     <loc>https://lesson.studiojin.dev/courses/cms-architecture</loc>
-    <lastmod>2026-03-30</lastmod>
+    <lastmod>2026-03-31</lastmod>
+  </url>
+  <url>
+    <loc>https://lesson.studiojin.dev/courses/cms-architecture/overview</loc>
+    <lastmod>2026-03-31</lastmod>
   </url>
   <url>
     <loc>https://lesson.studiojin.dev/courses/cusdis</loc>
-    <lastmod>2026-03-30</lastmod>
+    <lastmod>2026-03-31</lastmod>
+  </url>
+  <url>
+    <loc>https://lesson.studiojin.dev/courses/cusdis/overview</loc>
+    <lastmod>2026-03-31</lastmod>
   </url>
   <url>
     <loc>https://lesson.studiojin.dev/courses/vibe-coding-masterclass</loc>
-    <lastmod>2026-03-30</lastmod>
+    <lastmod>2026-03-31</lastmod>
+  </url>
+  <url>
+    <loc>https://lesson.studiojin.dev/courses/vibe-coding-masterclass/overview</loc>
+    <lastmod>2026-03-31</lastmod>
   </url>
 </urlset>

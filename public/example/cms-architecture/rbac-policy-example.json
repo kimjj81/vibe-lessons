@@ -1,0 +1,13 @@
+{
+  "roles": {
+    "admin": ["content.read", "content.write", "content.publish", "comment.moderate", "settings.manage"],
+    "editor": ["content.read", "content.write", "content.publish", "comment.moderate"],
+    "author": ["content.read", "content.write.own"],
+    "reviewer": ["content.read", "content.review", "comment.moderate"]
+  },
+  "rules": [
+    "Only admin and editor can publish content.",
+    "Author can update only content where authorId equals the current user id.",
+    "Reviewer can move content between draft and review states but cannot publish."
+  ]
+}

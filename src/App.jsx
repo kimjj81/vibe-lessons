@@ -13,6 +13,7 @@ import {
 } from './analytics';
 import CourseDeckPage from './pages/CourseDeckPage';
 import CourseCatalogPage from './pages/CourseCatalogPage';
+import CourseOverviewPage from './pages/CourseOverviewPage';
 import './styles/globals.css';
 import './styles/theme.css';
 
@@ -54,6 +55,7 @@ export default function App() {
       <AnalyticsTracker />
       <Routes>
         <Route path="/" element={<CourseCatalogPage />} />
+        <Route path="/courses/:courseSlug/overview" element={<CourseOverviewPage />} />
         <Route path="/courses/:courseSlug" element={<CourseDeckPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

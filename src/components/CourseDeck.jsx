@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import NavDots from './NavDots';
 import { CourseDeckProvider } from '../courses/CourseDeckContext';
 import LocaleToggle from './LocaleToggle';
+import SlideExampleLink from './SlideExampleLink';
 import { useLocale } from '../i18n/LocaleContext';
 import { pickLocalized } from '../i18n/localize';
 
@@ -84,14 +85,17 @@ function DeckChrome({ course, current, onGoto }) {
     <>
       <div className="deck-header">
         <div className="deck-header-main">
-          <Link className="deck-back-link" to="/">
+          <Link className="deck-back-link deck-back-link-ghost" to="/">
             {locale === 'ko' ? '강의 목록' : 'Lecture index'}
           </Link>
           <div className="deck-header-copy">
             <span className="deck-subtitle">{pickLocalized(course.subtitle, locale)}</span>
           </div>
         </div>
-        <LocaleToggle />
+        <div className="deck-header-actions">
+          <SlideExampleLink compact />
+          <LocaleToggle />
+        </div>
       </div>
       <NavDots current={current} total={course.slides.length} onGoto={onGoto} />
       <CourseContact course={course} />

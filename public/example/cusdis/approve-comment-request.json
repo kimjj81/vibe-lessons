@@ -1,0 +1,12 @@
+{
+  "commentId": "cmt_1234",
+  "status": "approved",
+  "reply": {
+    "content": "Thanks for reading. I will share a follow-up walkthrough soon."
+  },
+  "moderation": {
+    "source": "n8n-gemini",
+    "classification": "NORMAL",
+    "reason": "Relevant question and polite tone"
+  }
+}

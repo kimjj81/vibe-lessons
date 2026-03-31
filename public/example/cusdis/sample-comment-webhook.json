@@ -1,0 +1,18 @@
+{
+  "event": "comment.created",
+  "siteId": "site_demo_001",
+  "comment": {
+    "id": "cmt_1234",
+    "pageId": "/blog/ai-comments",
+    "author": "Reader Example",
+    "email": "reader@example.com",
+    "content": "This was super helpful. Can you share the repo too?",
+    "createdAt": "2026-03-30T11:24:00.000Z",
+    "status": "pending"
+  },
+  "metadata": {
+    "ip": "203.0.113.10",
+    "userAgent": "Mozilla/5.0",
+    "locale": "en-US"
+  }
+}

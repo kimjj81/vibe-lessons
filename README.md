@@ -1,3 +1,5 @@
+[![Korean](https://img.shields.io/badge/lang-ko-blue.svg)](./README.md) [![English](https://img.shields.io/badge/lang-en-lightgrey.svg)](./README.en.md)
+
 # 바이브 코딩 강의 리포지토리
 
 바이브 코딩 강의를 지원하려고 강의 자료를 작성하다가, 이미 모집이 마감되어 작성하던 내용을 일단 올려두는 기록입니다.
@@ -12,46 +14,32 @@
 
 현재 미리보기: https://lesson.studiojin.dev
 
-## Google Analytics(GA4) 설정
+## 현재 공개 강좌
 
-이 리포지토리에서는 Vite + React 환경에서 GA4를 동적으로 초기화해 라우트 이동 시 페이지뷰를 수집합니다.
+- `바이브 코딩 실전 마스터클래스`
+  - 아이디어를 MVP로 압축해 설계, 구현, 검증, 배포까지 연결하는 강의입니다.
+  - AI 코딩 도구를 프로젝트 전체 작업 루프로 쓰는 방법, AGENTS/PRD 문서화, 스택 결정, 비용/보안 판단을 다룹니다.
+- `Cusdis 자동화`
+  - n8n, Gemini, Cusdis를 연결해 댓글 승인과 스팸 필터링을 자동화하는 실전 강의입니다.
+  - webhook 연결, JSON 계약 기반 AI 판정, JS 후처리, 승인 API 호출, 운영 체크리스트를 포함합니다.
+- `CMS & 콘텐츠 인프라`
+  - Monolithic CMS, Headless CMS, SaaS Embed, Self-hosted를 서비스 운영 관점에서 비교하는 강의입니다.
+  - 콘텐츠 모델, 권한, 캐시 무효화, 댓글/검색/분석 기능을 어떤 조합으로 가져갈지 설계 기준을 설명합니다.
 
-사용자 동의 없이 GA 스크립트를 로드하지 않도록 맞춤형 동의 배너를 기본으로 적용했습니다.
+## 강좌 상세 페이지와 예제 자료
 
-Google Search Console 연동을 위해 다음 항목이 추가되었습니다.
-
-- `public/sitemap.xml` (`npm run build` 시 자동 생성)
-- `public/robots.txt` (`npm run build` 시 자동 생성)
-- 경로 기반 메타 태그 자동 설정
-
-1. .env.local 파일 생성
-
-    cp .env.example .env.local
-
-2. .env.local의 VITE_GA_MEASUREMENT_ID 값을 실제 측정 ID로 변경
-
-    VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
-
-3. 앱 실행
-
-    npm run dev
-
-4. Search Console 연동 체크리스트
-
-- Cloudflare Pages에 배포 후 실제 도메인으로 `https://lesson.studiojin.dev/sitemap.xml` 접근 가능 확인
-- `https://search.google.com/search-console`에서 도메인 소유권 인증
-- 속성에 Sitemap 등록
-- 커버리지, 수집 상태, URL 검사에서 `index` 상태 확인
-
-필요한 환경변수
-
-`VITE_SITE_BASE_URL`(선택): SEO canonical과 OG URL 기본값을 덮어쓸 때 사용
-
-- `VITE_SITE_BASE_URL=https://lesson.studiojin.dev`
-
-Cloudflare Pages production 환경변수에도 같은 `VITE_SITE_BASE_URL` 값을 넣어두면, canonical/OG/robots/sitemap이 모두 같은 기준 URL을 사용합니다.
-
-환경변수가 비어 있으면 GA 스크립트가 자동으로 비활성화되어, 로컬에서 추적이 강제로 동작하지 않습니다.
+- 강좌 목록에서 바로 슬라이드로만 들어가는 대신, 각 강좌에는 별도 소개 페이지가 있습니다.
+- 경로
+  - 강좌 소개: `/courses/:slug/overview`
+  - 슬라이드 덱: `/courses/:slug`
+- 강좌 소개 페이지에는 다음 정보가 들어 있습니다.
+  - 챕터 목차
+  - 예상 수강 시간 / 난이도
+  - 준비물과 추천 수강 대상
+  - 실습 예제 및 문서 링크
+- 실습 자료는 `public/example/<course-slug>/` 아래에 두었습니다.
+  - 예: `public/example/cusdis/`, `public/example/cms-architecture/`, `public/example/vibe-coding-masterclass/`
+  - 한국어/영어 Markdown 예제를 함께 제공하며, 사이트 로케일에 따라 맞는 파일로 연결됩니다.
 
 ## 개발 환경
 
