@@ -1,1 +1,4 @@
+/ /ko/ 301
+/courses/:courseSlug /ko/courses/:courseSlug 301
+/courses/:courseSlug/overview /ko/courses/:courseSlug/overview 301
 /* /index.html 200

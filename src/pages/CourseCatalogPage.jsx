@@ -5,7 +5,9 @@ import SeoHead from '../components/SeoHead';
 import { getCourseDetailBySlug } from '../course-details/registry';
 import { courseRegistry } from '../courses/registry';
 import { useLocale } from '../i18n/LocaleContext';
+import { buildLocalizedPath } from '../i18n/localeRouting';
 import { pickLocalized } from '../i18n/localize';
+import { getCatalogSeo } from '../seo/routeSeo';
 
 function CatalogFooter() {
   return (
@@ -128,14 +130,11 @@ export default function CourseCatalogPage() {
     setIsMobileMenuOpen(false);
   }
 
-  const pageTitle = locale === 'ko' ? 'Studio Jin 강의 아카이브' : 'Studio Jin Lecture Archive';
-  const pageDescription = locale === 'ko'
-    ? '실전형 개발 강의를 하나씩 쌓아가는 컬렉션. 강의 목록에서 슬라이드 기반 강의를 바로 볼 수 있습니다.'
-    : 'A growing collection of practical development lectures, each delivered as a slide deck. Browse and study practical production workflows.';
+  const seo = getCatalogSeo(locale);
 
   return (
     <>
-    <SeoHead title={pageTitle} description={pageDescription} path="/" locale={locale} />
+    <SeoHead seo={seo} />
     <main className="catalog-shell">
       <div className="catalog-noise" />
       <div className="catalog-toolbar">
@@ -252,10 +251,16 @@ export default function CourseCatalogPage() {
               {locale === 'ko' ? `${activeCourse.slides.length}장` : `${activeCourse.slides.length} ${copy.slideLabel[locale]}`}
             </span>
             <div className="catalog-detail-actions">
-              <Link className="catalog-link catalog-detail-link" to={`/courses/${activeCourse.slug}/overview`}>
+              <Link
+                className="catalog-link catalog-detail-link"
+                to={buildLocalizedPath(locale, `/courses/${activeCourse.slug}/overview`)}
+              >
                 {copy.openOverview[locale]}
               </Link>
-              <Link className="catalog-link catalog-detail-link catalog-detail-link-ghost" to={`/courses/${activeCourse.slug}`}>
+              <Link
+                className="catalog-link catalog-detail-link catalog-detail-link-ghost"
+                to={buildLocalizedPath(locale, `/courses/${activeCourse.slug}`)}
+              >
                 {copy.openSlides[locale]}
               </Link>
             </div>

@@ -1,31 +1,22 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect } from 'react';
+import { normalizeLocale } from './localeRouting';
 
 const LocaleContext = createContext(null);
 
-const SUPPORTED_LOCALES = ['ko', 'en'];
-
-function getBrowserLocale() {
-  if (typeof navigator === 'undefined') return 'ko';
-  const browserLocale = navigator.languages?.[0] ?? navigator.language ?? 'en';
-  return browserLocale.toLowerCase().startsWith('ko') ? 'ko' : 'en';
-}
-
-function getInitialLocale() {
-  if (typeof window === 'undefined') return getBrowserLocale();
-  const stored = window.localStorage.getItem('studiojin-locale');
-  return SUPPORTED_LOCALES.includes(stored) ? stored : getBrowserLocale();
-}
-
-export function LocaleProvider({ children }) {
-  const [locale, setLocale] = useState(getInitialLocale);
+export function LocaleProvider({ children, locale }) {
+  const resolvedLocale = normalizeLocale(locale);
 
   useEffect(() => {
-    window.localStorage.setItem('studiojin-locale', locale);
-    document.documentElement.lang = locale;
-  }, [locale]);
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    window.localStorage.setItem('studiojin-locale', resolvedLocale);
+    document.documentElement.lang = resolvedLocale;
+  }, [resolvedLocale]);
 
   return (
-    <LocaleContext.Provider value={{ locale, setLocale }}>
+    <LocaleContext.Provider value={{ locale: resolvedLocale }}>
       {children}
     </LocaleContext.Provider>
   );

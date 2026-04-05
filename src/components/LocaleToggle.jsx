@@ -1,7 +1,10 @@
+import { Link, useLocation } from 'react-router-dom';
 import { useLocale } from '../i18n/LocaleContext';
+import { switchLocalePath } from '../i18n/localeRouting';
 
 export default function LocaleToggle() {
-  const { locale, setLocale } = useLocale();
+  const location = useLocation();
+  const { locale } = useLocale();
 
   return (
     <div className="locale-toggle" role="group" aria-label="Language switcher">
@@ -9,14 +12,17 @@ export default function LocaleToggle() {
         { value: 'ko', label: '한국어' },
         { value: 'en', label: 'English' },
       ].map((option) => (
-        <button
+        <Link
           key={option.value}
           className={locale === option.value ? 'locale-button locale-button-active' : 'locale-button'}
-          onClick={() => setLocale(option.value)}
-          type="button"
+          to={{
+            pathname: switchLocalePath(location.pathname, option.value),
+            search: location.search,
+            hash: location.hash,
+          }}
         >
           {option.label}
-        </button>
+        </Link>
       ))}
     </div>
   );

@@ -5,6 +5,7 @@ import { CourseDeckProvider } from '../courses/CourseDeckContext';
 import LocaleToggle from './LocaleToggle';
 import SlideExampleLink from './SlideExampleLink';
 import { useLocale } from '../i18n/LocaleContext';
+import { buildLocalizedPath } from '../i18n/localeRouting';
 import { pickLocalized } from '../i18n/localize';
 
 const SCROLL_REGION_SELECTOR = '[data-slide-scroll-region="true"]';
@@ -47,7 +48,7 @@ function CourseContact({ course }) {
 
   return (
     <div className="course-contact">
-      <Link className="contact-link muted-link" to="/">
+      <Link className="contact-link muted-link" to={buildLocalizedPath(locale, '/')}>
         {locale === 'ko' ? '전체 강의' : 'All lectures'}
       </Link>
       <span className="contact-divider" />
@@ -80,12 +81,13 @@ function CourseContact({ course }) {
 
 function DeckChrome({ course, current, onGoto }) {
   const { locale } = useLocale();
+  const overviewPath = buildLocalizedPath(locale, `/courses/${course.slug}/overview`);
 
   return (
     <>
       <div className="deck-header">
         <div className="deck-header-main">
-          <Link className="deck-back-link deck-back-link-ghost" to="/">
+          <Link className="deck-back-link deck-back-link-ghost" to={buildLocalizedPath(locale, '/')}>
             {locale === 'ko' ? '강의 목록' : 'Lecture index'}
           </Link>
           <div className="deck-header-copy">
@@ -93,6 +95,9 @@ function DeckChrome({ course, current, onGoto }) {
           </div>
         </div>
         <div className="deck-header-actions">
+          <Link className="deck-back-link deck-back-link-ghost" to={overviewPath}>
+            {locale === 'ko' ? '강의 소개' : 'Overview'}
+          </Link>
           <SlideExampleLink compact />
           <LocaleToggle />
         </div>
@@ -189,6 +194,11 @@ export default function CourseDeck({ course }) {
           scrollRegion.scrollTop += e.deltaY;
           return;
         }
+
+        const isAtDeckBoundary = (direction < 0 && current === 0) || (direction > 0 && current === totalSlides - 1);
+        if (isAtDeckBoundary) {
+          return;
+        }
       }
 
       e.preventDefault();
@@ -198,9 +208,12 @@ export default function CourseDeck({ course }) {
       else prev();
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
-  }, [getActiveScrollRegion, next, prev]);
+    const deckElement = deckRef.current;
+    if (!deckElement) return undefined;
+
+    deckElement.addEventListener('wheel', handleWheel, { passive: false });
+    return () => deckElement.removeEventListener('wheel', handleWheel);
+  }, [current, getActiveScrollRegion, next, prev, totalSlides]);
 
   useEffect(() => {
     const handleTouchStart = (e) => {
@@ -248,14 +261,17 @@ export default function CourseDeck({ course }) {
       else if (dy > 50) prev();
     };
 
-    window.addEventListener('touchstart', handleTouchStart);
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd);
+    const deckElement = deckRef.current;
+    if (!deckElement) return undefined;
+
+    deckElement.addEventListener('touchstart', handleTouchStart);
+    deckElement.addEventListener('touchmove', handleTouchMove, { passive: true });
+    deckElement.addEventListener('touchend', handleTouchEnd);
 
     return () => {
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
+      deckElement.removeEventListener('touchstart', handleTouchStart);
+      deckElement.removeEventListener('touchmove', handleTouchMove);
+      deckElement.removeEventListener('touchend', handleTouchEnd);
     };
   }, [getActiveScrollRegion, next, prev]);
 
@@ -275,11 +291,14 @@ export default function CourseDeck({ course }) {
       else if (dx > 50) prev();
     };
 
-    window.addEventListener('mousedown', handleMouseDown);
+    const deckElement = deckRef.current;
+    if (!deckElement) return undefined;
+
+    deckElement.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
 
     return () => {
-      window.removeEventListener('mousedown', handleMouseDown);
+      deckElement.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [next, prev]);

@@ -1,10 +1,12 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import LocaleToggle from '../components/LocaleToggle';
 import SeoHead from '../components/SeoHead';
 import { getCourseDetailBySlug } from '../course-details/registry';
 import { getCourseBySlug } from '../courses/registry';
 import { useLocale } from '../i18n/LocaleContext';
+import { buildLocalizedPath } from '../i18n/localeRouting';
 import { pickLocalized } from '../i18n/localize';
+import { getCourseOverviewSeo, getNotFoundSeo } from '../seo/routeSeo';
 
 function localizeItems(items = [], locale) {
   return items.map((item) => pickLocalized(item, locale));
@@ -36,26 +38,18 @@ function OverviewSection({ title, children }) {
 
 export default function CourseOverviewPage() {
   const { courseSlug } = useParams();
+  const location = useLocation();
   const { locale } = useLocale();
   const course = getCourseBySlug(courseSlug);
   const detail = getCourseDetailBySlug(courseSlug);
-
-  const title = detail
-    ? pickLocalized(detail.hero.title, locale)
-    : locale === 'ko'
-      ? '알 수 없는 강의'
-      : 'Unknown lecture';
-  const description = detail
-    ? pickLocalized(detail.hero.summary, locale)
-    : locale === 'ko'
-      ? '요청한 강좌 소개 페이지를 찾을 수 없습니다.'
-      : 'No overview exists for this lecture yet.';
-  const currentPath = course ? `/courses/${course.slug}/overview` : '/';
+  const seo = course && detail
+    ? getCourseOverviewSeo(locale, courseSlug)
+    : getNotFoundSeo(locale, location.pathname);
 
   if (!course || !detail) {
     return (
       <main className="not-found-shell">
-        <SeoHead title={title} description={description} path={currentPath} locale={locale} />
+        <SeoHead seo={seo} />
         <div className="not-found-panel">
           <span className="catalog-eyebrow">{locale === 'ko' ? '알 수 없는 강의' : 'Unknown lecture'}</span>
           <h1>{locale === 'ko' ? '찾는 강좌 소개 페이지가 없습니다.' : 'This lecture overview does not exist yet.'}</h1>
@@ -64,7 +58,7 @@ export default function CourseOverviewPage() {
               ? '요청한 경로에 대응하는 강좌 소개가 없습니다. 강의 목록에서 공개된 강좌를 선택해 주세요.'
               : 'There is no overview page for this route yet. Go back to the course catalog and choose a published lecture.'}
           </p>
-          <Link className="catalog-link" to="/">
+          <Link className="catalog-link" to={buildLocalizedPath(locale, '/')}>
             {locale === 'ko' ? '강의 목록으로 돌아가기' : 'Back to lecture index'}
           </Link>
         </div>
@@ -142,12 +136,12 @@ export default function CourseOverviewPage() {
 
   return (
     <>
-      <SeoHead title={title} description={description} path={currentPath} locale={locale} />
+      <SeoHead seo={seo} />
       <main className="overview-shell" style={course.theme}>
         <div className="catalog-noise" />
 
         <div className="overview-toolbar">
-          <Link className="deck-back-link deck-back-link-ghost" to="/">
+          <Link className="deck-back-link deck-back-link-ghost" to={buildLocalizedPath(locale, '/')}>
             {overviewCopy.backToCatalog[locale]}
           </Link>
           <LocaleToggle />
@@ -179,7 +173,7 @@ export default function CourseOverviewPage() {
             </div>
 
             <div className="overview-hero-actions">
-              <Link className="catalog-link overview-link-primary" to={`/courses/${course.slug}`}>
+              <Link className="catalog-link overview-link-primary" to={buildLocalizedPath(locale, `/courses/${course.slug}`)}>
                 {overviewCopy.goToSlides[locale]}
               </Link>
               {exampleHref ? (

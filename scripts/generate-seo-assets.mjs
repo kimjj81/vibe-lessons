@@ -3,6 +3,7 @@ import path from 'node:path';
 import { loadEnv } from 'vite';
 import { buildCanonicalUrl, normalizeBaseUrl } from '../src/seo/siteUrl.js';
 
+const SUPPORTED_LOCALES = ['ko', 'en'];
 const cwd = process.cwd();
 const env = loadEnv('production', cwd, '');
 const baseUrl = normalizeBaseUrl(env.VITE_SITE_BASE_URL || process.env.VITE_SITE_BASE_URL);
@@ -70,7 +71,10 @@ function renderRobots() {
 async function main() {
   const publicDir = path.join(cwd, 'public');
   const coursePaths = await getPublicCoursePaths();
-  const urls = ['/', ...coursePaths].map((routePath) => buildCanonicalUrl(routePath, baseUrl));
+  const urls = SUPPORTED_LOCALES.flatMap((locale) => {
+    const localizedRoot = `/${locale}/`;
+    return [localizedRoot, ...coursePaths.map((routePath) => `/${locale}${routePath}`)];
+  }).map((routePath) => buildCanonicalUrl(routePath, baseUrl));
 
   await mkdir(publicDir, { recursive: true });
   await writeFile(path.join(publicDir, 'robots.txt'), renderRobots(), 'utf8');
