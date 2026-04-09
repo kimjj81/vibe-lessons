@@ -13,6 +13,11 @@ export function normalizePathname(pathname = '/') {
   const [pathOnly] = String(pathname || '/').split(/[?#]/, 1);
   const withLeadingSlash = pathOnly.startsWith('/') ? pathOnly : `/${pathOnly}`;
   const collapsed = withLeadingSlash.replace(/\/{2,}/g, '/');
+
+  if (collapsed.length > 1 && collapsed.endsWith('/')) {
+    return collapsed.slice(0, -1);
+  }
+
   return collapsed || '/';
 }
 
@@ -29,7 +34,7 @@ export function stripLocaleFromPathname(pathname = '/') {
   }
 
   return {
-    locale: null,
+    locale: DEFAULT_LOCALE,
     pathname: normalizedPathname,
   };
 }
@@ -38,6 +43,10 @@ export function buildLocalizedPath(locale, pathname = '/') {
   const resolvedLocale = normalizeLocale(locale);
   const { pathname: barePath } = stripLocaleFromPathname(pathname);
 
+  if (resolvedLocale === DEFAULT_LOCALE) {
+    return barePath;
+  }
+
   if (barePath === '/') {
     return `/${resolvedLocale}/`;
   }
@@ -45,7 +54,7 @@ export function buildLocalizedPath(locale, pathname = '/') {
   return `/${resolvedLocale}${barePath}`;
 }
 
-export function switchLocalePath(pathname, nextLocale) {
+export function switchLocalePath(pathname = '/', nextLocale = DEFAULT_LOCALE) {
   const { pathname: barePath } = stripLocaleFromPathname(pathname);
   return buildLocalizedPath(nextLocale, barePath);
 }

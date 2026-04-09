@@ -2,12 +2,13 @@ import { useCourseDeck } from '../courses/CourseDeckContext';
 import { getCourseDetailBySlug } from '../course-details/registry';
 import { useLocale } from '../i18n/LocaleContext';
 import { pickLocalized } from '../i18n/localize';
+import { toGitHubExampleAssetHref } from '../utils/exampleLinks';
 
 export default function SlideExampleLink({ compact = false }) {
   const deck = useCourseDeck();
   const { locale } = useLocale();
   const detail = deck?.course ? getCourseDetailBySlug(deck.course.slug) : null;
-  const exampleHref = pickLocalized(detail?.practiceAssets?.[0]?.href, locale);
+  const exampleHref = toGitHubExampleAssetHref(pickLocalized(detail?.practiceAssets?.[0]?.href, locale));
 
   if (!exampleHref) return null;
 

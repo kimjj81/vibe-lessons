@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CourseDeckIsland from '../../../components/CourseDeckIsland.jsx';
+import { courseRegistry, getCourseBySlug } from '../../../courses/registry';
+import { getCourseDetailBySlug } from '../../../course-details/registry';
+import { getCourseStructuredData } from '../../../seo/structuredData';
+
+export function getStaticPaths() {
+  return courseRegistry
+    .filter((course) => course.status === 'live')
+    .map((course) => ({
+      params: {
+        slug: course.slug,
+      },
+    }));
+}
+
+const { slug } = Astro.params;
+const course = getCourseBySlug(slug);
+const detail = getCourseDetailBySlug(slug);
+const locale = 'en';
+const path = `/en/courses/${course.slug}`;
+const structuredData = [getCourseStructuredData({ site: Astro.site, course, detail, path, locale })];
+---
+
+<BaseLayout
+  bodyClass="course-deck-open"
+  description={course.description.en}
+  locale={locale}
+  path={path}
+  structuredData={structuredData}
+  title={course.title.en}
+>
+  <CourseDeckIsland client:load course={course} initialLocale={locale} initialPathname={path} />
+</BaseLayout>

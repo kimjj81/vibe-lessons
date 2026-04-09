@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import GaConsentBanner from './GaConsentBanner';
 import {
   consentStates,
@@ -12,9 +11,33 @@ import {
   trackPageView,
 } from '../analytics';
 
+function getWindowLocation() {
+  if (typeof window === 'undefined') {
+    return { pathname: '/', search: '' };
+  }
+
+  return {
+    pathname: window.location.pathname,
+    search: window.location.search,
+  };
+}
+
 export default function AnalyticsTracker() {
-  const location = useLocation();
-  const [consent, setConsent] = useState(() => getConsentState());
+  const [consent, setConsent] = useState(consentStates.unknown);
+
+  useEffect(() => {
+    setConsent(getConsentState());
+  }, []);
+
+  useEffect(() => {
+    if (!isGaEnabled || consent !== consentStates.granted) {
+      return;
+    }
+
+    initGoogleAnalytics();
+    enableAnalytics();
+    trackPageView(getWindowLocation());
+  }, [consent]);
 
   const handleAccept = () => {
     setConsentState(consentStates.granted);
@@ -26,16 +49,6 @@ export default function AnalyticsTracker() {
     setConsent(consentStates.denied);
     disableAnalytics();
   };
-
-  useEffect(() => {
-    if (!isGaEnabled || consent !== consentStates.granted) {
-      return;
-    }
-
-    initGoogleAnalytics();
-    enableAnalytics();
-    trackPageView(location);
-  }, [location, consent]);
 
   if (consent === consentStates.unknown) {
     return <GaConsentBanner onAccept={handleAccept} onDeny={handleDeny} />;

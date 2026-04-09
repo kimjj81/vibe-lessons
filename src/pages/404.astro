@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getNotFoundStructuredData } from '../seo/structuredData';
+
+const structuredData = [getNotFoundStructuredData({ site: Astro.site })];
+---
+
+<BaseLayout
+  description="요청한 페이지를 찾을 수 없습니다."
+  noindex={true}
+  path="/404"
+  structuredData={structuredData}
+  title="페이지를 찾을 수 없습니다"
+>
+  <main class="not-found-shell">
+    <div class="catalog-noise" />
+    <div class="not-found-panel">
+      <span class="catalog-eyebrow">Page Not Found</span>
+      <h1>찾는 페이지가 없습니다.</h1>
+      <p>요청한 경로에 대응하는 공개 페이지가 없습니다. 강의 목록에서 현재 공개된 강좌를 선택해 주세요.</p>
+      <a class="catalog-link" href="/">강의 목록으로 돌아가기</a>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+import CatalogPageIsland from '../../components/CatalogPageIsland.jsx';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { courseRegistry } from '../../courses/registry';
+import { getCatalogStructuredData } from '../../seo/structuredData';
+
+const locale = 'en';
+const path = '/en/';
+const structuredData = [getCatalogStructuredData({ site: Astro.site, courses: courseRegistry.filter((course) => course.status === 'live'), locale })];
+---
+
+<BaseLayout
+  description="A growing collection of practical development lectures, each delivered as a slide deck."
+  locale={locale}
+  path={path}
+  structuredData={structuredData}
+  title="Studio Jin Lecture Archive"
+>
+  <CatalogPageIsland client:load initialLocale={locale} initialPathname={path} />
+</BaseLayout>

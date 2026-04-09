@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CourseOverviewIsland from '../../../components/CourseOverviewIsland.jsx';
+import { courseRegistry, getCourseBySlug } from '../../../courses/registry';
+import { courseDetailRegistry, getCourseDetailBySlug } from '../../../course-details/registry';
+import { getCourseStructuredData } from '../../../seo/structuredData';
+
+export function getStaticPaths() {
+  return courseRegistry
+    .filter((course) => course.status === 'live' && courseDetailRegistry.some((detail) => detail.slug === course.slug))
+    .map((course) => ({
+      params: {
+        slug: course.slug,
+      },
+    }));
+}
+
+const { slug } = Astro.params;
+const course = getCourseBySlug(slug);
+const detail = getCourseDetailBySlug(slug);
+const locale = 'ko';
+const path = `/courses/${course.slug}/overview`;
+const structuredData = [getCourseStructuredData({ site: Astro.site, course, detail, path, locale })];
+---
+
+<BaseLayout
+  description={detail.hero.summary.ko}
+  locale={locale}
+  path={path}
+  structuredData={structuredData}
+  title={detail.hero.title.ko}
+>
+  <CourseOverviewIsland client:load course={course} detail={detail} initialLocale={locale} initialPathname={path} />
+</BaseLayout>

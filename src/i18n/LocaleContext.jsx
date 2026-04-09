@@ -1,22 +1,28 @@
-import { createContext, useContext, useEffect } from 'react';
-import { normalizeLocale } from './localeRouting';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { DEFAULT_LOCALE, normalizeLocale, normalizePathname } from './localeRouting';
 
 const LocaleContext = createContext(null);
 
-export function LocaleProvider({ children, locale }) {
-  const resolvedLocale = normalizeLocale(locale);
+export function LocaleProvider({ children, initialLocale = DEFAULT_LOCALE, initialPathname = '/' }) {
+  const [locale, setLocale] = useState(() => normalizeLocale(initialLocale));
+  const pathname = normalizePathname(initialPathname);
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
+    document.documentElement.lang = locale;
+  }, [locale]);
+
+  const setLocalePreference = (nextLocale) => {
+    const normalizedLocale = normalizeLocale(nextLocale);
+
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('studiojin-locale', normalizedLocale);
     }
 
-    window.localStorage.setItem('studiojin-locale', resolvedLocale);
-    document.documentElement.lang = resolvedLocale;
-  }, [resolvedLocale]);
+    setLocale(normalizedLocale);
+  };
 
   return (
-    <LocaleContext.Provider value={{ locale: resolvedLocale }}>
+    <LocaleContext.Provider value={{ locale, pathname, setLocalePreference }}>
       {children}
     </LocaleContext.Provider>
   );

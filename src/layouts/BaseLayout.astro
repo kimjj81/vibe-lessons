@@ -1,0 +1,82 @@
+---
+import '../styles/globals.css';
+import '../styles/theme.css';
+import AnalyticsTracker from '../components/AnalyticsTracker.jsx';
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES, buildLocalizedPath, stripLocaleFromPathname } from '../i18n/localeRouting';
+import { buildCanonicalUrl, DEFAULT_SITE_BASE_URL, normalizeBaseUrl } from '../seo/siteUrl.js';
+
+const {
+  title,
+  description,
+  path = '/',
+  locale = 'ko',
+  noindex = false,
+  structuredData = [],
+  bodyClass = '',
+} = Astro.props;
+
+const siteBaseUrl = normalizeBaseUrl(Astro.site?.toString() || DEFAULT_SITE_BASE_URL);
+const { pathname: barePath } = stripLocaleFromPathname(path);
+const canonicalPath = buildLocalizedPath(locale, barePath);
+const canonical = buildCanonicalUrl(canonicalPath, siteBaseUrl);
+const normalizedTitle = `${title} | Studio Jin`;
+const safeDescription = description?.trim() || 'Studio Jin 강의 아카이브';
+const robots = noindex ? 'noindex, follow' : 'index, follow';
+const ogLocale = locale === 'ko' ? 'ko_KR' : 'en_US';
+const alternateLinks = noindex
+  ? []
+  : SUPPORTED_LOCALES.map((alternateLocale) => ({
+    hreflang: alternateLocale,
+    href: buildCanonicalUrl(buildLocalizedPath(alternateLocale, barePath), siteBaseUrl),
+  }));
+const xDefaultHref = buildCanonicalUrl(buildLocalizedPath(DEFAULT_LOCALE, barePath), siteBaseUrl);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{normalizedTitle}</title>
+    <meta content={safeDescription} name="description" />
+    <meta content={robots} name="robots" />
+    <link href={canonical} rel="canonical" />
+    {alternateLinks.map((alternateLink) => (
+      <link
+        href={alternateLink.href}
+        hreflang={alternateLink.hreflang}
+        rel="alternate"
+      />
+    ))}
+    {!noindex ? <link href={xDefaultHref} hreflang="x-default" rel="alternate" /> : null}
+    <meta content="website" property="og:type" />
+    <meta content={normalizedTitle} property="og:title" />
+    <meta content={safeDescription} property="og:description" />
+    <meta content={canonical} property="og:url" />
+    <meta content={ogLocale} property="og:locale" />
+    {SUPPORTED_LOCALES
+      .filter((alternateLocale) => alternateLocale !== locale)
+      .map((alternateLocale) => (
+        <meta
+          content={alternateLocale === 'ko' ? 'ko_KR' : 'en_US'}
+          property="og:locale:alternate"
+        />
+      ))}
+    <meta content="summary" name="twitter:card" />
+    <meta content={normalizedTitle} name="twitter:title" />
+    <meta content={safeDescription} name="twitter:description" />
+    <link crossorigin rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    {structuredData.map((entry) => (
+      <script set:html={JSON.stringify(entry)} type="application/ld+json" />
+    ))}
+  </head>
+  <body class={bodyClass}>
+    <slot />
+    <AnalyticsTracker client:load />
+  </body>
+</html>

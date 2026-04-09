@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import NavDots from './NavDots';
 import { CourseDeckProvider } from '../courses/CourseDeckContext';
 import LocaleToggle from './LocaleToggle';
@@ -45,12 +44,13 @@ function findNearestScrollableAncestor(target, boundaryElement) {
 
 function CourseContact({ course }) {
   const { locale } = useLocale();
+  const catalogPath = buildLocalizedPath(locale, '/');
 
   return (
     <div className="course-contact">
-      <Link className="contact-link muted-link" to={buildLocalizedPath(locale, '/')}>
+      <a className="contact-link muted-link" href={catalogPath}>
         {locale === 'ko' ? '전체 강의' : 'All lectures'}
-      </Link>
+      </a>
       <span className="contact-divider" />
       <span className="contact-course">{pickLocalized(course.title, locale)}</span>
       <span className="contact-divider" />
@@ -81,23 +81,20 @@ function CourseContact({ course }) {
 
 function DeckChrome({ course, current, onGoto }) {
   const { locale } = useLocale();
-  const overviewPath = buildLocalizedPath(locale, `/courses/${course.slug}/overview`);
+  const catalogPath = buildLocalizedPath(locale, '/');
 
   return (
     <>
       <div className="deck-header">
         <div className="deck-header-main">
-          <Link className="deck-back-link deck-back-link-ghost" to={buildLocalizedPath(locale, '/')}>
+          <a className="deck-back-link deck-back-link-ghost" href={catalogPath}>
             {locale === 'ko' ? '강의 목록' : 'Lecture index'}
-          </Link>
+          </a>
           <div className="deck-header-copy">
             <span className="deck-subtitle">{pickLocalized(course.subtitle, locale)}</span>
           </div>
         </div>
         <div className="deck-header-actions">
-          <Link className="deck-back-link deck-back-link-ghost" to={overviewPath}>
-            {locale === 'ko' ? '강의 소개' : 'Overview'}
-          </Link>
           <SlideExampleLink compact />
           <LocaleToggle />
         </div>
@@ -123,6 +120,11 @@ export default function CourseDeck({ course }) {
   useEffect(() => {
     setCurrent(0);
   }, [course.slug]);
+
+  useEffect(() => {
+    document.body.classList.add('course-deck-open');
+    return () => document.body.classList.remove('course-deck-open');
+  }, []);
 
   useEffect(() => {
     const slides = deckRef.current?.querySelectorAll('.deck-slide');
@@ -194,11 +196,6 @@ export default function CourseDeck({ course }) {
           scrollRegion.scrollTop += e.deltaY;
           return;
         }
-
-        const isAtDeckBoundary = (direction < 0 && current === 0) || (direction > 0 && current === totalSlides - 1);
-        if (isAtDeckBoundary) {
-          return;
-        }
       }
 
       e.preventDefault();
@@ -208,12 +205,9 @@ export default function CourseDeck({ course }) {
       else prev();
     };
 
-    const deckElement = deckRef.current;
-    if (!deckElement) return undefined;
-
-    deckElement.addEventListener('wheel', handleWheel, { passive: false });
-    return () => deckElement.removeEventListener('wheel', handleWheel);
-  }, [current, getActiveScrollRegion, next, prev, totalSlides]);
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, [getActiveScrollRegion, next, prev]);
 
   useEffect(() => {
     const handleTouchStart = (e) => {
@@ -261,17 +255,14 @@ export default function CourseDeck({ course }) {
       else if (dy > 50) prev();
     };
 
-    const deckElement = deckRef.current;
-    if (!deckElement) return undefined;
-
-    deckElement.addEventListener('touchstart', handleTouchStart);
-    deckElement.addEventListener('touchmove', handleTouchMove, { passive: true });
-    deckElement.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd);
 
     return () => {
-      deckElement.removeEventListener('touchstart', handleTouchStart);
-      deckElement.removeEventListener('touchmove', handleTouchMove);
-      deckElement.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [getActiveScrollRegion, next, prev]);
 
@@ -291,14 +282,11 @@ export default function CourseDeck({ course }) {
       else if (dx > 50) prev();
     };
 
-    const deckElement = deckRef.current;
-    if (!deckElement) return undefined;
-
-    deckElement.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
 
     return () => {
-      deckElement.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [next, prev]);
