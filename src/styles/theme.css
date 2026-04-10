@@ -756,7 +756,7 @@
 
 .overview-shell {
   min-height: 100vh;
-  padding: 56px 28px 72px;
+  padding: 56px 28px 88px;
   position: relative;
   overflow-x: hidden;
   background:
@@ -768,7 +768,7 @@
 .overview-toolbar,
 .overview-hero,
 .overview-layout {
-  max-width: 1120px;
+  max-width: 820px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
@@ -785,79 +785,43 @@
 
 .overview-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
-  gap: 28px;
-  align-items: start;
-  padding: 34px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(6, 10, 20, 0.52);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
-  margin-bottom: 28px;
+  gap: 18px;
+  margin-bottom: 40px;
 }
 
 .overview-hero-copy {
   display: grid;
-  gap: 14px;
+  gap: 12px;
 }
 
 .overview-title {
-  font-size: clamp(2.8rem, 6vw, 5rem);
-  line-height: 0.94;
+  font-size: clamp(2.8rem, 6vw, 4.6rem);
+  line-height: 1.02;
   letter-spacing: -0.06em;
   color: #eff6ff;
+  margin: 0;
 }
 
 .overview-subtitle {
   color: color-mix(in srgb, var(--grad-start) 42%, #f8fafc 58%);
-  font-size: 1.08rem;
-  line-height: 1.75;
-  max-width: 44ch;
+  font-size: 1.12rem;
+  line-height: 1.8;
+  max-width: 56ch;
+  margin: 0;
 }
 
 .overview-summary,
 .overview-deliverable,
 .overview-card-copy,
-.overview-faq-card p {
+.overview-faq-item p {
   color: #94a3b8;
-  line-height: 1.8;
+  line-height: 1.9;
+  margin: 0;
 }
 
 .overview-deliverable {
   color: #e2e8f0;
-  max-width: 52ch;
-}
-
-.overview-hero-aside {
-  display: grid;
-  gap: 18px;
-}
-
-.overview-chip-grid {
-  display: grid;
-  gap: 12px;
-}
-
-.overview-chip-card,
-.overview-section,
-.overview-chapter-card,
-.overview-asset-card,
-.overview-faq-card,
-.overview-evidence-card,
-.overview-subcard {
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(8, 11, 24, 0.62);
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
-}
-
-.overview-chip-card {
-  padding: 18px 20px;
-  display: grid;
-  gap: 4px;
-}
-
-.overview-chip-card strong {
-  color: #f8fafc;
-  font-size: 1rem;
+  max-width: 60ch;
 }
 
 .overview-chip-label,
@@ -868,10 +832,37 @@
   text-transform: uppercase;
 }
 
+.overview-meta-list {
+  display: grid;
+  gap: 10px;
+  margin: 6px 0 0;
+}
+
+.overview-meta-row {
+  display: grid;
+  grid-template-columns: minmax(88px, 120px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+}
+
+.overview-meta-row dt {
+  color: rgba(125, 211, 252, 0.84);
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.overview-meta-row dd {
+  color: #e2e8f0;
+  margin: 0;
+  line-height: 1.7;
+}
+
 .overview-hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  margin-top: 4px;
 }
 
 .overview-link-primary {
@@ -880,33 +871,29 @@
 
 .overview-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
-  gap: 24px;
-}
-
-.overview-main,
-.overview-sidebar {
-  display: grid;
-  align-content: start;
-  gap: 18px;
+  gap: 36px;
 }
 
 .overview-section {
-  padding: 24px;
   display: grid;
-  gap: 18px;
+  gap: 16px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 .overview-section-head h2 {
   color: #f8fafc;
-  font-size: 1.18rem;
+  font-size: 1.24rem;
   letter-spacing: -0.03em;
+  margin: 0;
 }
 
 .overview-list {
   list-style: none;
   display: grid;
-  gap: 12px;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
 }
 
 .overview-list li {
@@ -926,72 +913,78 @@
   gap: 10px;
 }
 
-.overview-chapter-grid,
-.overview-assets-grid,
-.overview-evidence-grid,
+.overview-chapter-list,
+.overview-assets-list,
+.overview-evidence-list,
 .overview-faq-list {
   display: grid;
-  gap: 16px;
+  gap: 24px;
 }
 
-.overview-chapter-card,
-.overview-evidence-card,
-.overview-faq-card {
-  padding: 22px;
+.overview-chapter-item,
+.overview-evidence-item,
+.overview-faq-item,
+.overview-asset-item {
   display: grid;
   gap: 14px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.overview-chapter-list > :last-child,
+.overview-assets-list > :last-child,
+.overview-evidence-list > :last-child,
+.overview-faq-list > :last-child {
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .overview-chapter-head,
 .overview-asset-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
-.overview-chapter-card h3,
-.overview-asset-card h3,
-.overview-faq-card h3,
-.overview-evidence-card h3 {
+.overview-chapter-item h3,
+.overview-asset-item h3,
+.overview-faq-item h3,
+.overview-evidence-item h3 {
   color: #f8fafc;
   font-size: 1.12rem;
   line-height: 1.4;
+  margin: 0;
 }
 
-.overview-subgrid {
+.overview-chapter-details {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 18px;
 }
 
-.overview-subcard {
-  padding: 16px;
-  display: grid;
-  gap: 12px;
-}
-
-.overview-asset-card {
-  padding: 20px;
+.overview-detail-block {
   display: grid;
   gap: 12px;
+}
+
+.overview-asset-item {
   text-decoration: none;
-  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+  transition: color 0.18s ease, opacity 0.18s ease;
 }
 
-.overview-asset-card:hover,
-.overview-asset-card:focus-visible {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--grad-end) 38%, rgba(255,255,255,0.08));
-  background: rgba(12, 16, 30, 0.78);
+.overview-asset-item:hover,
+.overview-asset-item:focus-visible {
+  opacity: 0.92;
   outline: none;
 }
 
 .overview-evidence-image {
   width: 100%;
   display: block;
-  border-radius: 14px;
+  border-radius: 18px;
   background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .overview-code-block {
@@ -1297,12 +1290,6 @@
 }
 
 @media (max-width: 960px) {
-  .overview-hero,
-  .overview-layout,
-  .overview-subgrid {
-    grid-template-columns: 1fr;
-  }
-
   .overview-toolbar {
     align-items: flex-start;
     flex-direction: column;
@@ -1328,20 +1315,17 @@
     padding: 40px 18px 56px;
   }
 
-  .overview-hero {
-    padding: 24px 20px;
-  }
-
-  .overview-section,
-  .overview-chapter-card,
-  .overview-faq-card,
-  .overview-evidence-card,
-  .overview-asset-card {
-    padding: 18px;
+  .overview-layout {
+    gap: 30px;
   }
 
   .overview-title {
     font-size: clamp(2.4rem, 11vw, 3.4rem);
+  }
+
+  .overview-meta-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
 }
 

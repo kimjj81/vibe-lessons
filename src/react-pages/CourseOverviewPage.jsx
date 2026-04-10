@@ -37,6 +37,20 @@ export default function CourseOverviewPage({ course, detail }) {
   const exampleHref = toGitHubExampleAssetHref(pickLocalized(detail.practiceAssets[0]?.href, locale));
   const catalogPath = buildLocalizedPath(locale, '/');
   const deckPath = buildLocalizedPath(locale, `/courses/${course.slug}`);
+  const heroMeta = [
+    {
+      label: locale === 'ko' ? '난이도' : 'Difficulty',
+      value: pickLocalized(detail.difficulty, locale),
+    },
+    {
+      label: locale === 'ko' ? '예상 시간' : 'Estimated time',
+      value: pickLocalized(detail.estimatedTime, locale),
+    },
+    {
+      label: locale === 'ko' ? '구성' : 'Format',
+      value: locale === 'ko' ? `${course.slides.length}장 슬라이드` : `${course.slides.length}-slide deck`,
+    },
+  ];
   const overviewCopy = {
     eyebrow: {
       ko: 'Course Overview',
@@ -116,150 +130,136 @@ export default function CourseOverviewPage({ course, detail }) {
       </div>
 
       <section className="overview-hero">
+        <span className="catalog-eyebrow">{overviewCopy.eyebrow[locale]}</span>
         <div className="overview-hero-copy">
-          <span className="catalog-eyebrow">{overviewCopy.eyebrow[locale]}</span>
           <h1 className="overview-title">{pickLocalized(detail.hero.title, locale)}</h1>
           <p className="overview-subtitle">{pickLocalized(detail.hero.subtitle, locale)}</p>
-          <p className="overview-summary">{pickLocalized(detail.hero.summary, locale)}</p>
-          <p className="overview-deliverable">{pickLocalized(detail.hero.deliverable, locale)}</p>
         </div>
-
-        <aside className="overview-hero-aside">
-          <div className="overview-chip-grid">
-            <div className="overview-chip-card">
-              <span className="overview-chip-label">{locale === 'ko' ? '난이도' : 'Difficulty'}</span>
-              <strong>{pickLocalized(detail.difficulty, locale)}</strong>
+        <p className="overview-summary">{pickLocalized(detail.hero.summary, locale)}</p>
+        <p className="overview-deliverable">{pickLocalized(detail.hero.deliverable, locale)}</p>
+        <dl className="overview-meta-list">
+          {heroMeta.map((item) => (
+            <div key={item.label} className="overview-meta-row">
+              <dt>{item.label}</dt>
+              <dd>{item.value}</dd>
             </div>
-            <div className="overview-chip-card">
-              <span className="overview-chip-label">{locale === 'ko' ? '예상 시간' : 'Estimated time'}</span>
-              <strong>{pickLocalized(detail.estimatedTime, locale)}</strong>
-            </div>
-            <div className="overview-chip-card">
-              <span className="overview-chip-label">{locale === 'ko' ? '구성' : 'Format'}</span>
-              <strong>{overviewCopy.slidesMeta[locale]}</strong>
-            </div>
-          </div>
-
-          <div className="overview-hero-actions">
-            <a className="catalog-link overview-link-primary" href={deckPath}>
-              {overviewCopy.goToSlides[locale]}
+          ))}
+        </dl>
+        <div className="overview-hero-actions">
+          <a className="catalog-link overview-link-primary" href={deckPath}>
+            {overviewCopy.goToSlides[locale]}
+          </a>
+          {exampleHref ? (
+            <a
+              className="catalog-link overview-link-secondary"
+              href={exampleHref}
+              rel="noreferrer"
+              target="_blank"
+            >
+              {overviewCopy.openExample[locale]}
             </a>
-            {exampleHref ? (
-              <a
-                className="catalog-link overview-link-secondary"
-                href={exampleHref}
-                rel="noreferrer"
-                target="_blank"
-              >
-                {overviewCopy.openExample[locale]}
-              </a>
-            ) : null}
-          </div>
-        </aside>
+          ) : null}
+        </div>
       </section>
 
       <section className="overview-layout">
-        <div className="overview-main">
-          <OverviewSection title={overviewCopy.outcomes[locale]}>
-            <OverviewList items={detail.learningOutcomes} locale={locale} />
-          </OverviewSection>
+        <OverviewSection title={overviewCopy.audience[locale]}>
+          <OverviewList items={detail.audience} locale={locale} />
+        </OverviewSection>
 
-          <OverviewSection title={overviewCopy.chapters[locale]}>
-            <div className="overview-chapter-grid">
-              {detail.chapters.map((chapter, index) => (
-                <article key={pickLocalized(chapter.title, locale)} className="overview-chapter-card">
-                  <div className="overview-chapter-head">
-                    <span className="catalog-detail-index">{String(index + 1).padStart(2, '0')}</span>
-                    <span className="catalog-slide-meta">{pickLocalized(chapter.duration, locale)}</span>
+        <OverviewSection title={overviewCopy.prerequisites[locale]}>
+          <OverviewList items={detail.prerequisites} locale={locale} />
+        </OverviewSection>
+
+        <OverviewSection title={overviewCopy.outcomes[locale]}>
+          <OverviewList items={detail.learningOutcomes} locale={locale} />
+        </OverviewSection>
+
+        <OverviewSection title={overviewCopy.tools[locale]}>
+          <OverviewList items={detail.tools} locale={locale} />
+        </OverviewSection>
+
+        <OverviewSection title={overviewCopy.studyGuide[locale]}>
+          <OverviewList items={detail.studyGuide} locale={locale} />
+        </OverviewSection>
+
+        <OverviewSection title={overviewCopy.chapters[locale]}>
+          <div className="overview-chapter-list">
+            {detail.chapters.map((chapter, index) => (
+              <article key={pickLocalized(chapter.title, locale)} className="overview-chapter-item">
+                <div className="overview-chapter-head">
+                  <span className="catalog-detail-index">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="catalog-slide-meta">{pickLocalized(chapter.duration, locale)}</span>
+                </div>
+                <h3>{pickLocalized(chapter.title, locale)}</h3>
+                <p className="overview-card-copy">{pickLocalized(chapter.summary, locale)}</p>
+                <div className="overview-chapter-details">
+                  <div className="overview-detail-block">
+                    <span className="overview-subcard-label">{overviewCopy.learn[locale]}</span>
+                    <OverviewList items={chapter.learn} locale={locale} className="overview-list overview-list-tight" />
                   </div>
-                  <h3>{pickLocalized(chapter.title, locale)}</h3>
-                  <p className="overview-card-copy">{pickLocalized(chapter.summary, locale)}</p>
-                  <div className="overview-subgrid">
-                    <div className="overview-subcard">
-                      <span className="overview-subcard-label">{overviewCopy.learn[locale]}</span>
-                      <OverviewList items={chapter.learn} locale={locale} className="overview-list overview-list-tight" />
-                    </div>
-                    <div className="overview-subcard">
-                      <span className="overview-subcard-label">{overviewCopy.artifacts[locale]}</span>
-                      <OverviewList items={chapter.artifacts} locale={locale} className="overview-list overview-list-tight" />
-                    </div>
+                  <div className="overview-detail-block">
+                    <span className="overview-subcard-label">{overviewCopy.artifacts[locale]}</span>
+                    <OverviewList items={chapter.artifacts} locale={locale} className="overview-list overview-list-tight" />
                   </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </OverviewSection>
+
+        {detail.evidence?.length ? (
+          <OverviewSection title={overviewCopy.evidence[locale]}>
+            <div className="overview-evidence-list">
+              {detail.evidence.map((item) => (
+                <article key={pickLocalized(item.title, locale)} className="overview-evidence-item">
+                  <div className="overview-evidence-head">
+                    <h3>{pickLocalized(item.title, locale)}</h3>
+                    <p className="overview-card-copy">{pickLocalized(item.description, locale)}</p>
+                  </div>
+                  {item.type === 'image' ? (
+                    <img alt={pickLocalized(item.title, locale)} className="overview-evidence-image" src={item.src} />
+                  ) : (
+                    <pre className="overview-code-block">
+                      <code>{item.code}</code>
+                    </pre>
+                  )}
                 </article>
               ))}
             </div>
           </OverviewSection>
+        ) : null}
 
-          {detail.evidence?.length ? (
-            <OverviewSection title={overviewCopy.evidence[locale]}>
-              <div className="overview-evidence-grid">
-                {detail.evidence.map((item) => (
-                  <article key={pickLocalized(item.title, locale)} className="overview-evidence-card">
-                    <div className="overview-evidence-head">
-                      <h3>{pickLocalized(item.title, locale)}</h3>
-                      <p className="overview-card-copy">{pickLocalized(item.description, locale)}</p>
-                    </div>
-                    {item.type === 'image' ? (
-                      <img alt={pickLocalized(item.title, locale)} className="overview-evidence-image" src={item.src} />
-                    ) : (
-                      <pre className="overview-code-block">
-                        <code>{item.code}</code>
-                      </pre>
-                    )}
-                  </article>
-                ))}
-              </div>
-            </OverviewSection>
-          ) : null}
-
-          <OverviewSection title={overviewCopy.assets[locale]}>
-            <div className="overview-assets-grid">
-              {detail.practiceAssets.map((asset) => (
-                <a
-                  key={pickLocalized(asset.href, locale)}
-                  className="overview-asset-card"
-                  href={toGitHubExampleAssetHref(pickLocalized(asset.href, locale))}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <div className="overview-asset-head">
-                    <span className="catalog-pill">{pickLocalized(asset.type, locale)}</span>
-                  </div>
+        <OverviewSection title={overviewCopy.assets[locale]}>
+          <div className="overview-assets-list">
+            {detail.practiceAssets.map((asset) => (
+              <a
+                key={pickLocalized(asset.href, locale)}
+                className="overview-asset-item"
+                href={toGitHubExampleAssetHref(pickLocalized(asset.href, locale))}
+                rel="noreferrer"
+                target="_blank"
+              >
+                <div className="overview-asset-head">
                   <h3>{pickLocalized(asset.label, locale)}</h3>
-                  <p className="overview-card-copy">{pickLocalized(asset.description, locale)}</p>
-                </a>
-              ))}
-            </div>
-          </OverviewSection>
+                  <span className="catalog-pill">{pickLocalized(asset.type, locale)}</span>
+                </div>
+                <p className="overview-card-copy">{pickLocalized(asset.description, locale)}</p>
+              </a>
+            ))}
+          </div>
+        </OverviewSection>
 
-          <OverviewSection title={overviewCopy.faq[locale]}>
-            <div className="overview-faq-list">
-              {detail.faq.map((entry) => (
-                <article key={pickLocalized(entry.question, locale)} className="overview-faq-card">
-                  <h3>{pickLocalized(entry.question, locale)}</h3>
-                  <p>{pickLocalized(entry.answer, locale)}</p>
-                </article>
-              ))}
-            </div>
-          </OverviewSection>
-        </div>
-
-        <aside className="overview-sidebar">
-          <OverviewSection title={overviewCopy.audience[locale]}>
-            <OverviewList items={detail.audience} locale={locale} />
-          </OverviewSection>
-
-          <OverviewSection title={overviewCopy.prerequisites[locale]}>
-            <OverviewList items={detail.prerequisites} locale={locale} />
-          </OverviewSection>
-
-          <OverviewSection title={overviewCopy.tools[locale]}>
-            <OverviewList items={detail.tools} locale={locale} />
-          </OverviewSection>
-
-          <OverviewSection title={overviewCopy.studyGuide[locale]}>
-            <OverviewList items={detail.studyGuide} locale={locale} />
-          </OverviewSection>
-        </aside>
+        <OverviewSection title={overviewCopy.faq[locale]}>
+          <div className="overview-faq-list">
+            {detail.faq.map((entry) => (
+              <article key={pickLocalized(entry.question, locale)} className="overview-faq-item">
+                <h3>{pickLocalized(entry.question, locale)}</h3>
+                <p>{pickLocalized(entry.answer, locale)}</p>
+              </article>
+            ))}
+          </div>
+        </OverviewSection>
       </section>
     </main>
   );
