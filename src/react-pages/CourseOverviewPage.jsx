@@ -189,7 +189,6 @@ export default function CourseOverviewPage({ course, detail }) {
               <article key={pickLocalized(chapter.title, locale)} className="overview-chapter-item">
                 <div className="overview-chapter-head">
                   <span className="catalog-detail-index">{String(index + 1).padStart(2, '0')}</span>
-                  <span className="catalog-slide-meta">{pickLocalized(chapter.duration, locale)}</span>
                 </div>
                 <h3>{pickLocalized(chapter.title, locale)}</h3>
                 <p className="overview-card-copy">{pickLocalized(chapter.summary, locale)}</p>

@@ -14,12 +14,12 @@ export const cusdisDetail = {
       en: 'Build an end-to-end comment moderation flow with n8n, Gemini, and Cusdis.',
     },
     summary: {
-      ko: '블로그 댓글 운영을 자동화하고 싶은 초급자를 위한 실전 수업입니다. webhook 연결부터 AI 분석, 조건 분기, 승인 API 호출, 운영 체크리스트까지 한 번의 워크플로우로 엮습니다.',
-      en: 'A practical beginner-friendly course for automating blog comment operations, from webhook wiring and AI moderation to conditional routing, approval APIs, and ops checklists.',
+      ko: '블로그 댓글 운영을 자동화하고 싶은 초급자를 위한 실전 수업입니다. webhook 연결부터 n8n 트리거, Gemini 판정, 조건 분기, 승인 API 호출, 운영 체크리스트까지 전체 루프를 하나의 워크플로우로 엮으며, 자동화에서 가장 중요한 입력 계약과 실패 대응까지 함께 다룹니다.',
+      en: 'A practical beginner-friendly course for automating blog comment operations, covering the whole loop from webhook wiring and n8n triggers to Gemini classification, conditional routing, approval APIs, and operations checklists. It also emphasizes input contracts and failure handling, which are often the hardest parts for beginners.',
     },
     deliverable: {
-      ko: '결과물: 댓글이 들어오면 AI가 분석하고, 정상 댓글만 지연 후 자동 승인/답글하는 운영 워크플로우',
-      en: 'Deliverable: a production-minded workflow that analyzes, delays, approves, and replies to safe comments automatically.',
+      ko: '결과물: 댓글이 들어오면 AI가 분석하고, 정상 댓글만 지연 후 자동 승인/답글하는 운영 워크플로우, JSON 판정 계약, 후처리 코드, 승인 요청 예시, 배포 전 운영 체크리스트',
+      en: 'Deliverable: a production-minded workflow that analyzes, delays, approves, and replies to safe comments automatically, plus a JSON moderation contract, normalization code, approval request examples, and rollout checklists.',
     },
   },
   audience: [
@@ -28,8 +28,8 @@ export const cusdisDetail = {
       en: 'Solo builders or developers who currently moderate comments manually and need a first automation project.',
     },
     {
-      ko: 'n8n, webhook, API 개념을 실전 예제로 익히고 싶은 입문자',
-      en: 'Beginners who want to learn n8n, webhooks, and APIs through a concrete workflow.',
+      ko: 'n8n, webhook, API, JSON 개념을 실전 예제로 익히고 싶은 입문자',
+      en: 'Beginners who want to learn n8n, webhooks, APIs, and JSON through a concrete workflow.',
     },
     {
       ko: 'AI를 단순 챗봇이 아니라 운영 자동화의 판단 엔진으로 써 보고 싶은 수강생',
@@ -48,6 +48,10 @@ export const cusdisDetail = {
     {
       ko: 'Cusdis 사이트 설정 화면에 접근할 수 있으면 그대로 따라 하기 좋습니다.',
       en: 'Access to a Cusdis site settings screen helps you follow the workflow end to end.',
+    },
+    {
+      ko: 'AI가 항상 완벽하게 답하지 않는다는 전제를 받아들이고, 출력 계약을 강제하는 방식에 익숙해질 준비가 되어 있으면 좋습니다.',
+      en: 'It helps if you are ready to treat AI output as unreliable by default and learn how to enforce a stricter output contract.',
     },
   ],
   learningOutcomes: [
@@ -103,6 +107,10 @@ export const cusdisDetail = {
       ko: '실습할 때는 webhook 샘플과 JSON 계약 문서를 옆에 두고 따라오면 흐름이 훨씬 빨리 잡힙니다.',
       en: 'Keep the webhook sample and JSON contract beside you while practicing; they anchor the whole flow.',
     },
+    {
+      ko: '처음에는 완벽한 자동 승인보다 입력 구조와 분기 흐름을 안정시키는 데 집중하는 것이 좋습니다.',
+      en: 'At first, focus on stabilizing the incoming payload and branching rules rather than chasing a fully polished auto-approval flow.',
+    },
   ],
   chapters: [
     {
@@ -111,12 +119,8 @@ export const cusdisDetail = {
         en: 'Setup and understand the full flow',
       },
       summary: {
-        ko: 'Cusdis, n8n, Cloudflare Tunnel의 역할을 분리해 보고 자동화가 어떤 경로로 움직이는지 먼저 잡습니다.',
-        en: 'Clarify the roles of Cusdis, n8n, and Cloudflare Tunnel before touching the workflow details.',
-      },
-      duration: {
-        ko: '20분',
-        en: '20m',
+        ko: 'Cusdis, n8n, Cloudflare Tunnel이 각각 어떤 책임을 지는지 먼저 분리해서 보고 자동화가 전체적으로 어떤 경로를 따라 움직이는지 파악합니다. 도구의 역할이 보이면 이후 노드 설정이 훨씬 덜 복잡해집니다.',
+        en: 'Clarify the roles of Cusdis, n8n, and Cloudflare Tunnel before touching the workflow details. Once those boundaries are visible, the later node-level setup becomes much easier to reason about.',
       },
       learn: [
         {
@@ -128,8 +132,8 @@ export const cusdisDetail = {
           en: 'A realistic decision rule for n8n Cloud vs self-hosted',
         },
         {
-          ko: 'Webhook을 받기 위한 공개 주소 구성',
-          en: 'How to expose a public URL for incoming webhooks',
+          ko: 'Webhook을 받기 위한 공개 주소 구성이 왜 필요한지',
+          en: 'Why you need a public URL before incoming webhooks can work',
         },
       ],
       artifacts: [
@@ -149,12 +153,8 @@ export const cusdisDetail = {
         en: 'Create the webhook trigger',
       },
       summary: {
-        ko: 'Cusdis에서 댓글 이벤트를 보내고, n8n Webhook 노드가 그 이벤트를 받는 첫 관문을 완성합니다.',
-        en: 'Connect Cusdis comment events to the first Webhook node in n8n.',
-      },
-      duration: {
-        ko: '15분',
-        en: '15m',
+        ko: 'Cusdis에서 댓글 이벤트를 보내고, n8n Webhook 노드가 그 이벤트를 받는 첫 관문을 완성합니다. 자동화에서 가장 먼저 봐야 할 것은 입력 구조라는 점을 실제 예제로 익히는 단계입니다.',
+        en: 'Connect Cusdis comment events to the first Webhook node in n8n. This chapter reinforces the rule that the incoming payload is the first thing you must understand in any automation flow.',
       },
       learn: [
         {
@@ -179,12 +179,8 @@ export const cusdisDetail = {
         en: 'Gemini analysis and JS normalization',
       },
       summary: {
-        ko: 'AI가 항상 같은 형식으로 결과를 반환하도록 JSON 계약을 강제하고, 실패 가능성을 고려한 후처리 코드를 붙입니다.',
-        en: 'Force the AI into a strict JSON contract and normalize it with defensive JavaScript.',
-      },
-      duration: {
-        ko: '30분',
-        en: '30m',
+        ko: 'AI가 항상 같은 형식으로 결과를 반환하도록 JSON 계약을 강제하고, 실패 가능성을 고려한 후처리 코드를 붙입니다. 모델을 연결하는 것보다 모델 출력을 기계가 소비할 수 있는 데이터로 바꾸는 데 초점을 맞춥니다.',
+        en: 'Force the AI into a strict JSON contract and normalize it with defensive JavaScript. The focus is less on connecting the model and more on turning model output into machine-consumable data.',
       },
       learn: [
         {
@@ -213,12 +209,8 @@ export const cusdisDetail = {
         en: 'Conditional routing and approval API',
       },
       summary: {
-        ko: '정상 댓글만 다음 단계로 보내고, 사람이 쓴 것처럼 보이는 지연 후 승인/답글 요청을 전송합니다.',
-        en: 'Route only safe comments forward, wait for a natural delay, then send approval and reply requests.',
-      },
-      duration: {
-        ko: '25분',
-        en: '25m',
+        ko: '정상 댓글만 다음 단계로 보내고, 사람이 쓴 것처럼 보이는 지연 후 승인/답글 요청을 전송합니다. 자동화의 속도와 운영 리듬, 안전성을 한 번에 맞추는 핵심 챕터입니다.',
+        en: 'Route only safe comments forward, wait for a natural delay, then send approval and reply requests. This is the chapter where speed, safety, and human-like operating rhythm meet in one workflow.',
       },
       learn: [
         {
@@ -251,12 +243,8 @@ export const cusdisDetail = {
         en: 'Ops review and extension ideas',
       },
       summary: {
-        ko: '워크플로우를 공개 환경에 둘 때 필요한 실패 대응 포인트와 다음 단계 자동화 아이디어를 정리합니다.',
-        en: 'Review the failure points, rollout checks, and next automation ideas needed for production.',
-      },
-      duration: {
-        ko: '10분',
-        en: '10m',
+        ko: '워크플로우를 공개 환경에 둘 때 필요한 실패 대응 포인트와 다음 단계 자동화 아이디어를 정리합니다. 자동화를 완성하는 것보다 안전하게 운영하는 법을 배우는 마무리 단계입니다.',
+        en: 'Review the failure points, rollout checks, and next automation ideas needed for production. The closing emphasis is not just on finishing the workflow, but on operating it safely.',
       },
       learn: [
         {
@@ -393,8 +381,8 @@ export const cusdisDetail = {
         en: 'Can I follow this without being strong in code yet?',
       },
       answer: {
-        ko: '가능합니다. 핵심은 webhook, JSON, 조건 분기라는 세 가지 개념을 실제 흐름에서 보는 것입니다. 자바스크립트 예제도 길지 않고 목적이 분명합니다.',
-        en: 'Yes. The main goal is to see webhooks, JSON, and branching in a real flow. The JavaScript examples stay short and purpose-driven.',
+        ko: '가능합니다. 핵심은 webhook, JSON, 조건 분기라는 세 가지 개념을 실제 흐름에서 보는 것입니다. 자바스크립트 예제도 길지 않고 목적이 분명해서 초급자도 구조를 이해하기 좋습니다.',
+        en: 'Yes. The main goal is to see webhooks, JSON, and branching in a real flow. The JavaScript examples stay short and purpose-driven, so beginners can focus on the structure rather than language complexity.',
       },
     },
     {
@@ -403,8 +391,8 @@ export const cusdisDetail = {
         en: 'Can I practice without n8n Cloud?',
       },
       answer: {
-        ko: '가능합니다. self-hosted n8n과 Cloudflare Tunnel 조합으로도 전체 흐름을 재현할 수 있으며, 강의 안에서 그 경로를 함께 설명합니다.',
-        en: 'Yes. A self-hosted n8n instance plus Cloudflare Tunnel is enough to reproduce the full workflow, and the course covers that path.',
+        ko: '가능합니다. self-hosted n8n과 Cloudflare Tunnel 조합으로도 전체 흐름을 재현할 수 있으며, 강의 안에서 그 경로를 함께 설명합니다. 초급자에게는 왜 Cloud가 빠르고 self-host가 더 많은 책임을 요구하는지도 비교해 줍니다.',
+        en: 'Yes. A self-hosted n8n instance plus Cloudflare Tunnel is enough to reproduce the full workflow, and the course covers that path. It also explains why Cloud is faster to start with while self-hosting shifts more responsibility to you.',
       },
     },
     {
@@ -413,8 +401,8 @@ export const cusdisDetail = {
         en: 'Is auto-approval too risky?',
       },
       answer: {
-        ko: '그래서 이 강의는 JSON 계약, 분기 조건, 랜덤 지연, 운영 체크리스트를 함께 다룹니다. 무조건 승인보다 안전한 운영 루프를 설계하는 것이 목표입니다.',
-        en: 'That is exactly why the course includes JSON contracts, branching rules, random delay, and an ops checklist. The goal is a safer moderation loop, not blind auto-approval.',
+        ko: '그래서 이 강의는 JSON 계약, 분기 조건, 랜덤 지연, 운영 체크리스트를 함께 다룹니다. 무조건 승인하는 것이 아니라, 안전한 댓글만 통과시키고 문제 발생 시 수동 운영으로 되돌릴 수 있는 루프를 설계하는 것이 목표입니다.',
+        en: 'That is exactly why the course includes JSON contracts, branching rules, random delay, and an ops checklist. The goal is not blind approval, but a moderation loop that filters aggressively and still leaves you a manual fallback path.',
       },
     },
   ],

@@ -10,12 +10,12 @@ export const cmsArchitectureDetail = {
       en: 'Compare Monolithic, Headless, SaaS Embed, and Self-hosted choices through a real service-ops lens.',
     },
     summary: {
-      ko: '콘텐츠를 어디서 관리하고, 어떤 기능을 외부 서비스에 위임하며, 캐시와 권한은 어떻게 설계해야 하는지 입문자 눈높이로 정리한 구조 설계 강의입니다.',
-      en: 'A structural design course for beginners on where content lives, which features to outsource, and how cache and permissions shape the system.',
+      ko: '콘텐츠를 어디서 관리하고, 어떤 기능을 외부 서비스에 위임하며, 캐시와 권한은 어떻게 설계해야 하는지 입문자 눈높이로 정리한 구조 설계 강의입니다. Monolithic, Headless, SaaS Embed, Self-hosted를 비교하는 데서 멈추지 않고 데이터 모델과 운영 체크리스트까지 내려옵니다.',
+      en: 'A structural design course for beginners on where content lives, which features to outsource, and how cache and permissions shape the system. It goes beyond pattern comparison and carries the discussion down into data models and operating checklists.',
     },
     deliverable: {
-      ko: '결과물: 내 서비스에 맞는 CMS 구조 선택표, 데이터 모델 초안, 캐시/권한 운영 체크리스트',
-      en: 'Deliverable: a CMS decision matrix, an initial content model, and cache/permission operating checklists for your product.',
+      ko: '결과물: 내 서비스에 맞는 CMS 구조 선택표, 최소 콘텐츠 모델 초안, 역할/권한 메모, 캐시 무효화 흐름 문서, 구현 전 운영 체크리스트',
+      en: 'Deliverable: a CMS decision matrix, a minimum content model, role/permission notes, a cache invalidation flow note, and implementation checklists for your product.',
     },
   },
   audience: [
@@ -40,6 +40,10 @@ export const cmsArchitectureDetail = {
     {
       ko: 'REST API, 캐시, 역할 기반 권한 같은 용어를 처음 들어도 괜찮습니다. 강의 안에서 함께 정의합니다.',
       en: 'You do not need prior confidence with terms like REST API, cache, or RBAC; the course defines them as it goes.',
+    },
+    {
+      ko: '자신의 서비스 아이디어가 하나쯤 있으면 비교 기준을 실제 문제에 적용해 보기에 좋습니다.',
+      en: 'It helps to have a product idea of your own so you can apply the framework to a real scenario while learning.',
     },
   ],
   learningOutcomes: [
@@ -91,6 +95,10 @@ export const cmsArchitectureDetail = {
       ko: '본인 서비스가 있다면 댓글, 검색, 분석, 권한 중 무엇을 직접 운영하고 싶은지 먼저 적어 놓고 들으면 결정 기준이 선명해집니다.',
       en: 'If you already have a product idea, list which of comments, search, analytics, and permissions you want to own directly before starting.',
     },
+    {
+      ko: '이 강좌는 정답을 외우는 과목이 아니라 질문을 정리하는 과목에 가깝기 때문에, 챕터마다 “누가 무엇을 책임지는가”를 메모해 두는 것이 좋습니다.',
+      en: 'This course is closer to a question-building exercise than a memorization exercise, so it helps to keep writing down who owns what as you move through each chapter.',
+    },
   ],
   chapters: [
     {
@@ -99,12 +107,8 @@ export const cmsArchitectureDetail = {
         en: 'Establish the architecture lenses',
       },
       summary: {
-        ko: 'Monolithic vs Headless, SaaS vs Self-hosted를 각각 다른 축으로 보고 혼동을 줄입니다.',
-        en: 'Separate Monolithic vs Headless from SaaS vs Self-hosted so the comparison becomes easier to reason about.',
-      },
-      duration: {
-        ko: '25분',
-        en: '25m',
+        ko: 'Monolithic vs Headless, SaaS vs Self-hosted를 각각 다른 비교 축으로 보고 혼동을 줄입니다. 구조의 차이와 운영 방식의 차이를 나눠 보면 책임 경계가 훨씬 선명해집니다.',
+        en: 'Separate Monolithic vs Headless from SaaS vs Self-hosted so the comparison becomes easier to reason about. Once structure and operating model are split apart, responsibility boundaries become much clearer.',
       },
       learn: [
         {
@@ -129,12 +133,8 @@ export const cmsArchitectureDetail = {
         en: 'Read the core patterns and product groups',
       },
       summary: {
-        ko: '각 패턴의 장단점뿐 아니라 어떤 조직 조건에서 먼저 후보가 되는지도 함께 봅니다.',
-        en: 'Go beyond pros and cons and learn when each pattern should become a first candidate.',
-      },
-      duration: {
-        ko: '35분',
-        en: '35m',
+        ko: '각 패턴의 장단점뿐 아니라 어떤 조직 조건에서 먼저 후보가 되는지도 함께 봅니다. 제품 기능보다 팀 역량, 채널 수, 데이터 통제권 같은 현실 조건과 연결해서 읽는 법을 다룹니다.',
+        en: 'Go beyond pros and cons and learn when each pattern should become a first candidate. The chapter ties those patterns to practical constraints like team strength, number of channels, and data control requirements.',
       },
       learn: [
         {
@@ -159,12 +159,8 @@ export const cmsArchitectureDetail = {
         en: 'Decision framework and combination recipes',
       },
       summary: {
-        ko: '팀 규모, 데이터 민감도, 운영 역량, 비용 구조에 따라 어떤 조합을 추천할지 정리합니다.',
-        en: 'Choose practical stack combinations based on team size, data sensitivity, ops strength, and cost shape.',
-      },
-      duration: {
-        ko: '30분',
-        en: '30m',
+        ko: '팀 규모, 데이터 민감도, 운영 역량, 비용 구조에 따라 어떤 조합을 추천할지 정리합니다. 현실의 서비스는 순수한 한 가지 패턴보다 혼합 구성이 더 많기 때문에 기능별 책임 분리가 핵심이 됩니다.',
+        en: 'Choose practical stack combinations based on team size, data sensitivity, ops strength, and cost shape. Real services often end up hybrid, so the key is to decide responsibility boundaries feature by feature.',
       },
       learn: [
         {
@@ -189,12 +185,8 @@ export const cmsArchitectureDetail = {
         en: 'Implementation essentials: data, permissions, cache',
       },
       summary: {
-        ko: '리비전, RBAC, 감사로그, 캐시 무효화 흐름을 실제 구현 단위로 묶어 봅니다.',
-        en: 'Connect revisions, RBAC, audit logs, and cache invalidation as implementation-level concerns.',
-      },
-      duration: {
-        ko: '35분',
-        en: '35m',
+        ko: '리비전, RBAC, 감사로그, 캐시 무효화 흐름을 실제 구현 단위로 묶어 봅니다. 설계를 코드 직전 단계까지 내려와 “발행 후 화면이 언제 바뀌는가” 같은 질문에 답할 수 있게 만드는 챕터입니다.',
+        en: 'Connect revisions, RBAC, audit logs, and cache invalidation as implementation-level concerns. The chapter brings architecture down close enough to implementation that you can answer questions like when published changes actually become visible.',
       },
       learn: [
         {
@@ -231,12 +223,8 @@ export const cmsArchitectureDetail = {
         en: 'Ops, security, and scale strategy',
       },
       summary: {
-        ko: '댓글 승인 큐, 대용량 업로드, 장애 복구, 관측성을 어떤 순서로 붙이면 좋은지 정리합니다.',
-        en: 'Review how moderation queues, large uploads, disaster recovery, and observability fit into the operating model.',
-      },
-      duration: {
-        ko: '15분',
-        en: '15m',
+        ko: '댓글 승인 큐, 대용량 업로드, 장애 복구, 관측성을 어떤 순서로 붙이면 좋은지 정리합니다. CMS가 단순 편집기가 아니라 입력, 권한, 미디어, 외부 스크립트가 얽힌 시스템이라는 점을 운영 관점에서 마무리합니다.',
+        en: 'Review how moderation queues, large uploads, disaster recovery, and observability fit into the operating model. The chapter closes by treating a CMS as an operational system with input, permissions, media, and external scripts, not just an editor UI.',
       },
       learn: [
         {
@@ -373,8 +361,8 @@ export const cmsArchitectureDetail = {
         en: 'Is this a product-comparison course or an implementation course?',
       },
       answer: {
-        ko: '둘 다를 연결합니다. 제품/패턴 비교에서 끝나지 않고, 데이터 모델과 운영 체크리스트까지 내려와서 설계가 코드 직전 상태가 되도록 돕습니다.',
-        en: 'It bridges both. You start with pattern/product comparison and end with data and ops artifacts that are close to implementation.',
+        ko: '둘 다를 연결합니다. 제품/패턴 비교에서 끝나지 않고, 데이터 모델과 운영 체크리스트까지 내려와서 설계가 코드 직전 상태가 되도록 돕습니다. 비교와 구현 사이의 빈칸을 메우는 강의라고 보는 편이 맞습니다.',
+        en: 'It bridges both. You start with pattern/product comparison and end with data and ops artifacts that are close to implementation. It is best understood as a course that fills the gap between comparison and build-ready design.',
       },
     },
     {
@@ -383,8 +371,8 @@ export const cmsArchitectureDetail = {
         en: 'Is this too abstract for beginners?',
       },
       answer: {
-        ko: '그래서 용어 정의, 비유, 선택 질문, JSON 예시를 함께 넣었습니다. 강의가 끝나면 “어떤 구조를 왜 택하는가”를 말로 설명할 수 있게 만드는 데 초점을 둡니다.',
-        en: 'That is why the course includes glossary-style definitions, analogies, decision prompts, and JSON examples. The goal is to make the architecture explainable in plain language.',
+        ko: '그래서 용어 정의, 선택 질문, JSON 예시, 운영 체크리스트를 함께 넣었습니다. 강의가 끝나면 “어떤 구조를 왜 택하는가”를 말로 설명할 수 있게 만드는 데 초점을 둡니다.',
+        en: 'That is why the course includes glossary-style definitions, decision prompts, JSON examples, and operating checklists. The goal is to make the architecture explainable in plain language.',
       },
     },
     {
@@ -393,8 +381,8 @@ export const cmsArchitectureDetail = {
         en: 'Is there a single correct stack?',
       },
       answer: {
-        ko: '없습니다. 팀 역량, 데이터 민감도, 비용 구조, 속도 요구가 다르면 최적 선택도 달라집니다. 이 강좌는 그 판단 기준을 만드는 쪽에 가깝습니다.',
-        en: 'No. Team strength, data sensitivity, cost shape, and speed requirements all change the answer. This course is about building the decision rule.',
+        ko: '없습니다. 팀 역량, 데이터 민감도, 비용 구조, 속도 요구가 다르면 최적 선택도 달라집니다. 이 강좌는 정답을 주기보다, 어떤 질문을 해야 하는지와 어떤 책임을 어디에 둘지 정하는 기준을 만드는 쪽에 가깝습니다.',
+        en: 'No. Team strength, data sensitivity, cost shape, and speed requirements all change the answer. This course is less about a single answer and more about building the decision rule and ownership map.',
       },
     },
   ],
