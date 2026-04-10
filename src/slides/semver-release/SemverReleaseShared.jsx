@@ -33,8 +33,82 @@ function dialogStyle() {
   };
 }
 
+function escapeHtml(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+function applyHighlightRules(content, rules) {
+  let html = escapeHtml(content);
+
+  for (const { pattern, replacer } of rules) {
+    html = html.replace(pattern, replacer);
+  }
+
+  return html;
+}
+
+function highlightCode(content, language = '') {
+  const normalized = language.toLowerCase();
+
+  const sharedStringRule = {
+    pattern: /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)/g,
+    replacer: '<span style="color:#f9a8d4;">$1</span>',
+  };
+  const sharedNumberRule = {
+    pattern: /\b(\d+(?:\.\d+)?)\b/g,
+    replacer: '<span style="color:#fca5a5;">$1</span>',
+  };
+
+  if (normalized === 'yaml' || normalized === 'yml') {
+    return applyHighlightRules(content, [
+      { pattern: /(^|\n)(\s*#.*?)(?=\n|$)/g, replacer: '$1<span style="color:#94a3b8;">$2</span>' },
+      { pattern: /(^|\n)(\s*)([\w.-]+:)/g, replacer: '$1$2<span style="color:#67e8f9;">$3</span>' },
+      { pattern: /(\$\{\{[^}]+\}\})/g, replacer: '<span style="color:#c4b5fd;">$1</span>' },
+      sharedStringRule,
+      sharedNumberRule,
+      { pattern: /\b(true|false|null)\b/g, replacer: '<span style="color:#fde68a;">$1</span>' },
+    ]);
+  }
+
+  if (normalized === 'javascript' || normalized === 'js') {
+    return applyHighlightRules(content, [
+      { pattern: /(\/\/.*?$)/gm, replacer: '<span style="color:#94a3b8;">$1</span>' },
+      {
+        pattern: /\b(import|from|const|let|var|async|await|return|throw|if|else|try|catch|new|function)\b/g,
+        replacer: '<span style="color:#67e8f9;">$1</span>',
+      },
+      { pattern: /\b(fetch|JSON|stringify|trim|join|writeFile|console|log)\b/g, replacer: '<span style="color:#c4b5fd;">$1</span>' },
+      { pattern: /(\$\{[^}]+\})/g, replacer: '<span style="color:#fde68a;">$1</span>' },
+      sharedStringRule,
+      sharedNumberRule,
+      { pattern: /\b(true|false|null|undefined)\b/g, replacer: '<span style="color:#fde68a;">$1</span>' },
+    ]);
+  }
+
+  if (normalized === 'bash' || normalized === 'shell' || normalized === 'sh') {
+    return applyHighlightRules(content, [
+      { pattern: /(^|\n)(\s*#.*?)(?=\n|$)/g, replacer: '$1<span style="color:#94a3b8;">$2</span>' },
+      { pattern: /\b(git|gh|curl|jq|node|npm|echo|set)\b/g, replacer: '<span style="color:#67e8f9;">$1</span>' },
+      { pattern: /(\$\{[^}]+\}|\$[A-Z_][A-Z0-9_]*)/g, replacer: '<span style="color:#c4b5fd;">$1</span>' },
+      sharedStringRule,
+      sharedNumberRule,
+    ]);
+  }
+
+  return escapeHtml(content);
+}
+
 function Modal({ modal, onClose }) {
   const { locale } = useLocale();
+  const [copied, setCopied] = useState(false);
+
+  const highlightedCode = useMemo(
+    () => highlightCode(modal.content, modal.language),
+    [modal.content, modal.language],
+  );
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -50,6 +124,16 @@ function Modal({ modal, onClose }) {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose]);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(modal.content);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      setCopied(false);
+    }
+  };
 
   return (
     <div data-ui-modal="open" onClick={onClose} role="presentation" style={overlayStyle()}>
@@ -91,27 +175,46 @@ function Modal({ modal, onClose }) {
               </p>
             ) : null}
           </div>
-          <button
-            onClick={onClose}
-            style={{
-              border: '1px solid rgba(125, 211, 252, 0.24)',
-              background: 'rgba(15, 23, 42, 0.65)',
-              color: '#ecfeff',
-              borderRadius: '999px',
-              padding: '10px 16px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-            }}
-            type="button"
-          >
-            {locale === 'ko' ? '닫기' : 'Close'}
-          </button>
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <button
+              onClick={handleCopy}
+              style={{
+                border: '1px solid rgba(94, 234, 212, 0.24)',
+                background: 'rgba(6, 78, 59, 0.48)',
+                color: '#d1fae5',
+                borderRadius: '999px',
+                padding: '10px 16px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+              type="button"
+            >
+              {copied ? (locale === 'ko' ? '복사됨' : 'Copied') : (locale === 'ko' ? '클립보드 복사' : 'Copy code')}
+            </button>
+            <button
+              onClick={onClose}
+              style={{
+                border: '1px solid rgba(125, 211, 252, 0.24)',
+                background: 'rgba(15, 23, 42, 0.65)',
+                color: '#ecfeff',
+                borderRadius: '999px',
+                padding: '10px 16px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+              type="button"
+            >
+              {locale === 'ko' ? '닫기' : 'Close'}
+            </button>
+          </div>
         </div>
         <div
           style={{
             overflow: 'auto',
             padding: '22px 26px 26px',
+            minHeight: 0,
           }}
         >
           {modal.language ? (
@@ -131,23 +234,32 @@ function Modal({ modal, onClose }) {
               {modal.language}
             </div>
           ) : null}
-          <pre
+          <div
             style={{
-              margin: 0,
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word',
-              fontFamily: '"Space Grotesk", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-              fontSize: '0.86rem',
-              lineHeight: 1.6,
-              color: '#dbeafe',
               background: 'rgba(2, 6, 23, 0.7)',
               border: '1px solid rgba(125, 211, 252, 0.12)',
               borderRadius: '18px',
-              padding: '18px 20px',
+              maxHeight: 'min(58vh, 640px)',
+              overflow: 'auto',
+              minHeight: 0,
             }}
           >
-            <code>{modal.content}</code>
-          </pre>
+            <pre
+              style={{
+                margin: 0,
+                minWidth: 'max-content',
+                padding: '18px 20px',
+                whiteSpace: 'pre',
+                wordBreak: 'normal',
+                fontFamily: '"Space Grotesk", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                fontSize: '0.86rem',
+                lineHeight: 1.6,
+                color: '#dbeafe',
+              }}
+            >
+              <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+            </pre>
+          </div>
         </div>
       </div>
     </div>
