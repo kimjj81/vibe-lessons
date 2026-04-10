@@ -5,6 +5,27 @@ import { buildLocalizedPath } from '../i18n/localeRouting';
 import { pickLocalized } from '../i18n/localize';
 import { toGitHubExampleAssetHref } from '../utils/exampleLinks';
 
+let mermaidModulePromise = null;
+let mermaidRenderSequence = 0;
+
+function loadMermaid() {
+  if (!mermaidModulePromise) {
+    mermaidModulePromise = import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs')
+      .then((module) => {
+        const mermaid = module.default ?? module;
+        mermaid.initialize({
+          startOnLoad: false,
+          securityLevel: 'loose',
+          theme: 'dark',
+          fontFamily: 'Space Grotesk, ui-sans-serif, system-ui',
+        });
+        return mermaid;
+      });
+  }
+
+  return mermaidModulePromise;
+}
+
 function localizeItems(items = [], locale) {
   return items.map((item) => pickLocalized(item, locale));
 }
@@ -25,6 +46,14 @@ function inferPreviewLanguage(href = '') {
   if (href.endsWith('.js')) return 'javascript';
   if (href.endsWith('.md')) return 'markdown';
   return 'text';
+}
+
+function countLines(content = '') {
+  return content.replace(/\r\n/g, '\n').split('\n').length;
+}
+
+function isInlineExample(content = '') {
+  return countLines(content) <= 10;
 }
 
 function renderInlineMarkdown(text, keyPrefix) {
@@ -147,7 +176,14 @@ function parseMarkdown(content) {
 
     const paragraphLines = [line];
     index += 1;
-    while (index < lines.length && lines[index].trim() && !/^#{1,6}\s/.test(lines[index]) && !lines[index].startsWith('```') && !/^[-*]\s+/.test(lines[index]) && !/^\d+\.\s+/.test(lines[index])) {
+    while (
+      index < lines.length &&
+      lines[index].trim() &&
+      !/^#{1,6}\s/.test(lines[index]) &&
+      !lines[index].startsWith('```') &&
+      !/^[-*]\s+/.test(lines[index]) &&
+      !/^\d+\.\s+/.test(lines[index])
+    ) {
       if (lines[index].includes('|') && index + 1 < lines.length && /^\s*\|?[\s:-]+(\|[\s:-]+)+\|?\s*$/.test(lines[index + 1])) {
         break;
       }
@@ -158,6 +194,55 @@ function parseMarkdown(content) {
   }
 
   return blocks;
+}
+
+function MermaidBlock({ code }) {
+  const [state, setState] = useState({ status: 'loading', svg: '', error: '' });
+
+  useEffect(() => {
+    let cancelled = false;
+    const renderId = `overview-mermaid-${mermaidRenderSequence++}`;
+
+    setState({ status: 'loading', svg: '', error: '' });
+
+    loadMermaid()
+      .then(async (mermaid) => {
+        const result = await mermaid.render(renderId, code);
+        if (!cancelled) {
+          setState({ status: 'ready', svg: result.svg, error: '' });
+        }
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          setState({ status: 'error', svg: '', error: error.message });
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [code]);
+
+  if (state.status === 'ready') {
+    return <div className="overview-diagram" dangerouslySetInnerHTML={{ __html: state.svg }} />;
+  }
+
+  if (state.status === 'error') {
+    return (
+      <div className="overview-diagram">
+        <p className="overview-card-copy">Mermaid render failed: {state.error}</p>
+        <pre>
+          <code>{code}</code>
+        </pre>
+      </div>
+    );
+  }
+
+  return (
+    <div className="overview-diagram">
+      <p className="overview-card-copy">Rendering Mermaid diagram...</p>
+    </div>
+  );
 }
 
 function MarkdownPreview({ content }) {
@@ -209,6 +294,10 @@ function MarkdownPreview({ content }) {
               </table>
             </div>
           );
+        }
+
+        if (block.language === 'mermaid') {
+          return <MermaidBlock key={`block-${index}`} code={block.content} />;
         }
 
         return (
@@ -286,7 +375,96 @@ function OverviewTable({ table, locale }) {
   );
 }
 
-function OverviewArtifacts({ items = [], locale, openLabel }) {
+function ExamplePreviewBody({ content, href }) {
+  if (href.endsWith('.md')) {
+    return <MarkdownPreview content={content} />;
+  }
+
+  return (
+    <pre className="overview-code-block">
+      <code className={`language-${inferPreviewLanguage(href)}`}>{content}</code>
+    </pre>
+  );
+}
+
+function PreviewableExampleCard({ description, href, locale, onOpenExample, openLabel, title, type }) {
+  const [state, setState] = useState({ status: 'idle', content: '', error: '' });
+  const copy = {
+    loading: {
+      ko: '예시 미리보기를 불러오는 중입니다...',
+      en: 'Loading the example preview...',
+    },
+    error: {
+      ko: '예시 미리보기를 불러오지 못했습니다.',
+      en: 'Could not load the example preview.',
+    },
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+    setState({ status: 'loading', content: '', error: '' });
+
+    fetch(href)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.text();
+      })
+      .then((content) => {
+        if (!cancelled) {
+          setState({ status: 'ready', content, error: '' });
+        }
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          setState({ status: 'error', content: '', error: error.message });
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [href]);
+
+  const shouldInline = state.status === 'ready' && isInlineExample(state.content);
+
+  return (
+    <>
+      {description ? <p className="overview-card-copy">{description}</p> : null}
+      {state.status === 'loading' ? <p className="overview-card-copy">{copy.loading[locale]}</p> : null}
+      {state.status === 'error' ? (
+        <p className="overview-card-copy">
+          {copy.error[locale]} {state.error}
+        </p>
+      ) : null}
+      {shouldInline ? (
+        <div
+          style={{
+            marginTop: '10px',
+            padding: '12px',
+            borderRadius: '14px',
+            border: '1px solid rgba(148, 163, 184, 0.14)',
+            background: 'rgba(2, 6, 23, 0.45)',
+          }}
+        >
+          <ExamplePreviewBody content={state.content} href={href} />
+        </div>
+      ) : null}
+      {state.status === 'ready' && !shouldInline ? (
+        <button
+          className="catalog-link overview-artifact-link overview-inline-button"
+          onClick={() => onOpenExample(title, href, type)}
+          type="button"
+        >
+          {openLabel}
+        </button>
+      ) : null}
+    </>
+  );
+}
+
+function OverviewArtifacts({ items = [], locale, openLabel, onOpenExample }) {
   if (!items.length) return null;
 
   const areDetailed = items.some((item) => item && typeof item === 'object' && !('ko' in item || 'en' in item));
@@ -300,7 +478,8 @@ function OverviewArtifacts({ items = [], locale, openLabel }) {
         const title = pickLocalized(item.title, locale);
         const description = pickLocalized(item.description, locale);
         const type = pickLocalized(item.type, locale);
-        const href = toGitHubExampleAssetHref(pickLocalized(item.href, locale));
+        const rawHref = pickLocalized(item.href, locale);
+        const href = toGitHubExampleAssetHref(rawHref);
 
         return (
           <article key={`${title}-${index}`} className="overview-artifact-item">
@@ -308,22 +487,77 @@ function OverviewArtifacts({ items = [], locale, openLabel }) {
               <h4>{title}</h4>
               {type ? <span className="catalog-pill">{type}</span> : null}
             </div>
-            {description ? <p className="overview-card-copy">{description}</p> : null}
-            {href ? (
-              <button
-                className="catalog-link overview-artifact-link overview-inline-button"
-                data-example-href={pickLocalized(item.href, locale)}
-                data-example-title={title}
-                data-example-type={type}
-                type="button"
-              >
-                {openLabel}
-              </button>
+            {rawHref && isPreviewableHref(rawHref) ? (
+              <PreviewableExampleCard
+                description={description}
+                href={rawHref}
+                locale={locale}
+                onOpenExample={onOpenExample}
+                openLabel={openLabel}
+                title={title}
+                type={type}
+              />
+            ) : href ? (
+              <>
+                {description ? <p className="overview-card-copy">{description}</p> : null}
+                <a
+                  className="catalog-link overview-artifact-link overview-inline-button"
+                  href={href}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {openLabel}
+                </a>
+              </>
+            ) : description ? (
+              <p className="overview-card-copy">{description}</p>
             ) : null}
           </article>
         );
       })}
     </div>
+  );
+}
+
+function PracticeAssetItem({ asset, locale, onOpenExample, openLabel }) {
+  const href = pickLocalized(asset.href, locale);
+  const title = pickLocalized(asset.label, locale);
+  const type = pickLocalized(asset.type, locale);
+  const description = pickLocalized(asset.description, locale);
+  const externalHref = toGitHubExampleAssetHref(href);
+
+  return (
+    <article className="overview-asset-item">
+      <div className="overview-asset-head">
+        <h3>{title}</h3>
+        <span className="catalog-pill">{type}</span>
+      </div>
+      {isPreviewableHref(href) ? (
+        <PreviewableExampleCard
+          description={description}
+          href={href}
+          locale={locale}
+          onOpenExample={onOpenExample}
+          openLabel={openLabel}
+          title={title}
+          type={type}
+        />
+      ) : (
+        <>
+          {description ? <p className="overview-card-copy">{description}</p> : null}
+          {externalHref ? (
+            <a
+              className="catalog-link overview-artifact-link overview-inline-button"
+              href={externalHref}
+              rel="noreferrer"
+              target="_blank"
+            >
+              {openLabel}
+            </a>
+          ) : null}
+        </>
+      )}
+    </article>
   );
 }
 
@@ -425,12 +659,7 @@ function ExampleModal({ example, locale, onClose }) {
               {modalCopy.error[locale]} {state.error}
             </p>
           ) : null}
-          {state.status === 'ready' && example.href.endsWith('.md') ? <MarkdownPreview content={state.content} /> : null}
-          {state.status === 'ready' && !example.href.endsWith('.md') ? (
-            <pre className="overview-code-block">
-              <code className={`language-${inferPreviewLanguage(example.href)}`}>{state.content}</code>
-            </pre>
-          ) : null}
+          {state.status === 'ready' ? <ExamplePreviewBody content={state.content} href={example.href} /> : null}
         </div>
       </div>
     </div>
@@ -450,8 +679,6 @@ function OverviewSection({ title, children }) {
 
 export default function CourseOverviewPage({ course, detail }) {
   const { locale } = useLocale();
-  const localExampleHref = pickLocalized(detail.practiceAssets[0]?.href, locale);
-  const exampleHref = toGitHubExampleAssetHref(localExampleHref);
   const catalogPath = buildLocalizedPath(locale, '/');
   const deckPath = buildLocalizedPath(locale, `/courses/${course.slug}`);
   const [activeExample, setActiveExample] = useState(null);
@@ -482,14 +709,6 @@ export default function CourseOverviewPage({ course, detail }) {
       ko: '슬라이드 보기',
       en: 'Open slides',
     },
-    openExample: {
-      ko: '예제 보기',
-      en: 'Open example',
-    },
-    slidesMeta: {
-      ko: `${course.slides.length}장`,
-      en: `${course.slides.length} slides`,
-    },
     audience: {
       ko: '추천 수강생',
       en: 'Who this is for',
@@ -517,10 +736,6 @@ export default function CourseOverviewPage({ course, detail }) {
     openArtifact: {
       ko: '예시 열기',
       en: 'Open example',
-    },
-    takeaways: {
-      ko: '핵심 정리',
-      en: 'Key takeaways',
     },
     assets: {
       ko: '실습 자료',
@@ -585,21 +800,6 @@ export default function CourseOverviewPage({ course, detail }) {
           <a className="catalog-link overview-link-primary" href={deckPath}>
             {overviewCopy.goToSlides[locale]}
           </a>
-          {exampleHref ? (
-            <button
-              className="catalog-link overview-link-secondary overview-inline-button"
-              onClick={() =>
-                openInlineExample(
-                  pickLocalized(detail.practiceAssets[0]?.label, locale),
-                  localExampleHref,
-                  pickLocalized(detail.practiceAssets[0]?.type, locale),
-                )
-              }
-              type="button"
-            >
-              {overviewCopy.openExample[locale]}
-            </button>
-          ) : null}
         </div>
       </section>
 
@@ -640,27 +840,14 @@ export default function CourseOverviewPage({ course, detail }) {
                     <span className="overview-subcard-label">{overviewCopy.learn[locale]}</span>
                     <OverviewList items={chapter.learn} locale={locale} className="overview-list overview-list-tight" />
                   </div>
-                  {chapter.takeaways?.length ? (
-                    <div className="overview-detail-block">
-                      <span className="overview-subcard-label">{overviewCopy.takeaways[locale]}</span>
-                      <OverviewList items={chapter.takeaways} locale={locale} className="overview-list overview-list-tight" />
-                    </div>
-                  ) : null}
                   <div className="overview-detail-block">
                     <span className="overview-subcard-label">{overviewCopy.artifacts[locale]}</span>
-                    <div
-                      onClick={(event) => {
-                        const button = event.target.closest('button[data-example-href]');
-                        if (!button) return;
-                        openInlineExample(
-                          button.dataset.exampleTitle ?? '',
-                          button.dataset.exampleHref ?? '',
-                          button.dataset.exampleType ?? '',
-                        );
-                      }}
-                    >
-                      <OverviewArtifacts items={chapter.artifacts} locale={locale} openLabel={overviewCopy.openArtifact[locale]} />
-                    </div>
+                    <OverviewArtifacts
+                      items={chapter.artifacts}
+                      locale={locale}
+                      onOpenExample={openInlineExample}
+                      openLabel={overviewCopy.openArtifact[locale]}
+                    />
                   </div>
                 </div>
               </article>
@@ -695,19 +882,13 @@ export default function CourseOverviewPage({ course, detail }) {
         <OverviewSection title={overviewCopy.assets[locale]}>
           <div className="overview-assets-list">
             {detail.practiceAssets.map((asset) => (
-              <a
+              <PracticeAssetItem
+                asset={asset}
                 key={pickLocalized(asset.href, locale)}
-                className="overview-asset-item"
-                href={toGitHubExampleAssetHref(pickLocalized(asset.href, locale))}
-                rel="noreferrer"
-                target="_blank"
-              >
-                <div className="overview-asset-head">
-                  <h3>{pickLocalized(asset.label, locale)}</h3>
-                  <span className="catalog-pill">{pickLocalized(asset.type, locale)}</span>
-                </div>
-                <p className="overview-card-copy">{pickLocalized(asset.description, locale)}</p>
-              </a>
+                locale={locale}
+                onOpenExample={openInlineExample}
+                openLabel={overviewCopy.openArtifact[locale]}
+              />
             ))}
           </div>
         </OverviewSection>

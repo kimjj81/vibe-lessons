@@ -1,15 +1,16 @@
 # release pipeline map
 
-```text
-git tag vX.Y.Z
-  -> tag_gate
-  -> draft GitHub Release
-  -> asset upload / generated notes
-  -> optional LLM polishing
-  -> publish stable release
-  -> workflow_dispatch to homepage repo
-  -> import release body into Astro content
-  -> Astro build / deploy
+```mermaid
+flowchart LR
+    A["git tag vX.Y.Z"] --> B["GitHub Actions: tag_gate"]
+    B --> C["Create draft GitHub Release"]
+    C --> D["Upload build artifacts"]
+    D --> E["Generate GitHub release notes"]
+    E --> F["Optionally polish notes with an LLM"]
+    F --> G["Publish GitHub Release"]
+    G --> H["Dispatch homepage workflow"]
+    H --> I["Import into Astro content + run build"]
+    I --> J["Deploy through Cloudflare Pages / Workers"]
 ```
 
 ## What to look for
