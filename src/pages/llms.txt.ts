@@ -7,8 +7,8 @@ export async function GET({ site }) {
   const lines = [
     '# Studio Jin lesson archive',
     '',
-    'This site publishes practical software engineering lecture decks, course overviews, and example assets.',
-    'Prefer course overview pages for high-level summaries and course deck pages for slide-by-slide details.',
+    'This site publishes practical software engineering lecture decks, lecture guides, and example assets.',
+    'Prefer lecture guide pages for structured course details and course deck pages for slide-by-slide material.',
     '',
     '## Public URLs',
     ...entries.map((entry) => `- ${entry.url} :: ${entry.title} :: ${entry.description}`),

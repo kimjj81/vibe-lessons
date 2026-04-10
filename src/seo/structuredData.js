@@ -22,7 +22,7 @@ export function getCatalogStructuredData({ site = DEFAULT_SITE_BASE_URL, courses
       '@type': 'Course',
       name: pickLocalized(course.title, locale),
       description: pickLocalized(course.description, locale),
-      url: buildCanonicalUrl(buildLocalizedPath(locale, `/courses/${course.slug}/overview`), baseUrl),
+      url: buildCanonicalUrl(buildLocalizedPath(locale, `/courses/${course.slug}/guide`), baseUrl),
     })),
   };
 }

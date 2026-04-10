@@ -25,14 +25,17 @@
 - `CMS & 콘텐츠 인프라`
   - Monolithic CMS, Headless CMS, SaaS Embed, Self-hosted를 서비스 운영 관점에서 비교하는 강의입니다.
   - 콘텐츠 모델, 권한, 캐시 무효화, 댓글/검색/분석 기능을 어떤 조합으로 가져갈지 설계 기준을 설명합니다.
+- `SemVer Release 자동화`
+  - SemVer 태그에서 GitHub Release를 만들고, generated notes와 선택적 LLM polishing을 거쳐 홈페이지에 자동 반영하는 강의입니다.
+  - draft release 전략, cross-repo dispatch, Astro import, end-to-end 검증 체크리스트를 함께 다룹니다.
 
 ## 강좌 상세 페이지와 예제 자료
 
 - 강좌 목록에서 바로 슬라이드로만 들어가는 대신, 각 강좌에는 별도 소개 페이지가 있습니다.
 - 경로
-  - 강좌 소개: `/courses/:slug/overview`
+  - 상세강의자료: `/courses/:slug/guide`
   - 슬라이드 덱: `/courses/:slug`
-- 강좌 소개 페이지에는 다음 정보가 들어 있습니다.
+- 상세강의자료 페이지에는 다음 정보가 들어 있습니다.
   - 챕터 목차
   - 예상 수강 시간 / 난이도
   - 준비물과 추천 수강 대상

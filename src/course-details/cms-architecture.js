@@ -894,8 +894,8 @@ export const cmsArchitectureDetail = {
         en: 'CMS comparison-axes diagram',
       },
       description: {
-        ko: 'Monolithic/Headless와 SaaS/Self-hosted를 다른 질문으로 봐야 하는 이유를 overview에서도 유지합니다.',
-        en: 'Keeps the slide’s main lesson visible: Monolithic/Headless and SaaS/Self-hosted answer different questions.',
+        ko: 'Monolithic/Headless와 SaaS/Self-hosted를 다른 질문으로 봐야 하는 이유를 상세강의자료에서도 유지합니다.',
+        en: 'Keeps the slide’s main lesson visible in the Lecture Guide: Monolithic/Headless and SaaS/Self-hosted answer different questions.',
       },
       language: 'text',
       code: `[CMS+Theme] -> HTML -> Browser
@@ -913,8 +913,8 @@ vs
         en: 'Core CMS data-model entities',
       },
       description: {
-        ko: '슬라이드의 ERD 다이어그램을 overview에서 읽기 쉬운 텍스트 구조로 재구성했습니다.',
-        en: 'A text reconstruction of the ERD-style slide so the main entities remain readable in the overview.',
+        ko: '슬라이드의 ERD 다이어그램을 상세강의자료에서 읽기 쉬운 텍스트 구조로 재구성했습니다.',
+        en: 'A text reconstruction of the ERD-style slide so the main entities remain readable in the Lecture Guide.',
       },
       language: 'text',
       code: `USER 1:N CONTENT

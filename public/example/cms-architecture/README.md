@@ -1,6 +1,6 @@
 # CMS Architecture Examples
 
-These files support the course overview with concrete starter artifacts.
+These files support the lecture guide with concrete starter artifacts.
 
 ## Read in this order
 

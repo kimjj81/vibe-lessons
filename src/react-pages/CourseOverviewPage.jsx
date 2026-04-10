@@ -471,8 +471,8 @@ export default function CourseOverviewPage({ course, detail }) {
   ];
   const overviewCopy = {
     eyebrow: {
-      ko: 'Course Overview',
-      en: 'Course Overview',
+      ko: '상세강의자료',
+      en: 'Lecture Guide',
     },
     backToCatalog: {
       ko: '강의 목록',
@@ -504,7 +504,7 @@ export default function CourseOverviewPage({ course, detail }) {
     },
     chapters: {
       ko: '챕터 목차',
-      en: 'Chapter outline',
+      en: 'Chapter guide',
     },
     learn: {
       ko: '배우는 것',

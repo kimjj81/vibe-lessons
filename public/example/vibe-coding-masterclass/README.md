@@ -1,6 +1,6 @@
 # Vibe Coding Masterclass Examples
 
-This folder contains the reusable documents referenced from the course overview.
+This folder contains the reusable documents referenced from the lecture guide.
 
 ## Use them in this order
 

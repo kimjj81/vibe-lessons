@@ -61,9 +61,9 @@ export default function CourseCatalogPage() {
       ko: '장',
       en: 'slides',
     },
-    openOverview: {
-      ko: '자세히 보기',
-      en: 'View details',
+    openGuide: {
+      ko: '상세강의자료 보기',
+      en: 'Open Lecture Guide',
     },
     openSlides: {
       ko: '슬라이드 바로 보기',
@@ -124,7 +124,7 @@ export default function CourseCatalogPage() {
     setIsMobileMenuOpen(false);
   }
 
-  const getOverviewPath = (courseSlug) => buildLocalizedPath(locale, `/courses/${courseSlug}/overview`);
+  const getGuidePath = (courseSlug) => buildLocalizedPath(locale, `/courses/${courseSlug}/guide`);
   const getDeckPath = (courseSlug) => buildLocalizedPath(locale, `/courses/${courseSlug}`);
 
   return (
@@ -244,8 +244,8 @@ export default function CourseCatalogPage() {
               {locale === 'ko' ? `${activeCourse.slides.length}장` : `${activeCourse.slides.length} ${copy.slideLabel[locale]}`}
             </span>
             <div className="catalog-detail-actions">
-              <a className="catalog-link catalog-detail-link" href={getOverviewPath(activeCourse.slug)}>
-                {copy.openOverview[locale]}
+              <a className="catalog-link catalog-detail-link" href={getGuidePath(activeCourse.slug)}>
+                {copy.openGuide[locale]}
               </a>
               <a className="catalog-link catalog-detail-link catalog-detail-link-ghost" href={getDeckPath(activeCourse.slug)}>
                 {copy.openSlides[locale]}

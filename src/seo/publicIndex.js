@@ -57,11 +57,11 @@ export function getPublishedPageEntries(site = DEFAULT_SITE_BASE_URL) {
           locale,
         },
         {
-          url: buildCanonicalUrl(buildLocalizedPath(locale, `/courses/${course.slug}/overview`), baseUrl),
-          path: buildLocalizedPath(locale, `/courses/${course.slug}/overview`),
-          title: pickLocalized(detail?.hero?.title, locale) || `${pickLocalized(course.title, locale)} overview`,
+          url: buildCanonicalUrl(buildLocalizedPath(locale, `/courses/${course.slug}/guide`), baseUrl),
+          path: buildLocalizedPath(locale, `/courses/${course.slug}/guide`),
+          title: pickLocalized(detail?.hero?.title, locale) || (locale === 'ko' ? `${pickLocalized(course.title, locale)} 상세강의자료` : `${pickLocalized(course.title, locale)} Lecture Guide`),
           description: pickLocalized(detail?.hero?.summary, locale) || pickLocalized(course.description, locale),
-          type: 'course-overview',
+          type: 'course-guide',
           locale,
         },
       ];

@@ -1,13 +1,10 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import CourseOverviewIsland from '../../../components/CourseOverviewIsland.jsx';
-import { courseRegistry, getCourseBySlug } from '../../../courses/registry';
-import { courseDetailRegistry, getCourseDetailBySlug } from '../../../course-details/registry';
-import { getCourseStructuredData } from '../../../seo/structuredData';
+import { courseRegistry } from '../../../courses/registry';
 
 export function getStaticPaths() {
   return courseRegistry
-    .filter((course) => course.status === 'live' && courseDetailRegistry.some((detail) => detail.slug === course.slug))
+    .filter((course) => course.status === 'live')
     .map((course) => ({
       params: {
         slug: course.slug,
@@ -16,19 +13,13 @@ export function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const course = getCourseBySlug(slug);
-const detail = getCourseDetailBySlug(slug);
 const locale = 'ko';
-const path = `/courses/${course.slug}/overview`;
-const structuredData = [getCourseStructuredData({ site: Astro.site, course, detail, path, locale })];
+const destination = `/courses/${slug}/guide`;
 ---
 
-<BaseLayout
-  description={detail.hero.summary.ko}
-  locale={locale}
-  path={path}
-  structuredData={structuredData}
-  title={detail.hero.title.ko}
->
-  <CourseOverviewIsland client:load course={course} detail={detail} initialLocale={locale} initialPathname={path} />
+<BaseLayout description="Redirecting to the lecture guide." locale={locale} noindex={true} path={destination} title="Redirecting...">
+  <script is:inline>{`window.location.replace(${JSON.stringify(destination)});`}</script>
+  <main style="min-height: 100vh; display: grid; place-items: center; padding: 2rem; color: #e2e8f0; background: #020617;">
+    <a href={destination} style="color: #67e8f9;">상세강의자료로 이동</a>
+  </main>
 </BaseLayout>

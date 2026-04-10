@@ -1,4 +1,7 @@
 /ko / 301
 /ko/ / 301
 /ko/courses/:courseSlug /courses/:courseSlug 301
-/ko/courses/:courseSlug/overview /courses/:courseSlug/overview 301
+/ko/courses/:courseSlug/guide /courses/:courseSlug/guide 301
+/ko/courses/:courseSlug/overview /courses/:courseSlug/guide 301
+/courses/:courseSlug/overview /courses/:courseSlug/guide 301
+/en/courses/:courseSlug/overview /en/courses/:courseSlug/guide 301

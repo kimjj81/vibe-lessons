@@ -1,6 +1,6 @@
 # Cusdis Automation Examples
 
-This folder mirrors the practical assets referenced from the course overview page.
+This folder mirrors the practical assets referenced from the lecture guide page.
 
 ## Recommended order
 

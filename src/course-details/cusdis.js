@@ -115,7 +115,7 @@ export const cusdisDetail = {
   studyGuide: [
     {
       ko: '처음 보는 수강생이라면 강좌 소개를 먼저 읽고 예제 README를 열어 전체 결과물을 본 뒤 슬라이드로 들어가는 순서를 추천합니다.',
-      en: 'If this is your first pass, read the overview, open the example README to see the end state, then move into the slide deck.',
+      en: 'If this is your first pass, read the Lecture Guide, open the example README to see the end state, then move into the slide deck.',
     },
     {
       ko: '실습할 때는 webhook 샘플과 JSON 계약 문서를 옆에 두고 따라오면 흐름이 훨씬 빨리 잡힙니다.',
@@ -209,8 +209,8 @@ export const cusdisDetail = {
       artifacts: [
         {
           title: {
-            ko: '전체 시스템 흐름도와 workflow-overview 이미지',
-            en: 'End-to-end system flow and workflow-overview image',
+            ko: '전체 시스템 흐름도와 워크플로우 이미지',
+            en: 'End-to-end system flow and workflow image',
           },
           description: {
             ko: '댓글 이벤트가 Cusdis에서 n8n으로 들어오고, AI 판정과 승인 요청으로 이어지는 전체 구조를 한눈에 보여 줍니다.',

@@ -24,14 +24,17 @@ Live preview: https://lesson.studiojin.dev
 - `CMS & Content Infrastructure`
   - A course comparing Monolithic CMS, Headless CMS, SaaS Embed, and Self-hosted approaches from a service operations perspective.
   - It focuses on content models, permissions, cache invalidation, and how to combine comments, search, and analytics capabilities in a practical architecture.
+- `SemVer Release Automation`
+  - A course on creating GitHub Releases from SemVer tags and carrying generated notes, optional LLM polishing, and homepage sync through one release pipeline.
+  - It covers draft-release strategy, cross-repo dispatch, Astro import, and an end-to-end verification checklist.
 
-## Course overview pages and example assets
+## Lecture guide pages and example assets
 
-- Instead of sending users directly from the course list into the slide deck, each course now also has a dedicated overview page.
+- Instead of sending users directly from the course list into the slide deck, each course now also has a dedicated lecture guide page.
 - Routes
-  - Course overview: `/courses/:slug/overview`
+  - Lecture guide: `/courses/:slug/guide`
   - Slide deck: `/courses/:slug`
-- The overview page includes:
+- The lecture guide page includes:
   - chapter outline
   - estimated study time and difficulty
   - target audience and prerequisites

@@ -768,8 +768,8 @@ export const vibeCodingMasterclassDetail = {
         en: 'Guardrailed vibe-coding loop',
       },
       description: {
-        ko: '슬라이드의 원형 다이어그램을 overview에서도 읽을 수 있도록 텍스트 다이어그램으로 정리했습니다.',
-        en: 'A text version of the circular slide diagram so the core loop remains visible in the overview.',
+        ko: '슬라이드의 원형 다이어그램을 상세강의자료에서도 읽을 수 있도록 텍스트 다이어그램으로 정리했습니다.',
+        en: 'A text version of the circular slide diagram so the core loop remains visible in the Lecture Guide.',
       },
       language: 'text',
       code: `Set target
