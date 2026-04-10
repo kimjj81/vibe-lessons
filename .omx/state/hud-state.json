@@ -1,6 +1,0 @@
-{
-  "last_turn_at": "2026-04-09T07:20:32.973Z",
-  "turn_count": 16,
-  "last_progress_at": "2026-04-09T07:20:32.973Z",
-  "last_agent_output": "COMPLETE\n\n요청하신 대로 랜딩페이지(`/`의 강의 목록)에서 `실습 자료 인덱스` 섹션을 삭제했습니다.\n\n변경된 파일\n- [src/react-pages/CourseCatal"
-}

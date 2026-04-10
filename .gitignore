@@ -35,4 +35,5 @@ coverage/
 .cache/
 .eslintcache
 
+.astro/
 .omx/
