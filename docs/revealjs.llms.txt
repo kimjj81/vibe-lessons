@@ -1,0 +1,95 @@
+# reveal.js For vibe-coding-slides
+
+> Curated reveal.js reference for migrating this repository's custom slide runtime to `reveal.js`, preferably through `@revealjs/react`, while keeping Astro routing, course metadata, bilingual pages, and lecture content structure intact.
+
+Important notes:
+
+- This repository is a lecture-material website, not a general app. Prefer presentation features that improve teaching flow, readability, speaker support, and shareability.
+- Prefer `@revealjs/react` over manual React initialization unless there is a clear integration blocker.
+- Keep Astro routes and course metadata as they are. Replace only the slide deck runtime.
+- Do not re-implement built-in reveal.js features such as keyboard navigation, touch navigation, slide numbers, overview mode, speaker notes, PDF export, fragments, or scroll view unless repo-specific behavior truly requires it.
+- For scrollable content inside slides, use `data-prevent-swipe` to avoid conflicts with touch navigation.
+- For npm imports, use top-level package paths such as `reveal.js/plugin/markdown`; avoid old `dist/` import paths from pre-6.0 examples.
+- `plugins` in `@revealjs/react` are initialization-time only. Dynamic plugin swapping after mount should not be assumed.
+- `view: 'scroll'` is especially relevant for this repository because lectures may need both a presenter-friendly slide mode and a reader-friendly linear mode.
+
+## Primary Docs
+
+- [Installation](https://revealjs.com/installation/): install paths, local server requirements, npm usage.
+- [React](https://revealjs.com/react/): official React wrapper with `Deck`, `Slide`, `Stack`, `Fragment`, `useReveal`, `deckRef`, config and event props.
+- [Markup](https://revealjs.com/markup/): required DOM structure and vertical stack model.
+- [Markdown](https://revealjs.com/markdown/): inline and external Markdown, separators, notes, slide attributes.
+- [Configuration Options](https://revealjs.com/config/): full config surface including navigation, layout, notes, media, animation, and view mode.
+- [Upgrading](https://revealjs.com/upgrading/): version 6 migration notes, package paths, Vite-based build changes.
+
+## Content Authoring
+
+- [Backgrounds](https://revealjs.com/backgrounds/): color, gradient, image, video, iframe, parallax backgrounds.
+- [Media](https://revealjs.com/media/): autoplay, lazy loading, iframe handling.
+- [Lightbox](https://revealjs.com/lightbox/): image, video, and iframe overlays.
+- [Code](https://revealjs.com/code/): highlight plugin, trimming, line highlights, stepwise highlights.
+- [Math](https://revealjs.com/math/): KaTeX and MathJax support.
+- [Fragments](https://revealjs.com/fragments/): incremental reveal and custom fragment effects.
+- [Links](https://revealjs.com/links/): internal slide links by id or index.
+- [Layout](https://revealjs.com/layout/): `r-stack`, stretch, fit text, frame helpers.
+- [Slide Visibility](https://revealjs.com/slide-visibility/): hidden and uncounted slides.
+
+## Delivery Features
+
+- [Vertical Slides](https://revealjs.com/vertical-slides/): nested slide stacks for optional depth or appendix material.
+- [Auto-Animate](https://revealjs.com/auto-animate/): automatic transitions between adjacent slides.
+- [Auto-Slide](https://revealjs.com/auto-slide/): timed slide progression.
+- [Speaker View](https://revealjs.com/speaker-view/): speaker notes, next-slide preview, timer.
+- [Scroll View](https://revealjs.com/scroll-view/): linear reading mode via `view: 'scroll'` or query param.
+- [Slide Numbers](https://revealjs.com/slide-numbers/): numeric formats including `c/t`.
+- [Jump to Slide](https://revealjs.com/jump-to-slide/): numeric or id-based jump navigation.
+- [Touch Navigation](https://revealjs.com/touch-navigation/): swipe navigation and `data-prevent-swipe`.
+- [PDF Export](https://revealjs.com/pdf-export/): print stylesheet, notes options, fragment printing, page limits.
+- [Overview Mode](https://revealjs.com/overview/): bird's-eye navigation for large decks.
+- [Fullscreen](https://revealjs.com/fullscreen/): keyboard-based fullscreen mode.
+
+## Runtime And API
+
+- [Initialization](https://revealjs.com/initialization/): `Reveal.initialize()`, multiple presentations, embedded mode.
+- [API](https://revealjs.com/api/): navigation, sync, layout, indices, progress, notes, config getters.
+- [Events](https://revealjs.com/events/): ready, slide change, fragment, overview, pause/resume events.
+- [Keyboard](https://revealjs.com/keyboard/): override or add keyboard bindings.
+- [Presentation State](https://revealjs.com/presentation-state/): snapshot and restore current deck state.
+- [postMessage API](https://revealjs.com/postmessage/): remote control and event bubbling across windows or iframes.
+
+## Plugins And Extensions
+
+- [Plugins](https://revealjs.com/plugins/): registration model and built-in plugin overview.
+- [Creating a Plugin](https://revealjs.com/creating-plugins/): plugin object shape, async plugins, multi-instance safety.
+- [Multiplex](https://revealjs.com/multiplex/): audience synchronization via separate repository.
+- [Plugins, Tools and Hardware Wiki](https://github.com/hakimel/reveal.js/wiki/Plugins,-Tools-and-Hardware): third-party ecosystem directory.
+
+## Built-In Plugins
+
+- [RevealMarkdown](https://revealjs.com/markdown/): Markdown authoring support.
+- [RevealHighlight](https://revealjs.com/code/): syntax highlighting for code presentations.
+- [RevealNotes](https://revealjs.com/speaker-view/): speaker notes and speaker view.
+- [RevealSearch](https://revealjs.com/plugins/): slide-content search.
+- [RevealMath](https://revealjs.com/math/): math rendering.
+- [RevealZoom](https://revealjs.com/plugins/): element zooming.
+
+## Migration Priorities For This Repo
+
+- [React](https://revealjs.com/react/): base migration target for current React slide components.
+- [Scroll View](https://revealjs.com/scroll-view/): likely needed for lecture-reading mode.
+- [Touch Navigation](https://revealjs.com/touch-navigation/): needed because current custom deck handles touch and scroll conflicts manually.
+- [Speaker View](https://revealjs.com/speaker-view/): replaces custom presenter-oriented workarounds.
+- [Slide Numbers](https://revealjs.com/slide-numbers/): replaces manual page indicators.
+- [Overview Mode](https://revealjs.com/overview/): improves navigation in large lecture decks.
+- [PDF Export](https://revealjs.com/pdf-export/): useful for printable handouts or offline distribution.
+- [Upgrading](https://revealjs.com/upgrading/): required to avoid stale import-path assumptions.
+
+## Optional
+
+- [Themes](https://revealjs.com/themes/): bundled themes and CSS custom properties.
+- [Transitions](https://revealjs.com/transitions/): slide and background transitions.
+- [Presentation Size](https://revealjs.com/presentation-size/): authoring size, centering, and embedded sizing.
+- [Auto-Slide](https://revealjs.com/auto-slide/): optional for autoplay or kiosk-style playback.
+- [React (Manual Setup)](https://revealjs.com/react-legacy/): legacy path if official wrapper cannot be used.
+- [GitHub Repository](https://github.com/hakimel/reveal.js): source, issues, code, release history.
+- [GitHub Releases](https://github.com/hakimel/reveal.js/releases): changelog and release notes.
