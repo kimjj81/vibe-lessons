@@ -26,7 +26,10 @@ const structuredData = [getCourseStructuredData({ site: Astro.site, course, deta
 <BaseLayout
   description={detail.hero.summary.en}
   locale={locale}
+  ogType="article"
   path={path}
+  socialImageAlt={detail.hero.title.en}
+  socialImagePath={`/en/og/guide/${course.slug}.svg`}
   structuredData={structuredData}
   title={detail.hero.title.en}
 >

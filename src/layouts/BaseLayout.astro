@@ -13,14 +13,20 @@ const {
   noindex = false,
   structuredData = [],
   bodyClass = '',
+  ogType = 'website',
+  socialImagePath,
+  socialImageAlt,
 } = Astro.props;
 
 const siteBaseUrl = normalizeBaseUrl(Astro.site?.toString() || DEFAULT_SITE_BASE_URL);
 const { pathname: barePath } = stripLocaleFromPathname(path);
 const canonicalPath = buildLocalizedPath(locale, barePath);
 const canonical = buildCanonicalUrl(canonicalPath, siteBaseUrl);
+const resolvedSocialImagePath = socialImagePath || buildLocalizedPath(locale, '/og/catalog.svg');
+const socialImage = buildCanonicalUrl(resolvedSocialImagePath, siteBaseUrl);
 const normalizedTitle = `${title} | Studio Jin`;
 const safeDescription = description?.trim() || 'Studio Jin 강의 아카이브';
+const safeSocialImageAlt = socialImageAlt?.trim() || normalizedTitle;
 const robots = noindex ? 'noindex, follow' : 'index, follow';
 const ogLocale = locale === 'ko' ? 'ko_KR' : 'en_US';
 const alternateLinks = noindex
@@ -49,11 +55,16 @@ const xDefaultHref = buildCanonicalUrl(buildLocalizedPath(DEFAULT_LOCALE, barePa
       />
     ))}
     {!noindex ? <link href={xDefaultHref} hreflang="x-default" rel="alternate" /> : null}
-    <meta content="website" property="og:type" />
+    <meta content={ogType} property="og:type" />
+    <meta content="Studio Jin" property="og:site_name" />
     <meta content={normalizedTitle} property="og:title" />
     <meta content={safeDescription} property="og:description" />
     <meta content={canonical} property="og:url" />
     <meta content={ogLocale} property="og:locale" />
+    <meta content={socialImage} property="og:image" />
+    <meta content={safeSocialImageAlt} property="og:image:alt" />
+    <meta content="1200" property="og:image:width" />
+    <meta content="630" property="og:image:height" />
     {SUPPORTED_LOCALES
       .filter((alternateLocale) => alternateLocale !== locale)
       .map((alternateLocale) => (
@@ -62,9 +73,13 @@ const xDefaultHref = buildCanonicalUrl(buildLocalizedPath(DEFAULT_LOCALE, barePa
           property="og:locale:alternate"
         />
       ))}
-    <meta content="summary" name="twitter:card" />
+    <meta content="summary_large_image" name="twitter:card" />
+    <meta content="@studiojin_dev" name="twitter:site" />
+    <meta content="@studiojin_dev" name="twitter:creator" />
     <meta content={normalizedTitle} name="twitter:title" />
     <meta content={safeDescription} name="twitter:description" />
+    <meta content={socialImage} name="twitter:image" />
+    <meta content={safeSocialImageAlt} name="twitter:image:alt" />
     <link crossorigin rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
