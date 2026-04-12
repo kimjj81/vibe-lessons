@@ -37,3 +37,10 @@ coverage/
 
 .astro/
 .omx/
+.omc/
+.playwright-mcp/
+CLAUDE.md
+
+# Local screenshot artifacts
+fix-slide-*.png
+slide-*.png
