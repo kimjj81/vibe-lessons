@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import LocaleToggle from '../components/LocaleToggle';
+import MarkdownContent from '../components/slide/MarkdownContent';
 import { useLocale } from '../i18n/LocaleContext';
 import { buildLocalizedPath } from '../i18n/localeRouting';
 import { pickLocalized } from '../i18n/localize';
@@ -246,68 +247,7 @@ function MermaidBlock({ code }) {
 }
 
 function MarkdownPreview({ content }) {
-  const blocks = parseMarkdown(content);
-
-  return (
-    <div className="overview-markdown">
-      {blocks.map((block, index) => {
-        if (block.type === 'heading') {
-          const Tag = `h${Math.min(block.level, 4)}`;
-          return <Tag key={`block-${index}`}>{renderInlineMarkdown(block.text, `heading-${index}`)}</Tag>;
-        }
-
-        if (block.type === 'paragraph') {
-          return <p key={`block-${index}`}>{renderInlineMarkdown(block.text, `paragraph-${index}`)}</p>;
-        }
-
-        if (block.type === 'list') {
-          const ListTag = block.ordered ? 'ol' : 'ul';
-          return (
-            <ListTag key={`block-${index}`}>
-              {block.items.map((item, itemIndex) => (
-                <li key={`item-${index}-${itemIndex}`}>{renderInlineMarkdown(item, `list-${index}-${itemIndex}`)}</li>
-              ))}
-            </ListTag>
-          );
-        }
-
-        if (block.type === 'table') {
-          return (
-            <div key={`block-${index}`} className="overview-table-wrap">
-              <table className="overview-table">
-                <thead>
-                  <tr>
-                    {block.headers.map((header, headerIndex) => (
-                      <th key={`header-${index}-${headerIndex}`}>{renderInlineMarkdown(header, `table-header-${index}-${headerIndex}`)}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {block.rows.map((row, rowIndex) => (
-                    <tr key={`row-${index}-${rowIndex}`}>
-                      {row.map((cell, cellIndex) => (
-                        <td key={`cell-${index}-${rowIndex}-${cellIndex}`}>{renderInlineMarkdown(cell, `table-cell-${index}-${rowIndex}-${cellIndex}`)}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          );
-        }
-
-        if (block.language === 'mermaid') {
-          return <MermaidBlock key={`block-${index}`} code={block.content} />;
-        }
-
-        return (
-          <pre key={`block-${index}`} className="overview-code-block">
-            <code className={`language-${block.language}`}>{block.content}</code>
-          </pre>
-        );
-      })}
-    </div>
-  );
+  return <MarkdownContent className="overview-markdown" content={content} />;
 }
 
 function localizeTable(table, locale) {

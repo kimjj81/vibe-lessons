@@ -34,5 +34,5 @@ const structuredData = [getCourseStructuredData({ site: Astro.site, course, deta
   structuredData={structuredData}
   title={course.title.ko}
 >
-  <CourseDeckIsland client:load courseSlug={course.slug} initialLocale={locale} initialPathname={path} />
+  <CourseDeckIsland client:only="react" courseSlug={course.slug} initialLocale={locale} initialPathname={path} />
 </BaseLayout>

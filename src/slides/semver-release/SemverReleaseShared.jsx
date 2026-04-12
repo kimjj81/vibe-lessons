@@ -303,6 +303,7 @@ export function SemverSlide({ slideNumber, kicker, title, subtitle, sources = []
           </div>
 
           <div
+            data-prevent-swipe=""
             data-slide-scroll-region="true"
             style={{
               overflow: 'auto',

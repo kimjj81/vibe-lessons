@@ -1,19 +1,4 @@
-import Slide01_Title from '../slides/semver-release/Slide01_Title';
-import Slide02_WhyThisPipelineExists from '../slides/semver-release/Slide02_WhyThisPipelineExists';
-import Slide03_EndToEndFlow from '../slides/semver-release/Slide03_EndToEndFlow';
-import Slide04_EnvironmentAndPrerequisites from '../slides/semver-release/Slide04_EnvironmentAndPrerequisites';
-import Slide05_SecretsAndTokenBoundaries from '../slides/semver-release/Slide05_SecretsAndTokenBoundaries';
-import Slide06_SemverTagClassification from '../slides/semver-release/Slide06_SemverTagClassification';
-import Slide07_WhyDraftReleaseFirst from '../slides/semver-release/Slide07_WhyDraftReleaseFirst';
-import Slide08_ReleaseWorkflowCoreYaml from '../slides/semver-release/Slide08_ReleaseWorkflowCoreYaml';
-import Slide09_GeneratedNotesAsBaseline from '../slides/semver-release/Slide09_GeneratedNotesAsBaseline';
-import Slide10_WhenToAddLlmPolishing from '../slides/semver-release/Slide10_WhenToAddLlmPolishing';
-import Slide11_LlmPromptAndScriptBoundary from '../slides/semver-release/Slide11_LlmPromptAndScriptBoundary';
-import Slide12_CrossRepoSyncArchitecture from '../slides/semver-release/Slide12_CrossRepoSyncArchitecture';
-import Slide13_DispatchWorkflowInSourceRepo from '../slides/semver-release/Slide13_DispatchWorkflowInSourceRepo';
-import Slide14_HomepageImportWorkflowAndScript from '../slides/semver-release/Slide14_HomepageImportWorkflowAndScript';
-import Slide15_EndToEndVerification from '../slides/semver-release/Slide15_EndToEndVerification';
-import Slide16_FinalChecklistAndTakeaways from '../slides/semver-release/Slide16_FinalChecklistAndTakeaways';
+import { semverFreeformSlides } from '../slides/semver-release-freeform/index.jsx';
 
 export const semverReleaseAutomationCourse = {
   slug: 'semver-github-release-llm-homepage-automation',
@@ -42,22 +27,8 @@ export const semverReleaseAutomationCourse = {
     '--border': 'rgba(45, 212, 191, 0.18)',
     '--shadow': '0 32px 80px rgba(3, 11, 15, 0.46)',
   },
-  slides: [
-    Slide01_Title,
-    Slide02_WhyThisPipelineExists,
-    Slide03_EndToEndFlow,
-    Slide04_EnvironmentAndPrerequisites,
-    Slide05_SecretsAndTokenBoundaries,
-    Slide06_SemverTagClassification,
-    Slide07_WhyDraftReleaseFirst,
-    Slide08_ReleaseWorkflowCoreYaml,
-    Slide09_GeneratedNotesAsBaseline,
-    Slide10_WhenToAddLlmPolishing,
-    Slide11_LlmPromptAndScriptBoundary,
-    Slide12_CrossRepoSyncArchitecture,
-    Slide13_DispatchWorkflowInSourceRepo,
-    Slide14_HomepageImportWorkflowAndScript,
-    Slide15_EndToEndVerification,
-    Slide16_FinalChecklistAndTakeaways,
-  ],
+  reveal: {
+    background: '#041116',
+  },
+  slides: semverFreeformSlides,
 };

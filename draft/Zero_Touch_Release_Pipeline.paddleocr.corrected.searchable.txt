@@ -1,0 +1,245 @@
+===== PAGE 001 =====
+SemVer에서 홈페이지까지:
+무결점 릴리스 노트 자동화 파이프라인
+태그 푸시 한 번으로 GitHub Release, AI 교정,그리고 Astro 기반 블로그
+배포까지 완료되는 자동 조립 라인 구축 가이드.
+v1.4.7
+NotebookLM
+
+===== PAGE 002 =====
+파이프라인의 전체 조감도:4개의 자동화 스테이션
+소스 저장소
+저장소 간 동기화
+안전한 Webhook을 통해
+GitHub Release를모든
+홈페이지 저장소 격발.
+배포의 단일 진실
+공급원(Source of
+Truth)으로 활용.
+AI 교정(선택)
+홈페이지 렌더링
+LLM이 초안을매끄러운
+분리된 홈페이지 저장소에서
+데이터를변환하여 페이지
+다국어/사용자 친화적
+문장으로 후처리.
+누적 렌더링.
+NotebookLM
+
+===== PAGE 003 =====
+인프라 권한 설정:최소 권한의 원칙
+Q
+GITHUB_TOKEN
+BLOG_REPO_DISPATCH_TOKEN
+OPENAI_API_KEY
+기본 제공.권한:현재 저장소 내 Release 생성,수정, Asset 업로드.
+GITHUB_TOKEN
+Fine-grained PAT.권한:타겟 저장소 단 1곳 지정.
+BLOG_REPO_DISPATCH_TOKEN
+Actions: Write 권한만 부여.(주의: Contents: Write 불필요).
+외부 API.권한:텍스트 생성 전용.코드 하드코딩 절대 금지(Repository Secret 활용).
+OPENAI_API_KEY
+OPENAI_MODEL은 수시로 변경될 수 있으므로 Secret이 아닌 Repository Variable로 분리하여
+운영 안정성을 확보하세요.
+NotebookLM
+
+===== PAGE 004 =====
+첫번째스테이션:SemVer
+정규식 라우터
+O
+v1.6.0-rc2
+11.4.7
+O
+Stable Lane
+Beta Lane
+RC Lane
+^v[0-9]+\.[0-9]+\.[0-9]+$
+^v[0-9]+{.[θ-9]+\.[0-9]+-beta(\.[0-9]+)?$
+^v[0-9]+{.[0-9]+{.[0-9]+-rc([0-9]+|\.[0-9]+)?$
+정식발행
+Prerelease
+Prerelease
+운영 포인트:push.tags:["v*"]로 이벤트를 넓게 받고,GitHub Actions의 shell정규식에서 최종 판정하여 워크플로우를 단순화합니다.
+ANotebookLM
+
+===== PAGE 005 =====
+두 번째 스테이션:미완성 배포를 막는 안전 벨브
+빌드산출물업로드대기중
+릴리스 노트 생성 대기중
+Tag Pushed
+Publish
+Draft Release Created
+빌드 도중 실패할 경우,
+모든 Artifact와 Notes가 완벽히
+초기에 무조건 Draft 상태로
+미완성 Release가 대중에게
+준비된 후 최종Publish 상태로
+Release를 생성합니다.
+Publish되는 것을 원천 차단합니다.
+전환해야 안전합니다.
+NotebookLM
+
+===== PAGE 006 =====
+콘텐츠 생성 전략:Nativevs LLM 교정
+GitHub 기본 생성(Native)
+LLM 후처리 교정
+√주사용 대상:내부 도구,개발자 중심
++주 사용 대상:사용자 친화적인 프로덕트
+프로젝트
+장점:다국어 지원,문체 및 색션 구조 통일,
+장점:PR/Compare 기반으로가장빠르고
+안정적. 추가 API 비용 및 실패 지점 없음.
+마케팅/사용자 관점 서술 가능.
+√권장 환경:릴리스 속도가 가장 중요하고
+권장 환경:B2C 제품이거나,릴리스 노트
+PR 라벨 체계가 잘 잡힌 곳.
+마다 톤앤매너를 일정하게 유지해야 할 때.
+NotebookLM
+
+===== PAGE 007 =====
+LLM 통합 워크플로우:후처리 프로세서로서의 AI
+2.GitHub기본 초안 생성
+1.대상 릴리스 조회
+(--generate-notes)
+HUUL
+4.결과물을GitHub
+3.초안을LLM으로 전송
+Release에l PATCH
+실무팁
+Raw Git Diff 전체를 LLM에 던지지 마십시오.
+GitHub generated notes나 compare summary를입력값으로넣는 것이 토
+큰 비용을 아끼고 결과물의 안정성(Hallucination 방지)을 높이는 핵심 비결입니다.
+NotebookLM
+
+===== PAGE 008 =====
+무결점 릴리스 노트를 위한 프롬프트 블루프린트
+있상
+System Prompt
+컨텍스트 명확화
+입력 원문은 GitHub generated notes입니다.
+주어진 택스트 외에 새로운 사실을 절대 추가하지 마세요.
+Hallucination(환각) 억제
+버전명,링크,PR 번호(#123)같은 식별자는 원본 그대로 보즌하세요.
+참조 무결성 유지
+마케팅 문구로 과장하지 않고,명확한 사용자 관점의 톤을 유지하세요.
+톤앤매너 고정
+NotebookLM
+
+===== PAGE 009 =====
+세 번째 스테이션:안전한 크로스-레포 자동화(Air-Gapped Bridge)
+Homepage Repo
+후와
+workflow_dispatch
+Source Repo
+후
+1
+L
+20
+잘못된 안티패턴
+우아한 자동화
+소스 저장소가 홈페이지 저장소의 파일을 직접
+소스 저장소는 단순히 대상 워크플로우를
+‘깨우기만'(workflow_dispatch)합니다.
+덮어쓰기.(보안 위협 증가)
+홈페이지 저장소가 자체 GITHUB_TOKEN을 사용하여
+Release Data를 가져오고,스스로 커밋을 생성하는
+구조가 가장 안전합니다.
+오직 Published 된 Stable Release에 대해서만 트리거를 허용해야 운영 실수를 줄일 수 있습니다.
+NotebookLM
+
+===== PAGE 010 =====
+네 번째스테이션:Astro
+홈페이지 누적 렌더링
+후
+1.홈페이지 저장소가 깨어나면,Import
+스크립트가 GitHub Release API를
+호출합니다.
+I
+후2.가져온 Release Body는 Astro의
+elproducl-
+m
+Contents Collection 포맺에 맞취.md
+srclconrens
+파일로 저장됩니다.
+ele
+제품릴리스노트
+U]
+3.Cloudflare Pages 등이 변경을
+Live Astro Page
+감지하고 새 빌드를 배포하여 제품
+홈페이지에 최신 릴리스가 반영됩니다.
+NotebookLM
+
+===== PAGE 011 =====
+4단계 무결성 검증 대시보드
+EO
+2.안전 밸브 통과
+1.태그 라우팅
+100%
+DEPLOYED
+PASS
+Prerelease가 아닌
+GitHub Release가 Draft 단계에서
+50%
+Notes를 정상적으로 품고 최종
+Stable 태그(vX.Y.Z)만
+올바르게 분류되었는가?
+Publish(draft=false) 되었는가?
+STATUS: OK
+0%
+4.먹등성 검증(No-op)
+3.크로스-레포 핑
+100%
+Import script를 다시
+타겟 홈페이지 저장소의
+PASS
+실행했을 때 변경 사항이
+Action이 정상적으로 수신
+없다면 새로운 커밋을
+NO CHANGES
+및 실행되었는가?
+SIGNAL RECEIVED: YES
+DETECTED
+생성하지 않는가?
+NotebookLM
+
+===== PAGE 012 =====
+파이프라인 완성:Zero-Touch
+릴리스
+git push
+Draft
+ChatGPT
+Webhook
+Astro
+Live
+origin
+Release
+Processing
+Dispatch
+Build
+Website
+v2.0.0
+Created
+Notes
+Fired
+Success
+Updated
+11
+O
+•
+개발자는 오직 Git Tag만 푸시합니다.나머지는 환경 간 철저히 분리된 자동
+조립 라인이 완벽하게 처리하여,소스 코드의 진실이 사용자 페이지까지 도달합니다.
+NotebookLM
+
+===== PAGE 013 =====
+릴리스 노트 자동 발행을 통해
+운영의 한계를 돌파하십시오.
+추가 문의 사항이나 파이프라인 구축 관련 논의는 언제든 환영합니다.
+Contact: support@studiojin.dev (Studio Jin)
+OpenAI API Reference
+GitHub Actions:
+GitHub REST API
+Triggering a workflow APl
+endpoints for Release
+- Authentication
+ANotebookLM

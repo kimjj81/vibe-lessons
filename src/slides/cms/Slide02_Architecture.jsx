@@ -118,7 +118,7 @@ export default function Slide02_Architecture() {
 
   return (
     <SlideWrapper slideNumber={2}>
-      <div className="cms-scroll-region" style={{ width: '100%', maxWidth: '1100px', zIndex: 1 }} data-slide-scroll-region="true">
+      <div className="cms-scroll-region" style={{ width: '100%', maxWidth: '1100px', zIndex: 1 }} data-prevent-swipe="" data-slide-scroll-region="true">
         <h2 style={{ fontSize: 'clamp(1.85rem, 3.8vw, 2.7rem)', fontWeight: 800, textAlign: 'center', marginBottom: '10px' }}>
           <GradientText>{t.title}</GradientText>
         </h2>

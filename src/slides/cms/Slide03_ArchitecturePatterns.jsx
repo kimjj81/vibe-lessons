@@ -88,7 +88,7 @@ export default function Slide03_ArchitecturePatterns() {
 
   return (
     <SlideWrapper slideNumber={3}>
-      <div className="cms-scroll-region" style={{ width: '100%', maxWidth: '1120px', zIndex: 1 }} data-slide-scroll-region="true">
+      <div className="cms-scroll-region" style={{ width: '100%', maxWidth: '1120px', zIndex: 1 }} data-prevent-swipe="" data-slide-scroll-region="true">
         <h2 style={{ fontSize: 'clamp(1.9rem, 3.8vw, 2.8rem)', fontWeight: 800, textAlign: 'center', marginBottom: '12px' }}>
           <GradientText>{t.title}</GradientText>
         </h2>

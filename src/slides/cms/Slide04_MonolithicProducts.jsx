@@ -34,7 +34,7 @@ export default function Slide04_MonolithicProducts() {
 
   return (
     <SlideWrapper slideNumber={5}>
-      <div className="cms-scroll-region" style={{ width: '100%', maxWidth: '1100px', zIndex: 1 }} data-slide-scroll-region="true">
+      <div className="cms-scroll-region" style={{ width: '100%', maxWidth: '1100px', zIndex: 1 }} data-prevent-swipe="" data-slide-scroll-region="true">
         <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, textAlign: 'center', marginBottom: '16px' }}>
           <GradientText>{t.title}</GradientText>
         </h2>

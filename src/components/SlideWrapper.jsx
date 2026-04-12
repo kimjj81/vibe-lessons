@@ -1,4 +1,4 @@
-import { useCourseDeck } from '../courses/CourseDeckContext';
+import FreeformSlideScene from './slide/FreeformSlideScene';
 
 const DECORATIVE_STARS = [
   { size: 1.8, left: 6, top: 12 },
@@ -15,43 +15,26 @@ const DECORATIVE_STARS = [
   { size: 1.6, left: 12, top: 48 },
 ];
 
-export default function SlideWrapper({ children, slideNumber, totalSlides = 11, style = {} }) {
-  const deck = useCourseDeck();
-  const resolvedTotalSlides = deck?.totalSlides ?? totalSlides;
-
+export default function SlideWrapper({ children, style = {} }) {
   return (
-    <div
-      style={{
-        width: '100vw',
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '60px 80px',
-        position: 'relative',
-        overflow: 'hidden',
-        ...style,
-      }}
-    >
-      {/* Background stars/particles effect */}
-      <div style={{
-        position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none',
-      }}>
-        {DECORATIVE_STARS.map((star, i) => (
-          <div key={i} style={{
-            position: 'absolute',
-            width: star.size + 'px',
-            height: star.size + 'px',
-            borderRadius: '50%',
-            background: 'rgba(255,255,255,0.15)',
-            left: star.left + '%',
-            top: star.top + '%',
-          }} />
+    <FreeformSlideScene>
+      <div className="slide-wrapper-stars" aria-hidden="true">
+        {DECORATIVE_STARS.map((star, index) => (
+          <div
+            key={index}
+            className="slide-wrapper-star"
+            style={{
+              height: `${star.size}px`,
+              left: `${star.left}%`,
+              top: `${star.top}%`,
+              width: `${star.size}px`,
+            }}
+          />
         ))}
       </div>
-      {children}
-      <div className="slide-number">{slideNumber} / {resolvedTotalSlides}</div>
-    </div>
+      <div className="slide-wrapper-compat" style={style}>
+        {children}
+      </div>
+    </FreeformSlideScene>
   );
 }
