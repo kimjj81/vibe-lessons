@@ -2,7 +2,8 @@
 
 ## dispatch
 
-- Only a published stable release should trigger the homepage workflow
+- After a published stable release, the source repo release workflow should explicitly `workflow_dispatch` the homepage sync workflow
+- Do not rely on `release.published` alone when the release is published by `GITHUB_TOKEN`
 - The dispatch token should be scoped to the homepage repo only
 
 ## import

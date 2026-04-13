@@ -538,6 +538,7 @@ Raw GitHub-generated notes:
 - GitHub Release 는 배포 기준이지만, 사용자 입장에서는 홈페이지 제품 페이지에서도 release history 를 바로 봐야 한다.
 - 홈페이지 저장소가 앱 저장소와 분리되어 있으므로 cross-repo automation 이 필요하다.
 - 이때 소스 저장소가 홈페이지 저장소 파일을 직접 쓰지 않고, homepage repo 의 workflow 를 깨워서 그 저장소가 자기 파일을 직접 커밋하게 만드는 구조가 안전하다.
+- 단, GitHub Actions 의 `GITHUB_TOKEN` 으로 publish 된 `release.published` 이벤트는 다른 workflow 를 자동으로 깨우지 못할 수 있으므로, stable release publish 뒤 source repo release workflow 가 homepage sync workflow 를 명시적으로 `workflow_dispatch` 해야 한다.
 
 #### source repo 에서 homepage repo 를 깨우는 workflow 예시
 
@@ -557,7 +558,7 @@ on:
 
 jobs:
   dispatch_release_notes:
-    if: github.event_name != 'release' || github.event.release.prerelease == false
+    if: github.event_name != 'release' || (github.event.release.prerelease == false && github.actor != 'github-actions[bot]')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -610,6 +611,27 @@ jobs:
             -d @- <<EOF
           {"ref":"main","inputs":{"source_repo":"studiojin-dev/SyncWatcher","tag_name":"${TAG_NAME}"}}
           EOF
+```
+
+그리고 source repo 의 release workflow 안에는 stable publish 직후 이 workflow 를 명시적으로 호출하는 job 이 들어가는 편이 안전하다.
+
+```yaml
+  dispatch_home_release_notes:
+    needs: [tag_gate, publish_release]
+    if: needs.tag_gate.outputs.is_release == 'true' && needs.tag_gate.outputs.is_prerelease != 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Dispatch stable release notes sync
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ inputs.tag_name || github.ref_name }}
+        run: |
+          gh workflow run dispatch-studiojin-home-release-notes.yml \
+            --ref main \
+            -f tag_name="${TAG_NAME}"
 ```
 
 #### homepage repo 에서 release notes 를 가져와 Astro content 로 저장하는 workflow 예시
@@ -754,7 +776,7 @@ await main();
 
 1. release workflow 가 SemVer 태그를 올바르게 분류하는지 확인한다.
 2. GitHub Release 가 draft -> notes 반영 -> publish 순서로 끝나는지 확인한다.
-3. stable publish 뒤 homepage repo 의 import workflow 가 실제로 실행되는지 확인한다.
+3. stable publish 뒤 source repo 가 homepage sync workflow 를 명시적으로 `workflow_dispatch` 했는지 확인한다.
 4. Astro build 와 실제 제품 페이지 렌더링까지 확인한다.
 
 권장 검증 순서 예시:
@@ -771,7 +793,7 @@ gh run watch <SOURCE_RUN_ID>
 # 3) release 상태 확인
 gh release view v1.4.8 --repo org-name/repo-name
 
-# 4) 필요하면 manual replay
+# 4) 필요하면 source repo dispatch workflow 수동 replay
 gh workflow run "Dispatch release notes" \
   --repo org-name/repo-name \
   -f tag_name=v1.4.8
@@ -785,7 +807,8 @@ gh run watch <HOMEPAGE_RUN_ID> --repo org-name/homepage-repo-name
 
 - source release 가 `draft=false` 로 publish 되었는가
 - release body 에 GitHub generated notes 또는 선택적으로 LLM 이 다듬은 notes 가 들어갔는가
-- prerelease 가 아닌 stable tag 만 homepage import 를 호출했는가
+- prerelease 가 아닌 stable tag 만 source repo 의 homepage dispatch job 을 호출했는가
+- `GITHUB_TOKEN` 기반 publish 이벤트만 믿지 않고, source repo release workflow 안에서 explicit dispatch 를 수행했는가
 - homepage repo 에 `src/content/product-release-notes/<tag>.md` 가 생성되었는가
 - homepage build 가 성공했는가
 - 제품 페이지에 최신 release 가 맨 위에 보이는가

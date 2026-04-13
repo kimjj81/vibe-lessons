@@ -623,7 +623,24 @@ jobs:
             gh release edit "\$TAG_NAME" --draft=false --prerelease
           else
             gh release edit "\$TAG_NAME" --draft=false
-          fi`,
+          fi
+
+  dispatch_home_release_notes:
+    needs: [tag_gate, publish_release]
+    if: needs.tag_gate.outputs.is_release == 'true' && needs.tag_gate.outputs.is_prerelease != 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Dispatch stable release notes sync
+        env:
+          GH_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: \${{ inputs.tag_name || github.ref_name }}
+        run: |
+          gh workflow run dispatch-studiojin-home-release-notes.yml \\
+            --ref main \\
+            -f tag_name="\${TAG_NAME}"`,
   generatedNotesStep: `- name: Regenerate release notes
   env:
     GH_TOKEN: \${{ secrets.GITHUB_TOKEN }}
@@ -811,7 +828,7 @@ on:
 
 jobs:
   dispatch_release_notes:
-    if: github.event_name != 'release' || github.event.release.prerelease == false
+    if: github.event_name != 'release' || (github.event.release.prerelease == false && github.actor != 'github-actions[bot]')
     runs-on: ubuntu-latest
     permissions:
       contents: read

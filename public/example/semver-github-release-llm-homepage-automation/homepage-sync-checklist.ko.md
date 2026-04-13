@@ -2,7 +2,8 @@
 
 ## dispatch
 
-- published stable release만 homepage workflow를 깨우는가
+- published stable release 뒤 source repo release workflow가 homepage sync workflow를 명시적으로 `workflow_dispatch` 하는가
+- `release.published` 단독 의존이 아니라 `GITHUB_TOKEN` publish 한계까지 고려했는가
 - dispatch token이 대상 homepage repo에만 묶여 있는가
 
 ## import
