@@ -141,6 +141,16 @@ export default function CourseCatalogPage() {
           {copy.titleBottom[locale]}
         </h1>
         <p className="catalog-description">{copy.description[locale]}</p>
+        <div>
+          <a
+            className="catalog-link"
+            href="https://asvs-together-2026.kimjj81.chatgpt.site/#home"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {locale === 'ko' ? 'ASVS 함께 배우기 (새 창)' : 'Learn OWASP ASVS (new tab)'}
+          </a>
+        </div>
       </section>
 
       <section className="catalog-browser" aria-label="lecture catalog" style={detailTheme}>
